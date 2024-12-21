@@ -15,6 +15,16 @@ builder.Services
     .AddDbContext<PortfolioContext>(options => 
         options.UseSqlite(connectionString));
 
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowRemixApp",
+        policy => policy.WithOrigins("http://localhost:5173") // Adjust as needed
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
