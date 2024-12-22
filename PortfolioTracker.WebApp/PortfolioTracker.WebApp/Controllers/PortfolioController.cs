@@ -6,29 +6,12 @@ using PortfolioTracker.WebApp.Business.Requests;
 
 namespace PortfolioTracker.WebApp.Controllers;
 
-public class BuyRequestModel
-{
-    public string Symbol { get; init; } = String.Empty;
-
-    public decimal Price { get; init; }
-
-    public int Quantity { get; init; }
-
-    public decimal Expenses { get; init; }
-
-    public DateTime ExecuteDate { get; init; }
-}
-
 [Route(@"api/[controller]")]
 [ApiController]
 public class PortfolioController : Controller
 {
     private readonly PortfolioContext m_context;
     private readonly IMediator m_mediator;
-
-    private const string BUY = @"BUY";
-    private const string SELL = @"SELL";
-    private const string EXPENSE = @"EXPENSE";
 
     public PortfolioController(
         PortfolioContext mContext,
@@ -79,47 +62,10 @@ public class PortfolioController : Controller
     }
 
     [HttpPost(@"buy")]
-    public async Task<IActionResult> Buy([FromBody] BuyRequestModel request)
+    public async Task<IActionResult> Buy([FromBody] BuyStockCommand request)
     {
-        // var purchase = new StockPurchase
-        // {
-        //     Id = Guid.NewGuid(),
-        //     Symbol = request.Symbol,
-        //     TransactionGroup = new TransactionGroup
-        //     {
-        //         Id = Guid.NewGuid(),
-        //         Transactions = new List<Transaction>
-        //         {
-        //             new Transaction
-        //             {
-        //                 Id = Guid.NewGuid(),
-        //                 Price = request.Price,
-        //                 Quantity = request.Quantity,
-        //                 Created = request.ExecuteDate,
-        //                 InOut = InOut.In,
-        //                 Type = BUY,
-        //                 Comment = @$"{request.Symbol} buy in."
-        //             },
-        //             new Transaction
-        //             {
-        //                 Id = Guid.NewGuid(),
-        //                 Price = request.Expenses,
-        //                 Quantity = (decimal)1.0,
-        //                 Created = request.ExecuteDate,
-        //                 InOut = InOut.In,
-        //                 Type = EXPENSE,
-        //                 Comment = @$"{request.Symbol} buy in expenses."
-        //             }
-        //         }
-        //     }
-        // };
-        //
-        // m_context.StockPurchases.Add(purchase);
-        //
-        // await m_context.SaveChangesAsync();
+        var result = await m_mediator.Send(request);
 
-        await Task.CompletedTask;
-
-        return Ok();
+        return Ok(result);
     }
 }

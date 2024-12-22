@@ -60,36 +60,10 @@ export default function Portfolio() {
               onClosed={onPortfolioFormCloseHandler}
             />
           )}
-          {/* <div className="flex bg-highlight rounded-t-md mt-2">
-            <div className="grow p-4">Symbol</div>
-            <div className="w-[100px] p-4">Amount</div>
-            <div className="w-[100px] p-4">Price</div>
-            <div className="w-[100px] p-4">Total</div>
-          </div> */}
+
           {portfolios.map((x) => {
             return <PortfolioItem portfolio={x} />;
           })}
-          {/* {examplePortfolio.map((item) => {
-            return (
-              <div className="flex text-xs bg-nav rounded-b-md">
-                <div className="grow p-4 flex-col">
-                  <div className="pb-1 ">
-                    <span className="bg-red-900 rounded p-1 ">
-                      {item.symbol}
-                    </span>
-                  </div>
-                  <div className="text-[9pt] pt-2">{item.totalValue}</div>
-                </div>
-                <div className="w-[100px] p-4">{item.amount}</div>
-                <div className="w-[100px] p-4">
-                  <Currency value={item.currentPrice} />
-                </div>
-                <div className="w-[140px] p-4">
-                  <Currency value={item.totalValue} />
-                </div>
-              </div>
-            );
-          })} */}
         </div>
 
         <div className="flex-auto w-32">&nbsp;</div>
@@ -97,25 +71,3 @@ export default function Portfolio() {
     </div>
   );
 }
-
-// interface IPortfolioModel {
-//   symbol: string;
-//   currentPrice: number;
-//   amount: number;
-//   totalValue: number;
-// }
-
-// const examplePortfolio: IPortfolioModel[] = [
-//   {
-//     symbol: "TUPRS",
-//     currentPrice: 152.76,
-//     amount: 125,
-//     totalValue: 18550,
-//   },
-//   {
-//     symbol: "ENJSA",
-//     currentPrice: 62.98,
-//     amount: 200,
-//     totalValue: 7000,
-//   },
-// ];

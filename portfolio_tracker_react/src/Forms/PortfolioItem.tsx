@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { IPortfolioItem } from "../Api/PortfolioApi";
-import { PlusIcon } from "@heroicons/react/24/solid";
-import { InvestmentForm } from "./InvestmentForm";
+import { AddInvestmentPopup } from "../Popups/AddInvestmentPopup";
 
 interface IPortfolioItemProps {
   portfolio: IPortfolioItem;
@@ -9,10 +7,7 @@ interface IPortfolioItemProps {
 
 const PortfolioItem: React.FC<IPortfolioItemProps> = (props) => {
   const { portfolio } = props;
-  const { name, currencyCode, currencySymbol } = portfolio;
-
-  const [showNewInvestmentForm, setShowNewInvestmentForm] =
-    useState<boolean>(false);
+  const { id, name, currencyCode, currencySymbol } = portfolio;
 
   return (
     <div className="flex flex-col">
@@ -22,13 +17,7 @@ const PortfolioItem: React.FC<IPortfolioItemProps> = (props) => {
           <span> Portfolio</span>
         </div>
         <div className="grow-0">
-          <button
-            className="flex flex-row rounded-md bg-green p-1 items-center"
-            onClick={(_) => setShowNewInvestmentForm((prev) => !prev)}
-          >
-            <PlusIcon className="size-6 text-black" />
-            <span className=" text-black">Investment</span>
-          </button>
+          <AddInvestmentPopup currency={currencyCode} portfolioId={id} />
         </div>
       </div>
       <div className="flex bg-highlight rounded-t-md mt-2 w-full">
@@ -37,7 +26,6 @@ const PortfolioItem: React.FC<IPortfolioItemProps> = (props) => {
         <div className="w-[100px] p-4">Price {currencySymbol}</div>
         <div className="w-[100px] p-4">Total {currencySymbol}</div>
       </div>
-      {showNewInvestmentForm && <InvestmentForm />}
     </div>
   );
 };

@@ -5,6 +5,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { HomeIcon } from "@heroicons/react/24/solid";
 import { Link, Outlet } from "react-router";
+import { DarkModeToggle } from "./Controls/DarkModeToggle";
 
 export function Layout() {
   return (
@@ -23,7 +24,7 @@ export function Layout() {
                 </div>
               </li>
             </Link>
-            <Link to="/Portfolio">
+            <Link to="/portfolio">
               <li className="p-2 hover:bg-highlight">
                 <div className="flex">
                   <PresentationChartBarIcon className="size-9 flex-none px-2 " />
@@ -31,7 +32,7 @@ export function Layout() {
                 </div>
               </li>
             </Link>
-            <Link to="/Transactions">
+            <Link to="/transactions">
               <li className="p-2 hover:bg-highlight">
                 <div className="flex">
                   <NumberedListIcon className="size-9 flex-none px-2 " />
@@ -39,8 +40,17 @@ export function Layout() {
                 </div>
               </li>
             </Link>
+            <Link to="/controls">
+              <li className="p-2 hover:bg-highlight">
+                <div className="flex">
+                  <NumberedListIcon className="size-9 flex-none px-2 " />
+                  <span className="grow py-1">Example Controls</span>
+                </div>
+              </li>
+            </Link>
           </ul>
         </nav>
+        <DarkModeToggle />
       </div>
       <div className="grow  overflow-auto">
         <div className="overflow-auto">
