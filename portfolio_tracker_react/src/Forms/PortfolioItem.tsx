@@ -1,8 +1,8 @@
-import { IPortfolioItem } from "../Api/PortfolioApi";
 import { AddInvestmentPopup } from "../Popups/AddInvestmentPopup";
+import { IPortfolioModel } from "../Store";
 
 interface IPortfolioItemProps {
-  portfolio: IPortfolioItem;
+  portfolio: IPortfolioModel;
 }
 
 const PortfolioItem: React.FC<IPortfolioItemProps> = (props) => {

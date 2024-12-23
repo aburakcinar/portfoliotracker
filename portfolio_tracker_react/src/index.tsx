@@ -11,20 +11,24 @@ import Transactions from "./Pages/Transactions";
 import Portfolio from "./Pages/Portfolio";
 import { appDesignSystem } from "./Styles/AppDesignSystem";
 import { ExampleControls } from "./Pages/ExampleControls";
+import { Provider } from "react-redux";
+import { store } from "./Store/RootState";
 
 const rootElem = document.getElementById("root");
 const root = createRoot(rootElem!);
 root.render(
-  <PrimeReactProvider value={{ unstyled: true, pt: appDesignSystem }}>
-    <BrowserRouter>
-      <Routes>
-        <Route element={<Layout />}>
-          <Route path="/" element={<App />} />
-          <Route path="/portfolio" element={<Portfolio />} />
-          <Route path="/transactions" element={<Transactions />} />
-          <Route path="/controls" element={<ExampleControls />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </PrimeReactProvider>
+  <Provider store={store}>
+    <PrimeReactProvider value={{ unstyled: true, pt: appDesignSystem }}>
+      <BrowserRouter>
+        <Routes>
+          <Route element={<Layout />}>
+            <Route path="/" element={<App />} />
+            <Route path="/portfolio" element={<Portfolio />} />
+            <Route path="/transactions" element={<Transactions />} />
+            <Route path="/controls" element={<ExampleControls />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </PrimeReactProvider>
+  </Provider>
 );

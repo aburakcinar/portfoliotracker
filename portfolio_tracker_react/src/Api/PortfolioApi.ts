@@ -1,3 +1,5 @@
+import { IPortfolioModel } from "../Store/Models";
+import { IStockBuyRequest } from "../Store/PortfolioSlice/PortfolioThunks";
 import api from "../Tools/Api";
 
 const createPortfolio = async (
@@ -15,19 +17,14 @@ const createPortfolio = async (
   return response.status === 200;
 };
 
-interface IPortfolioItem {
-  id: string;
-  name: string;
-  description: string;
-  currencyCode: string;
-  currencyName: string;
-  currencySymbol: string;
-}
-
-const listPortfolios = async (): Promise<IPortfolioItem[]> => {
-  const response = await api.get<IPortfolioItem[]>("/portfolio/list");
+const listPortfolios = async (): Promise<IPortfolioModel[]> => {
+  const response = await api.get<IPortfolioModel[]>("/portfolio/list");
 
   return response.data;
 };
 
-export { type IPortfolioItem, createPortfolio, listPortfolios };
+const buyStock = async (payload: IStockBuyRequest): Promise<boolean> => {
+  return await api.post<IStockBuyRequest, boolean>("/portfolio/buy", payload);
+};
+
+export { createPortfolio, listPortfolios, buyStock };

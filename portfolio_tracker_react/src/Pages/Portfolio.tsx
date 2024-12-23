@@ -1,27 +1,20 @@
 import React, { useEffect, useState } from "react";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import CreatePortfolioForm from "../Forms/CreatePortfolioForm";
-import { IPortfolioItem, listPortfolios } from "../Api/PortfolioApi";
 import { PortfolioItem } from "../Forms/PortfolioItem";
+import { useAppDispatch, useAppSelector } from "../Store/RootState";
+import { fetchPortfolios } from "../Store/PortfolioSlice/PortfolioThunks";
 
 export default function Portfolio() {
   const [showNewPortfolioForm, setShowNewPortfolioForm] =
     useState<boolean>(false);
 
-  const [fetchCounter, setFetchCounter] = useState<number>(0);
-  const [portfolios, setPortfolios] = useState<IPortfolioItem[]>([]);
+  const portfolios = useAppSelector((x) => x.portfolios.portfolios);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetch = async () => {
-      const data = await listPortfolios();
-
-      console.log("portfolios", data);
-
-      setPortfolios(data);
-    };
-
-    fetch();
-  }, [fetchCounter]);
+    dispatch(fetchPortfolios());
+  }, []);
 
   const showCreatePortfolioForm = () => {
     setShowNewPortfolioForm(true);
@@ -30,7 +23,6 @@ export default function Portfolio() {
   const onNewPortfolioHandler = () => {
     console.log("new portfolio");
     setShowNewPortfolioForm(false);
-    setFetchCounter((val) => val + 1);
   };
 
   const onPortfolioFormCloseHandler = () => {
