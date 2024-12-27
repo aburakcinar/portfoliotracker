@@ -17,6 +17,8 @@ import {
   PlusCircleIcon,
   MinusCircleIcon,
 } from "@heroicons/react/24/outline";
+import { useAppDispatch } from "../Store/RootState";
+import { IStockBuyRequest, reportBuyStock } from "../Store/PortfolioSlice/PortfolioThunks";
 
 interface IAddInvestmentControlProps {
   portfolioId: string;
@@ -24,7 +26,7 @@ interface IAddInvestmentControlProps {
 }
 
 const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
-  const { currency } = props;
+  const { portfolioId, currency } = props;
 
   const [selectedStock, setSelectedStock] = useState<string>("");
   const [stocks, setStocks] = useState<IStockItem[]>([]);
@@ -33,6 +35,8 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
   const [price, setPrice] = useState<number>(0);
   const [date, setDate] = useState<Nullable<Date>>(null);
   const [expense, setExpense] = useState<number>(0);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const fetch = async () => {
@@ -73,7 +77,21 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
     //}, 250);
   };
 
-  const onSaveHandler = () => {};
+  const onSaveHandler = () => {
+
+    const payload: IStockBuyRequest = {
+      portfolioId,
+      stockSymbol: selectedStock,
+      quantity,
+      price,
+      expense,
+      executeDate: date ?? new Date()
+    };
+
+    console.log(`payload => ${JSON.stringify(payload)}`);
+
+    dispatch(reportBuyStock(payload));
+  };
 
   return (
     <div className="flex flex-col w-full">
@@ -111,7 +129,7 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
           onChange={(e) => setDate(e.value)}
           //   showIcon
           dateFormat="dd/mm/yy"
-          // icon={() => <CalendarDaysIcon className="size-4" />}
+        // icon={() => <CalendarDaysIcon className="size-4" />}
         />
       </div>
       <div className="flex py-1">
@@ -133,7 +151,8 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
         />
       </div>
       <div className="flex flex-row-reverse">
-        <Button className="bg-green p-2 text-black w-24">Save</Button>
+        <Button className="bg-green p-2 text-black w-24"
+        onClick={onSaveHandler}>Save</Button>
       </div>
     </div>
   );

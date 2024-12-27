@@ -16,6 +16,8 @@ public class PortfolioContext : DbContext
     public PortfolioContext(DbContextOptions options) : base(options) 
     {
     }
+    
+    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

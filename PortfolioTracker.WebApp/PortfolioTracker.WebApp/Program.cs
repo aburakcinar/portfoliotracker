@@ -10,10 +10,14 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connectionString = builder.Configuration.GetConnectionString("Portfolio") ?? "Data Source=Portfolio.db";
+var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
+var connStr = builder.Configuration.GetConnectionString("MySql");
+
 builder.Services
     .AddDbContext<PortfolioContext>(options => 
-        options.UseSqlite(connectionString));
+        options
+            .UseMySql(connStr, serverVersion)
+        );
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
 

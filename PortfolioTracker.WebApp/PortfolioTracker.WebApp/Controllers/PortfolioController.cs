@@ -46,6 +46,7 @@ public class PortfolioController : Controller
     [HttpGet(@"getinfo/{portfolioId}")]
     public async Task<IActionResult> GetPortfolioInfo([FromRoute]Guid portfolioId)
     {
+        await Task.CompletedTask;
         return Ok();
     }
 
