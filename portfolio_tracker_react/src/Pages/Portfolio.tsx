@@ -3,7 +3,7 @@ import { PlusIcon } from "@heroicons/react/24/outline";
 import CreatePortfolioForm from "../Forms/CreatePortfolioForm";
 import { PortfolioItem } from "../Forms/PortfolioItem";
 import { useAppDispatch, useAppSelector } from "../Store/RootState";
-import { fetchPortfolios } from "../Store/PortfolioSlice/PortfolioThunks";
+import { fetchPortfolios } from "../Store/Thunks/PortfolioThunks";
 
 export default function Portfolio() {
   const [showNewPortfolioForm, setShowNewPortfolioForm] =
@@ -34,7 +34,7 @@ export default function Portfolio() {
       <h2 className="text-green pl-8 text-3xl">Portfolio</h2>
 
       <div className="flex">
-        <div className="flex-auto w-32">&nbsp;</div>
+        <div className="flex-auto w-16">&nbsp;</div>
         <div className="flex-auto w-64 rounded-md  ">
           <div className="flex flex-row-reverse">
             {!showNewPortfolioForm && (
@@ -58,7 +58,7 @@ export default function Portfolio() {
           })}
         </div>
 
-        <div className="flex-auto w-32">&nbsp;</div>
+        <div className="flex-auto w-16">&nbsp;</div>
       </div>
     </div>
   );

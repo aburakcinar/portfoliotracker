@@ -4,52 +4,50 @@ using PortfolioTracker.WebApp.DataStore;
 
 namespace PortfolioTracker.WebApp.Business.Commands;
 
-public sealed class BuyStockCommand : IRequest<bool>
+public sealed class ReserveStockInPortfolioCommand : IRequest<bool>
 {
-   public Guid PortfolioId { get; init; }
-   
-   public required string StockSymbol { get; init; } 
-   
-   public decimal Quantity { get; init; }
-   
-   public decimal Price { get; init; }
-
-   public decimal Expenses { get; init; }
-   
-   public DateTime ExecuteDate { get; init; }
+    public Guid PortfolioId { get; init; }
+    
+    public required string StockSymbol { get; init; }
 }
 
-
-public class BuyStockCommandHandler : IRequestHandler<BuyStockCommand, bool>
+public sealed class ReserveStockInPortfolioCommandHandler : IRequestHandler<ReserveStockInPortfolioCommand, bool>
 {
     private readonly PortfolioContext m_context;
 
-    public BuyStockCommandHandler(PortfolioContext context)
+    public ReserveStockInPortfolioCommandHandler(PortfolioContext context)
     {
         m_context = context;
     }
 
-    public async Task<bool> Handle(BuyStockCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(ReserveStockInPortfolioCommand request, CancellationToken cancellationToken)
     {
-        var stock = m_context.Stocks.FirstOrDefault(x => x.Symbol == request.StockSymbol);
-
-        if (stock == null)
-        {
-            return false;
-        }
-        
-        var portfolio = m_context
-            .Portfolios
-            .Include(x => x.Holdings)
-            .FirstOrDefault(x => x.Id == request.PortfolioId);
-
-        if (portfolio == null)
-        {
-            return false;
-        }
-
         try
         {
+            var stock = m_context.Stocks.FirstOrDefault(x => x.Symbol == request.StockSymbol);
+
+            if (stock == null)
+            {
+                return false;
+            }
+            
+            var portfolio = m_context
+                .Portfolios
+                .Include(x => x.Holdings)
+                .ThenInclude(holding => holding.Stock)
+                .FirstOrDefault(x => x.Id == request.PortfolioId);
+            
+            if (portfolio == null)
+            {
+                return false;
+            }
+
+            if (portfolio.Holdings.Any(x => x.StockId == stock.Id) )
+            {
+                // Stock is already existed in target portfolio
+                return false;
+            }
+            
             m_context.Holdings.Add(new Holding
             {
                 Id = Guid.NewGuid(),
@@ -63,19 +61,19 @@ public class BuyStockCommandHandler : IRequestHandler<BuyStockCommand, bool>
                         new Transaction
                         {
                             Id = Guid.NewGuid(),
-                            Created = request.ExecuteDate,
+                            Created = DateTime.MinValue,
                             Description = string.Empty,
-                            Price = request.Price,
-                            Quantity = request.Quantity,
+                            Price = 0M,
+                            Quantity = 0M,
                             Type = TransactionType.Investment,
                             InOut = InOut.In
                         },
                         new Transaction
                         {
                             Id = Guid.NewGuid(),
-                            Created = request.ExecuteDate,
+                            Created = DateTime.MinValue,
                             Description = string.Empty,
-                            Price = request.Expenses,
+                            Price = 0M,
                             Quantity = 1.00M,
                             Type = TransactionType.InterestCommission,
                             InOut = InOut.In
@@ -83,7 +81,6 @@ public class BuyStockCommandHandler : IRequestHandler<BuyStockCommand, bool>
                     }
                 }
             });
-        
             await m_context.SaveChangesAsync(cancellationToken);
 
             return true;

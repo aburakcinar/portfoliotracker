@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PortfolioTracker.WebApp.DataStore;
@@ -11,9 +12,11 @@ using PortfolioTracker.WebApp.DataStore;
 namespace PortfolioTracker.WebApp.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    partial class PortfolioContextModelSnapshot : ModelSnapshot
+    [Migration("20250102233506_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -87,70 +90,6 @@ namespace PortfolioTracker.WebApp.Migrations
                     b.HasIndex("TransactionGroupId");
 
                     b.ToTable("Holdings");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Locale", b =>
-                {
-                    b.Property<string>("LocaleCode")
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
-
-                    b.Property<string>("CountryCode")
-                        .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("character varying(2)");
-
-                    b.Property<string>("CountryName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("CountryNameLocal")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("character varying(3)");
-
-                    b.Property<string>("CurrencyName")
-                        .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
-
-                    b.Property<string>("CurrencyNameLocal")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("CurrencySubunitName")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
-
-                    b.Property<int>("CurrencySubunitValue")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("CurrencySymbol")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
-
-                    b.Property<string>("LanguageName")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-
-                    b.Property<string>("LanguageNameLocal")
-                        .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
-
-                    b.HasKey("LocaleCode");
-
-                    b.ToTable("Locales");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Portfolio", b =>
@@ -341,7 +280,7 @@ namespace PortfolioTracker.WebApp.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
-                    b.Property<Guid>("TransactionGroupId")
+                    b.Property<Guid?>("TransactionGroupId")
                         .HasColumnType("uuid");
 
                     b.Property<int>("Type")
@@ -405,13 +344,9 @@ namespace PortfolioTracker.WebApp.Migrations
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Transaction", b =>
                 {
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionGroup", "TransactionGroup")
+                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionGroup", null)
                         .WithMany("Transactions")
-                        .HasForeignKey("TransactionGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TransactionGroup");
+                        .HasForeignKey("TransactionGroupId");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Portfolio", b =>

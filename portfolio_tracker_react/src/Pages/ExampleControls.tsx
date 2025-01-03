@@ -4,6 +4,10 @@ import { DarkModeToggle } from "../Controls/DarkModeToggle";
 import { Card } from "primereact/card";
 import { InputText } from "primereact/inputtext";
 import { AddInvestmentControl } from "../Popups/AddInvestmentControl";
+import {
+  AddUpdateHoldingForm,
+  IAddUpdateHoldingFormProps,
+} from "../Forms/AddUpdateHoldingForn";
 
 const currencies: ICurrencyItem[] = [
   { code: "TRY", name: "Turkish Lira", symbol: "TL" },
@@ -12,9 +16,24 @@ const currencies: ICurrencyItem[] = [
 ];
 
 export const ExampleControls: React.FC = () => {
+  const addUpdateHoldingProps: IAddUpdateHoldingFormProps = {
+    currencyCode: "TRY",
+    currencySymbol: "T",
+    holding: null,
+    portfolioId: "ExamplePortfolioId",
+    stockSymbol: "TUPRS",
+  };
+
   return (
     <div>
       <h3 className="text-5xl text-green p-4">Example Controls</h3>
+
+      <h3 className="text-2xl text-green m-10 my-4">
+        Add Or Update Holding Form
+      </h3>
+      <Card className="m-10">
+        <AddUpdateHoldingForm {...addUpdateHoldingProps} />
+      </Card>
 
       <h3 className="text-2xl text-green m-10 my-4">Add New Investment Form</h3>
       <Card className="m-10">

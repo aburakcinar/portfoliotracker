@@ -12,13 +12,12 @@ import {
 import { Button } from "primereact/button";
 import { Calendar } from "primereact/calendar";
 import { Nullable } from "primereact/ts-helpers";
-import {
-  CalendarDaysIcon,
-  PlusCircleIcon,
-  MinusCircleIcon,
-} from "@heroicons/react/24/outline";
+import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch } from "../Store/RootState";
-import { IStockBuyRequest, reportBuyStock } from "../Store/PortfolioSlice/PortfolioThunks";
+import {
+  IStockBuyRequest,
+  reportBuyStock,
+} from "../Store/Thunks/PortfolioThunks";
 
 interface IAddInvestmentControlProps {
   portfolioId: string;
@@ -28,7 +27,7 @@ interface IAddInvestmentControlProps {
 const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
   const { portfolioId, currency } = props;
 
-  const [selectedStock, setSelectedStock] = useState<string>("");
+  const [selectedStock, setSelectedStock] = useState<IStockItem | null>(null);
   const [stocks, setStocks] = useState<IStockItem[]>([]);
   const [filteredStocks, setFilteredStocks] = useState<IStockItem[]>([]);
   const [quantity, setQuantity] = useState<number>(0);
@@ -58,8 +57,6 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
   };
 
   const search = (event: AutoCompleteCompleteEvent) => {
-    // Timeout to emulate a network connection
-    //setTimeout(() => {
     let _filteredStocks;
 
     if (!event.query.trim().length) {
@@ -74,23 +71,23 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
     }
 
     setFilteredStocks(_filteredStocks);
-    //}, 250);
   };
 
   const onSaveHandler = () => {
+    if (selectedStock) {
+      const payload: IStockBuyRequest = {
+        portfolioId,
+        stockSymbol: selectedStock.symbol,
+        quantity,
+        price,
+        expenses: expense,
+        executeDate: date ?? new Date(),
+      };
 
-    const payload: IStockBuyRequest = {
-      portfolioId,
-      stockSymbol: selectedStock,
-      quantity,
-      price,
-      expense,
-      executeDate: date ?? new Date()
-    };
+      console.log(`payload => ${JSON.stringify(payload)}`);
 
-    console.log(`payload => ${JSON.stringify(payload)}`);
-
-    dispatch(reportBuyStock(payload));
+      dispatch(reportBuyStock(payload));
+    }
   };
 
   return (
@@ -129,7 +126,7 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
           onChange={(e) => setDate(e.value)}
           //   showIcon
           dateFormat="dd/mm/yy"
-        // icon={() => <CalendarDaysIcon className="size-4" />}
+          // icon={() => <CalendarDaysIcon className="size-4" />}
         />
       </div>
       <div className="flex py-1">
@@ -151,8 +148,12 @@ const AddInvestmentControl: React.FC<IAddInvestmentControlProps> = (props) => {
         />
       </div>
       <div className="flex flex-row-reverse">
-        <Button className="bg-green p-2 text-black w-24"
-        onClick={onSaveHandler}>Save</Button>
+        <Button
+          className="bg-green p-2 text-black w-24"
+          onClick={onSaveHandler}
+        >
+          Save
+        </Button>
       </div>
     </div>
   );

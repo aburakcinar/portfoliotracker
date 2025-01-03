@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.WebApp.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,14 +11,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var serverVersion = new MySqlServerVersion(new Version(8, 0, 29));
-var connStr = builder.Configuration.GetConnectionString("MySql");
+var connStr = builder.Configuration.GetConnectionString("Postgres");
 
 builder.Services
-    .AddDbContext<PortfolioContext>(options => 
-        options
-            .UseMySql(connStr, serverVersion)
-        );
+    .AddDbContext<PortfolioContext>(options => options.UseNpgsql(connStr));
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
 
@@ -29,6 +26,9 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
+builder.Services.AddSingleton<IStockRepository, StockRepository>();
+builder.Services.AddTransient<ILocaleImporter, LocaleImporter>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -37,6 +37,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseStockRepository();
 
 //app.UseAuthorization();
 

@@ -21,10 +21,8 @@ const DarkModeToggle: React.FC = () => {
   useEffect(() => {
     if (value === "dark") {
       document.body.classList.add("dark");
-      console.log("dark added");
     } else {
       document.body.classList.remove("dark");
-      console.log("dark removed");
     }
   }, [value]);
 

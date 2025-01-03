@@ -12,12 +12,12 @@ public class PortfolioContext : DbContext
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<Holding> Holdings { get; set; }
     public DbSet<Portfolio> Portfolios { get; set; }
+    
+    public DbSet<Locale> Locales { get; set; }
 
-    public PortfolioContext(DbContextOptions options) : base(options) 
+    public PortfolioContext(DbContextOptions<PortfolioContext> options) : base(options) 
     {
     }
-    
-    
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -111,6 +111,20 @@ public class PortfolioContext : DbContext
                     StockExchange = @"XIST",
                     Symbol = @"TTRAK",
                     Name = @"Türk Traktör ve Ziraat Makineleri"
+                },
+                new Stock
+                {
+                    Id = new Guid(@"{4A4EE229-7D3E-4490-850B-3F467862FF15}"),
+                    StockExchange = @"XIST",
+                    Symbol = @"BASGZ",
+                    Name = @"Baskent Dogalgaz Dagitim Gayr Yat OrtAS"
+                },
+                new Stock
+                {
+                    Id = new Guid(@"{EE0111BD-BB3E-42F8-9E31-42CF06D71EFA}"),
+                    StockExchange = @"XIST",
+                    Symbol = @"INDES",
+                    Name = @"Indeks Blgsyr Sstmlr Mhndslk Sny v Tcrt"
                 }
                 
             }
@@ -147,6 +161,10 @@ public class Transaction
     
     [MaxLength(255)]
     public string Description { get; set; } = string.Empty;
+    
+    public Guid TransactionGroupId { get; set; }
+
+    [ForeignKey(@"TransactionGroupId")] public TransactionGroup TransactionGroup { get; set; } = new();
 }
 
 public class TransactionGroup
@@ -176,6 +194,11 @@ public class Stock
 public class Holding
 {
     public Guid Id { get; set; }
+    
+    public Guid PortfolioId { get; set; }
+    
+    [ForeignKey(@"PortfolioId")]
+    public required Portfolio Portfolio { get; set; }
     
     public Guid StockId { get; set; }
     
@@ -218,4 +241,43 @@ public class Portfolio
     public Currency? Currency { get; set; }
     
     public List<Holding> Holdings { get; set; } = new();
+}
+
+public class Locale
+{
+    [Key]
+    [MaxLength(6)]
+    public required string LocaleCode { get; set; }
+    
+    [MaxLength(25)]
+    public required string LanguageName { get; set; }
+
+    [MaxLength(25)]
+    public required string LanguageNameLocal { get; set; }
+    
+    [MaxLength(50)]
+    public required string CountryName { get; set; }
+    
+    [MaxLength(50)]
+    public required string CountryNameLocal { get; set; }
+
+    [MaxLength(2)]
+    public required string CountryCode { get; set; }
+    
+    [MaxLength(30)]
+    public required string CurrencyName { get; set; }
+
+    [MaxLength(100)]
+    public required string CurrencyNameLocal { get; set; }
+    
+    [MaxLength(3)]
+    public required string CurrencyCode { get; set; }
+
+    [MaxLength(6)]
+    public required string CurrencySymbol { get; set; }
+    
+    public int CurrencySubunitValue { get; set; }
+    
+    [MaxLength(20)]
+    public required string CurrencySubunitName { get; set; }
 }

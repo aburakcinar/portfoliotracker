@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using PortfolioTracker.WebApp.DataStore;
@@ -11,9 +12,11 @@ using PortfolioTracker.WebApp.DataStore;
 namespace PortfolioTracker.WebApp.Migrations
 {
     [DbContext(typeof(PortfolioContext))]
-    partial class PortfolioContextModelSnapshot : ModelSnapshot
+    [Migration("20250103165647_AddLocales")]
+    partial class AddLocales
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,61 +95,50 @@ namespace PortfolioTracker.WebApp.Migrations
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Locale", b =>
                 {
                     b.Property<string>("LocaleCode")
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CountryCode")
                         .IsRequired()
-                        .HasMaxLength(2)
-                        .HasColumnType("character varying(2)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CountryName")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CountryNameLocal")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CurrencyCode")
                         .IsRequired()
-                        .HasMaxLength(3)
-                        .HasColumnType("character varying(3)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CurrencyName")
                         .IsRequired()
-                        .HasMaxLength(30)
-                        .HasColumnType("character varying(30)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CurrencyNameLocal")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("text");
 
                     b.Property<string>("CurrencySubunitName")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("text");
 
                     b.Property<int>("CurrencySubunitValue")
                         .HasColumnType("integer");
 
                     b.Property<string>("CurrencySymbol")
                         .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LanguageName")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("text");
 
                     b.Property<string>("LanguageNameLocal")
                         .IsRequired()
-                        .HasMaxLength(25)
-                        .HasColumnType("character varying(25)");
+                        .HasColumnType("text");
 
                     b.HasKey("LocaleCode");
 

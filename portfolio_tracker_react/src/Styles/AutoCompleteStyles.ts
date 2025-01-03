@@ -31,8 +31,11 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
       className: classNames(
         "m-0 list-none cursor-text overflow-hidden flex items-center flex-wrap w-full",
         "px-3 py-2 gap-2",
-        "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 border border-gray-300 dark:border-blue-900/40  transition duration-200 ease-in-out appearance-none rounded-md",
-        "focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] hover:border-blue-500 focus:outline-none dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+        "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 border",
+        "border-gray-300 dark:border-blue-900/40  transition duration-200 ease-in-out appearance-none",
+        "focus-visible:outline-none",
+        "focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
+        "hover:border-blue-500 focus:outline-none dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
       ),
     },
     inputToken: {
@@ -65,7 +68,7 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
     },
     panel: {
       className: classNames(
-        "bg-white text-gray-700 border-0 rounded-md shadow-lg",
+        "bg-white text-gray-700 border-0 shadow-lg",
         "max-h-[200px] overflow-auto",
         "dark:bg-gray-900 dark:text-white/80"
       ),
