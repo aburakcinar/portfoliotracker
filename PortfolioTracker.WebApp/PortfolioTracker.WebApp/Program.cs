@@ -28,6 +28,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddTransient<ILocaleImporter, LocaleImporter>();
+builder.Services.AddTransient<IExchangeImporter, ExchangeImporter>();
 
 var app = builder.Build();
 

@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioTracker.WebApp.Business.Requests;
+using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.WebApp.Tools;
 
 namespace PortfolioTracker.WebApp.Controllers;
 
@@ -19,5 +21,11 @@ public class TransactionController : Controller
     public async Task<IEnumerable<TransactionViewModel>> List()
     {
         return await m_mediator.Send(new ListTransactionsRequest());
+    }
+
+    [HttpGet(@"scanactiontypes")]
+    public IEnumerable<TransactionActionType> ScanTransactionActionTypes()
+    {
+        return TransactionActionTypeTool.ScanFromConstants();
     }
 }

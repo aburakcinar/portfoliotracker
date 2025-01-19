@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  li.autocomplete > input {
+    @apply bg-nav focus:outline-none focus-visible:outline-none;
+  }
+}

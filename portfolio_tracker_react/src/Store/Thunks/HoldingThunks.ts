@@ -8,20 +8,20 @@ import {
   updateHoldingApi,
 } from "../../Api/HoldingsApi";
 
-export const fetchPortfolioHoldings = createAsyncThunk(
-  "portfolio/holdings",
-  async (portfolioId: string, { rejectWithValue }) => {
-    try {
-      const data = await listHoldingsByPortfolio(portfolioId);
+// export const fetchPortfolioHoldings = createAsyncThunk(
+//   "portfolio/holdings",
+//   async (portfolioId: string, { rejectWithValue }) => {
+//     try {
+//       const data = await listHoldingsByPortfolio(portfolioId);
 
-      if (data) {
-        return { portfolioId, data };
-      }
-    } catch (err) {
-      rejectWithValue(err);
-    }
-  }
-);
+//       if (data) {
+//         return { portfolioId, data };
+//       }
+//     } catch (err) {
+//       rejectWithValue(err);
+//     }
+//   }
+// );
 
 export const updateHolding = createAsyncThunk(
   "portfolio/updateHolding",
@@ -32,7 +32,6 @@ export const updateHolding = createAsyncThunk(
       if (result) {
         const { portfolioId, stockSymbol } = command;
 
-        dispatch(fetchPortfolioHoldings(command.portfolioId));
         dispatch(fetchHoldingDetail({ portfolioId, stockSymbol }));
         return result;
       }
@@ -56,7 +55,6 @@ export const deleteHolding = createAsyncThunk(
       if (result) {
         const { portfolioId, stockSymbol } = command;
 
-        dispatch(fetchPortfolioHoldings(command.portfolioId));
         dispatch(fetchHoldingDetail({ portfolioId, stockSymbol }));
         return result;
       }
@@ -106,7 +104,6 @@ export const reportSellHolding = createAsyncThunk(
       const result = await reportSellHoldingApi(holdingId, request);
 
       if (result) {
-        dispatch(fetchPortfolioHoldings(portfolioId));
         dispatch(fetchHoldingDetail({ portfolioId, stockSymbol }));
       }
     } catch (err) {

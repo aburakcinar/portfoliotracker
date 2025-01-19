@@ -30,17 +30,17 @@ public class StockItemModel
     [Name(@"symbol")]
     public required string Symbol { get; init; }
 }
-
-public sealed class StockSearchRequest
-{
-    public required string SearchText { get; init; }
-    
-    public string[]? Countries { get; init; }
-    
-    public int PageIndex { get; init; }
-    
-    public int PageSize { get; init; }
-}
+//
+// public sealed class StockSearchRequest
+// {
+//     public required string SearchText { get; init; }
+//     
+//     public string[]? Countries { get; init; }
+//     
+//     public int PageIndex { get; init; }
+//     
+//     public int PageSize { get; init; }
+// }
 
 public interface IStockRepository
 {
@@ -50,7 +50,7 @@ public interface IStockRepository
 
     IEnumerable<string> GetCurrencies();
     
-    IEnumerable<StockItemModel> SearchStocks(StockSearchRequest request);
+    //IEnumerable<StockItemModel> SearchStocks(StockSearchRequest request);
 }
 
 internal sealed class StockRepository : IStockRepository
@@ -98,25 +98,25 @@ internal sealed class StockRepository : IStockRepository
         return m_currencies.AsReadOnly();
     }
 
-    public IEnumerable<StockItemModel> SearchStocks(StockSearchRequest request)
-    {
-        if (string.IsNullOrWhiteSpace(request.SearchText))
-        {
-            return Enumerable.Empty<StockItemModel>();
-        }
-        
-        var searchText = request.SearchText.ToLowerInvariant();
-
-        return m_stocks
-            .Where(x => request.Countries == null ||
-                        request.Countries.Length == 0 ||
-                        request.Countries.Contains(x.Country))
-            .Where(x => x.Symbol.ToLowerInvariant().Contains(searchText)
-                        || x.FullName.ToLowerInvariant().Contains(searchText)
-                        || x.Name.ToLowerInvariant().Contains(searchText))
-            .Skip(request.PageIndex * request.PageSize)
-            .Take(request.PageSize);
-    }
+    // public IEnumerable<StockItemModel> SearchStocks(StockSearchRequest request)
+    // {
+    //     if (string.IsNullOrWhiteSpace(request.SearchText))
+    //     {
+    //         return Enumerable.Empty<StockItemModel>();
+    //     }
+    //     
+    //     var searchText = request.SearchText.ToLowerInvariant();
+    //
+    //     return m_stocks
+    //         .Where(x => request.Countries == null ||
+    //                     request.Countries.Length == 0 ||
+    //                     request.Countries.Contains(x.Country))
+    //         .Where(x => x.Symbol.ToLowerInvariant().Contains(searchText)
+    //                     || x.FullName.ToLowerInvariant().Contains(searchText)
+    //                     || x.Name.ToLowerInvariant().Contains(searchText))
+    //         .Skip(request.PageIndex * request.PageSize)
+    //         .Take(request.PageSize);
+    // }
 }
 
 public static class StockRepositoryExtensions

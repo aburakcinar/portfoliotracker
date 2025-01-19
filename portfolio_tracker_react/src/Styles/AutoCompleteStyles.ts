@@ -19,7 +19,10 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
   autocomplete: {
     root: ({ props }: AutoCompletePassThroughMethodOptions) => ({
       className: classNames(
-        "relative inline-flex",
+        "relative flex",
+        "border border-green dark:border-green",
+        "hover:border-green/60 dark:hover:border-green/60",
+        "dark:bg-nav",
         {
           "opacity-60 select-none pointer-events-none cursor-default":
             props.disabled,
@@ -29,42 +32,45 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
     }),
     container: {
       className: classNames(
-        "m-0 list-none cursor-text overflow-hidden flex items-center flex-wrap w-full",
+        "m-0 list-none cursor-text overflow-hidden flex items-center flex-wrap ",
         "px-3 py-2 gap-2",
-        "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 border",
-        "border-gray-300 dark:border-blue-900/40  transition duration-200 ease-in-out appearance-none",
-        "focus-visible:outline-none",
-        "focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
-        "hover:border-blue-500 focus:outline-none dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+        "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-nav",
+        "border-1 border-green dark:border-green  ",
+        "hover:border-blue-700 focus:outline-none "
       ),
     },
     inputToken: {
-      className: classNames("py-0.375rem px-0", "flex-1 inline-flex"),
+      className: classNames(
+        "py-0.375rem px-0",
+        "flex-1 inline-flex",
+        "autocomplete"
+      ),
     },
-    // input: ({ props }: InputTextPassThroughMethodOptions) => ({
-    //   root: {
-    //     className: classNames(
-    //       "m-0",
-    //       "transition-colors duration-200 appearance-none rounded-lg",
-    //       { "rounded-tr-none rounded-br-none": props.dropdown },
-    //       {
-    //         "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 p-3 border border-gray-300 dark:border-blue-900/40 focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)] hover:border-blue-500 focus:outline-none":
-    //           !props.multiple,
-    //         "font-sans text-base text-gray-700 dark:text-white/80 border-0 outline-none bg-transparent m-0 p-0 shadow-none rounded-none w-full":
-    //           props.multiple,
-    //       }
-    //     ),
-    //   },
-    // }),
-
+    input: {
+      root: {
+        className: classNames(
+          "grow m-0 border-0",
+          "focus-visible:outline-none focus-visible:outline-offset-0 ",
+          "transition-colors duration-200 appearance-none ",
+          { "border-r-0 dark:border-r-0": true }
+        ),
+      },
+    },
     token: {
       className: classNames(
-        "py-1 px-2 mr-2 bg-gray-300 dark:bg-gray-700 text-gray-700 dark:text-white/80 rounded-full",
+        "py-1 px-2 mr-2 bg-gray-300 dark:bg-highlight text-gray-700 dark:text-green rounded-sm",
         "cursor-default inline-flex items-center"
       ),
     },
     dropdownButton: {
-      root: { className: "rounded-tl-none rounded-bl-none" },
+      root: {
+        className: classNames(
+          "grow-0 bg-green dark:bg-green",
+          "hover:bg-green/60 dark:hover:bg-green/60",
+          "border-green dark:border-green",
+          "hover:border-green dark:hover:border-green"
+        ),
+      },
     },
     panel: {
       className: classNames(

@@ -1,66 +1,70 @@
-import { Dropdown } from "primereact/dropdown";
-import { ICurrencyItem } from "../Api/CurrencyApi";
-import { DarkModeToggle } from "../Controls/DarkModeToggle";
-import { Card } from "primereact/card";
-import { InputText } from "primereact/inputtext";
-import { AddInvestmentControl } from "../Popups/AddInvestmentControl";
-import {
-  AddUpdateHoldingForm,
-  IAddUpdateHoldingFormProps,
-} from "../Forms/AddUpdateHoldingForn";
-
-const currencies: ICurrencyItem[] = [
-  { code: "TRY", name: "Turkish Lira", symbol: "TL" },
-  { code: "EUR", name: "Euro", symbol: "EUR" },
-  { code: "USD", name: "United States Dollar", symbol: "USD" },
-];
+import { CodeBracketIcon } from "@heroicons/react/24/outline";
+import { Link, Outlet } from "react-router";
 
 export const ExampleControls: React.FC = () => {
-  const addUpdateHoldingProps: IAddUpdateHoldingFormProps = {
-    currencyCode: "TRY",
-    currencySymbol: "T",
-    holding: null,
-    portfolioId: "ExamplePortfolioId",
-    stockSymbol: "TUPRS",
-  };
-
   return (
     <div>
       <h3 className="text-5xl text-green p-4">Example Controls</h3>
 
-      <h3 className="text-2xl text-green m-10 my-4">
-        Add Or Update Holding Form
-      </h3>
-      <Card className="m-10">
-        <AddUpdateHoldingForm {...addUpdateHoldingProps} />
-      </Card>
-
-      <h3 className="text-2xl text-green m-10 my-4">Add New Investment Form</h3>
-      <Card className="m-10">
-        <AddInvestmentControl currency="TRY" portfolioId="examplePortfolio" />
-      </Card>
-
-      <h3 className="text-2xl text-green m-10 my-4">Dark Mode Toggle</h3>
-
-      <Card className="m-10">
-        <DarkModeToggle />
-      </Card>
-
-      <h3 className="text-2xl text-green m-10 my-4">Comboboxes</h3>
-
-      <Card className="m-10">
-        <Dropdown
-          className="h-10"
-          options={currencies}
-          optionLabel="code"
-          placeholder="Select a currency"
-        />
-      </Card>
-
-      <h3 className="text-2xl text-green m-10 my-4">TextField</h3>
-      <Card className="m-10">
-        <InputText className="w-20 h-10" />
-      </Card>
+      <div className="flex w-full">
+        <div className="grow-0 min-w-64 border-r-1 border-r-slate-300">
+          <nav className="pt-16">
+            <ul className="text-white ">
+              <Link to="addinvestmentcontrol">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex ">
+                    <CodeBracketIcon className="size-9 flex-none px-2" />
+                    <span className="grow py-1">Add Investment Control</span>
+                  </div>
+                </li>
+              </Link>
+              <Link to="addupdateholdingform">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex">
+                    <CodeBracketIcon className="size-9 flex-none px-2 " />
+                    <span className="grow py-1">Add Update Holding Form</span>
+                  </div>
+                </li>
+              </Link>
+              <Link to="darkmodetoggle">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex">
+                    <CodeBracketIcon className="size-9 flex-none px-2 " />
+                    <span className="grow py-1">Dark Mode Toggle</span>
+                  </div>
+                </li>
+              </Link>
+              <Link to="comboboxes">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex">
+                    <CodeBracketIcon className="size-9 flex-none px-2 " />
+                    <span className="grow py-1">ComboBox</span>
+                  </div>
+                </li>
+              </Link>
+              <Link to="inputtextes">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex">
+                    <CodeBracketIcon className="size-9 flex-none px-2 " />
+                    <span className="grow py-1">InputText</span>
+                  </div>
+                </li>
+              </Link>
+              <Link to="buttons">
+                <li className="p-2 hover:bg-highlight">
+                  <div className="flex">
+                    <CodeBracketIcon className="size-9 flex-none px-2 " />
+                    <span className="grow py-1">Buttons</span>
+                  </div>
+                </li>
+              </Link>
+            </ul>
+          </nav>
+        </div>
+        <div className="grow">
+          <Outlet />
+        </div>
+      </div>
     </div>
   );
 };

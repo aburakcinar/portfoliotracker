@@ -21,12 +21,6 @@ const createPortfolio = async (
   return response.status === 200;
 };
 
-const listPortfolios = async (): Promise<IPortfolioModel[]> => {
-  const response = await api.get<IPortfolioModel[]>("/portfolio/list");
-
-  return response.data;
-};
-
 const buyStock = async (payload: IStockBuyRequest): Promise<boolean> => {
   return await api.post<IStockBuyRequest, boolean>("/portfolio/buy", payload);
 };
@@ -63,7 +57,6 @@ const listHoldingDetails = async (
 
 export {
   createPortfolio,
-  listPortfolios,
   buyStock,
   listHoldingsByPortfolio,
   listHoldingDetails,

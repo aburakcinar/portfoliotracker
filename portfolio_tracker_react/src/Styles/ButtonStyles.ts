@@ -9,64 +9,57 @@ export const buttonStyles: PrimeReactPTOptions = {
         "items-center cursor-pointer inline-flex overflow-hidden relative select-none text-center align-bottom",
         "transition duration-200 ease-in-out",
         "focus:outline-none focus:outline-offset-0",
+        "focus-visible:outline-none focus-visible:outline-offset-0",
         {
-          "text-white dark:text-gray-900 bg-blue-500 dark:bg-blue-400 border border-blue-500 dark:border-blue-400 hover:bg-blue-600 dark:hover:bg-blue-500 hover:border-blue-600 dark:hover:border-blue-500 focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(157,193,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(147,197,253,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
+          "text-white dark:text-gray-200 bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-400 border-0":
             !props.link &&
             props.severity === null &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-blue-600 bg-transparent border-transparent focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(157,193,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(147,197,253,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.link,
+          "text-blue-600 bg-transparent border-transparent ": props.link,
         },
         {
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(176,185,198,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(203,213,225,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "secondary",
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(136,234,172,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(134,239,172,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "success",
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(157,193,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(147,197,253,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "info",
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(250,207,133,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(252,211,77,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "warning",
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(212,170,251,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(216,180,254,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "help",
-          "focus:shadow-[0_0_0_2px_rgba(255,255,255,1),0_0_0_4px_rgba(247,162,162,1),0_1px_2px_0_rgba(0,0,0,1)] dark:focus:shadow-[0_0_0_2px_rgba(28,33,39,1),0_0_0_4px_rgba(252,165,165,0.7),0_1px_2px_0_rgba(0,0,0,0)]":
-            props.severity === "danger",
+          "": props.severity === "secondary",
+          "": props.severity === "success",
+          "": props.severity === "info",
+          "": props.severity === "warning",
+          "": props.severity === "help",
+          "": props.severity === "danger",
         },
         {
-          "text-white dark:text-gray-900 bg-gray-500 dark:bg-gray-400 border border-gray-500 dark:border-gray-400 hover:bg-gray-600 dark:hover:bg-gray-500 hover:border-gray-600 dark:hover:border-gray-500":
+          "text-white dark:text-gray-900 bg-gray-500 dark:bg-gray-400 border-0 hover:bg-gray-600 dark:hover:bg-gray-500":
             props.severity === "secondary" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-white dark:text-gray-900 bg-green-500 dark:bg-green-400 border border-green-500 dark:border-green-400 hover:bg-green-600 dark:hover:bg-green-500 hover:border-green-600 dark:hover:border-green-500":
+          "text-white dark:text-white bg-green dark:bg-green-400 border-0 hover:bg-green/60 dark:hover:bg-green/60 ":
             props.severity === "success" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-white dark:text-gray-900 dark:bg-blue-400 bg-blue-500 dark:bg-blue-400 border border-blue-500 dark:border-blue-400 hover:bg-blue-600 hover:border-blue-600 dark:hover:bg-blue-500 dark:hover:border-blue-500":
+          "text-white dark:text-gray-900 dark:bg-blue-400 bg-blue-500 dark:bg-blue-400 border-0 hover:bg-blue-600  dark:hover:bg-blue-500 ":
             props.severity === "info" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-white dark:text-gray-900 bg-orange-500 dark:bg-orange-400 border border-orange-500 dark:border-orange-400 hover:bg-orange-600 dark:hover:bg-orange-500 hover:border-orange-600 dark:hover:border-orange-500":
+          "text-white dark:text-gray-900 bg-orange-500 dark:bg-orange-400 border-0 hover:bg-orange-600 dark:hover:bg-orange-500":
             props.severity === "warning" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-white dark:text-gray-900 bg-purple-500 dark:bg-purple-400 border border-purple-500 dark:border-purple-400 hover:bg-purple-600 dark:hover:bg-purple-500 hover:border-purple-600 dark:hover:border-purple-500":
+          "text-white dark:text-gray-900 bg-purple-500 dark:bg-purple-400 border-0 hover:bg-purple-600 dark:hover:bg-purple-500":
             props.severity === "help" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
-          "text-white dark:text-gray-900 bg-red-500 dark:bg-red-400 border border-red-500 dark:border-red-400 hover:bg-red-600 dark:hover:bg-red-500 hover:border-red-600 dark:hover:border-red-500":
+          "text-white dark:text-gray-900 bg-red-500 dark:bg-red-400 border-0 hover:bg-red-600 dark:hover:bg-red-500":
             props.severity === "danger" &&
             !props.text &&
             !props.outlined &&
             !props.plain,
         },
         { "shadow-lg": props.raised },
-        // { "rounded-md": !props.rounded, "rounded-full": props.rounded },
         {
           "bg-transparent border-transparent": props.text && !props.plain,
           "text-blue-500 dark:text-blue-400 hover:bg-blue-300/20":

@@ -1,16 +1,33 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { buyStock, reserveStockOnPortfolioApi } from "../../Api";
+import { fetchHoldingDetail } from "./HoldingThunks";
+import { setShowNewPortfolioForm } from "../RootState";
 import {
-  buyStock,
-  listPortfolios,
-  reserveStockOnPortfolioApi,
-} from "../../Api";
-import { fetchHoldingDetail, fetchPortfolioHoldings } from "./HoldingThunks";
+  createPortfolioApi,
+  ICreatePortfolioRequest,
+  listPortfoliosApi,
+} from "../../Api/PortfolioV2Api";
 
 export const fetchPortfolios = createAsyncThunk(
   "portfolio/fetch",
   async (_: void, { rejectWithValue }) => {
     try {
-      return listPortfolios();
+      return listPortfoliosApi();
+    } catch (err) {
+      rejectWithValue(err);
+    }
+  }
+);
+
+export const createPortfolio = createAsyncThunk(
+  "portfolio/create",
+  async (request: ICreatePortfolioRequest, { rejectWithValue, dispatch }) => {
+    try {
+      const result = await createPortfolioApi(request);
+      if (result) {
+        dispatch(fetchPortfolios());
+        dispatch(setShowNewPortfolioForm(false));
+      }
     } catch (err) {
       rejectWithValue(err);
     }
@@ -33,7 +50,6 @@ export const reportBuyStock = createAsyncThunk(
       const result = buyStock(command);
 
       if (result) {
-        dispatch(fetchPortfolioHoldings(command.portfolioId));
         return result;
       }
 
@@ -57,7 +73,6 @@ export const reserveStockOnPortfolio = createAsyncThunk(
       if (result) {
         const { portfolioId, stockSymbol } = command;
 
-        dispatch(fetchPortfolioHoldings(portfolioId));
         dispatch(fetchHoldingDetail({ portfolioId, stockSymbol }));
         return result;
       }

@@ -42,3 +42,59 @@ export const reportSellHoldingApi = async (
 
   return response.data;
 };
+
+export enum AssetTypes {
+  Stock = 1,
+  ETF = 2,
+  Commodity = 3,
+  Bond = 4,
+  Crypto = 5,
+}
+
+export interface IHoldingListModel {
+  id: string;
+  portfolioId: string;
+  assetId: string;
+  assetName: string;
+  assetTickerSymbol: string;
+  assetPrice: number;
+  assetType: number;
+  assetTypeName: string;
+  exchangeCode: string;
+  countryCode: string;
+  currencyCode: string;
+  currencyName: string;
+  currencySymbol: string;
+}
+
+export interface IHoldingAggregateModel {
+  portfolioId: string;
+  assetId: string;
+  assetName: string;
+  assetTickerSymbol: string;
+  assetPrice: number;
+  assetType: number;
+  assetTypeName: string;
+  exchangeCode: string;
+  countryCode: string;
+  currencyCode: string;
+  currencyName: string;
+  currencySymbol: string;
+
+  totalQuantity: number;
+  totalCost: number;
+  averagePrice: number;
+  totalExpenses: number;
+
+  color: string;
+}
+
+export const fetchHoldingsByPortfolioIdApi = async (
+  portfolioId: string
+): Promise<IHoldingAggregateModel[]> => {
+  const response = await api.get<IHoldingAggregateModel[]>(
+    `holding/listbyportfolio/${portfolioId}`
+  );
+
+  return response.data;
+};

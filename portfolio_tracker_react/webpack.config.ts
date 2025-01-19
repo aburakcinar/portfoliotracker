@@ -1,9 +1,8 @@
 import { Configuration } from "webpack";
-import { Configuration as DevConfiguration } from "webpack-dev-server";
 import HtmlWebpackPlugin from "html-webpack-plugin";
 import path from "path";
 
-const config: Configuration | DevConfiguration = {
+const config: Configuration = {
   mode: "production",
   devtool: "source-map",
   entry: ["./src/index.tsx"],
@@ -20,18 +19,6 @@ const config: Configuration | DevConfiguration = {
       },
     ],
   },
-  devServer: {
-    historyApiFallback: true,
-    static: path.resolve(__dirname, "dev-server"),
-    hot: true,
-    proxy: [
-      {
-        context: ["/api"],
-        target: "http://localhost:5255",
-      },
-    ],
-    watchFiles: ["src/**/*"],
-  },
   resolve: {
     extensions: [".ts", ".tsx", ".js"],
   },
@@ -39,6 +26,7 @@ const config: Configuration | DevConfiguration = {
     path: path.resolve(__dirname, "Assets"),
     filename: "bundle.js",
     clean: true,
+    publicPath: "/",
   },
   plugins: [
     new HtmlWebpackPlugin({

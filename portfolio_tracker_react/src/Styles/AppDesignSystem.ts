@@ -12,6 +12,9 @@ import { contextMenuStyles } from "./ContextMenuStyles";
 import { buttonStyles } from "./ButtonStyles";
 import { confirmPopupStyles } from "./ConfirmPopupStyles";
 import { paginatorStyles } from "./PaginatorStyles";
+import { inputTextareaStyles } from "./InputTextareaStyles";
+import { breadCrumbStyles } from "./BreadCrumb.Styles";
+import { dataViewStyles } from "./DataView.styles";
 
 export const appDesignSystem: PrimeReactPTOptions = {
   ...dropdownStyles,
@@ -27,4 +30,7 @@ export const appDesignSystem: PrimeReactPTOptions = {
   ...buttonStyles,
   ...confirmPopupStyles,
   ...paginatorStyles,
+  ...inputTextareaStyles,
+  ...breadCrumbStyles,
+  ...dataViewStyles,
 };

@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.WebApp", "PortfolioTracker.WebApp\PortfolioTracker.WebApp.csproj", "{313E8B20-789B-4685-A603-987EA2A40007}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.WebApp.Tests", "PortfolioTracker.WebApp.Tests\PortfolioTracker.WebApp.Tests.csproj", "{2EB49F87-349B-46E2-83B3-67E8C879C185}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{313E8B20-789B-4685-A603-987EA2A40007}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{313E8B20-789B-4685-A603-987EA2A40007}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{313E8B20-789B-4685-A603-987EA2A40007}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2EB49F87-349B-46E2-83B3-67E8C879C185}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2EB49F87-349B-46E2-83B3-67E8C879C185}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2EB49F87-349B-46E2-83B3-67E8C879C185}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2EB49F87-349B-46E2-83B3-67E8C879C185}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

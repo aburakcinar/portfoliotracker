@@ -49,6 +49,10 @@
       <Content Include="Resources\stocks.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
+      <None Remove="Resources\ISO10383_MIC.csv" />
+      <Content Include="Resources\ISO10383_MIC.csv">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
     </ItemGroup>
 
 </Project>

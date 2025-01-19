@@ -9,7 +9,7 @@ export const cardStyles: PrimeReactPTOptions = {
         "dark:bg-gray-900 dark:text-white " //dark
       ),
     },
-    body: { className: "p-5" }, // Padding.
+    body: { className: "px-5 py-3" }, // Padding.
     title: { className: "text-2xl font-bold mb-2" }, // Font size, font weight, and margin bottom.
     subTitle: {
       className: classNames(
@@ -17,7 +17,7 @@ export const cardStyles: PrimeReactPTOptions = {
         "dark:text-white/60 " //dark
       ),
     },
-    content: { className: "py-5" }, // Vertical padding.
+    content: { className: "py-1" }, // Vertical padding.
     footer: { className: "pt-5" }, // Top padding.
   },
 };

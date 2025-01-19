@@ -1,22 +1,19 @@
 import React from "react";
-import {
-  PresentationChartBarIcon,
-  NumberedListIcon,
-  DocumentCurrencyDollarIcon,
-} from "@heroicons/react/24/outline";
-import { HomeIcon } from "@heroicons/react/24/solid";
-import { Link, Outlet } from "react-router";
+import { Outlet } from "react-router";
 import { DarkModeToggle } from "./Controls/DarkModeToggle";
+import { MenuContainer } from "./Controls/MenuContainer";
+import { AppBreadCrumb } from "./Controls/AppBreadCrumb";
 
 export function Layout() {
   return (
     <div className="flex h-screen bg-dark text-white">
       <div className="flex-none md:w-64 w-0 bg-nav text-white">
-        <div className="w-full text-center text-lg text-slate-100 hidden md:max-2xl:inline-block">
+        <div className="w-full pt-10 text-3xl text-center  dark:text-slate-100 ">
           Portfolio Tracker
         </div>
-        <nav className="pt-16">
-          <ul className="text-white ">
+        <nav className="pt-10">
+          <MenuContainer />
+          {/* <ul className="text-white ">
             <Link to="/">
               <li className="p-2 hover:bg-highlight">
                 <div className="flex text-green">
@@ -49,6 +46,14 @@ export function Layout() {
                 </div>
               </li>
             </Link>
+            <Link to="/exchanges">
+              <li className="p-2 hover:bg-highlight">
+                <div className="flex">
+                  <DocumentCurrencyDollarIcon className="size-9 flex-none px-2 " />
+                  <span className="grow py-1">Exchanges</span>
+                </div>
+              </li>
+            </Link>
             <Link to="/controls">
               <li className="p-2 hover:bg-highlight">
                 <div className="flex">
@@ -57,14 +62,13 @@ export function Layout() {
                 </div>
               </li>
             </Link>
-          </ul>
+          </ul> */}
         </nav>
         <DarkModeToggle />
       </div>
-      <div className="grow  overflow-auto">
-        <div className="overflow-auto">
-          <Outlet />
-        </div>
+      <div className="grow overflow-auto">
+        <AppBreadCrumb />
+        <Outlet />
       </div>
     </div>
   );
