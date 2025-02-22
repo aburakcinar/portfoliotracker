@@ -1,48 +1,5 @@
 import api from "../Tools/Api";
 
-export interface IUpdateHoldingRequest {
-  portfolioId: string;
-  stockSymbol: string;
-  holdingId: string;
-  quantity: number;
-  price: number;
-  expenses: number;
-  executeDate?: Date;
-}
-
-export interface IReportSellRequest {
-  price: number;
-  quantity: number;
-  expenses: number;
-  executeDate: Date;
-}
-
-export const updateHoldingApi = async (
-  payload: IUpdateHoldingRequest
-): Promise<boolean> => {
-  const response = await api.put("/holding/update", payload);
-
-  return response.data;
-};
-
-export const deleteHoldingApi = async (holdingId: string): Promise<boolean> => {
-  const response = await api.delete(`/holding/delete/${holdingId}`);
-
-  return response.data;
-};
-
-export const reportSellHoldingApi = async (
-  holdingId: string,
-  payload: IReportSellRequest
-): Promise<boolean> => {
-  const response = await api.put<boolean>(
-    `/holding/reportsell/${holdingId}`,
-    payload
-  );
-
-  return response.data;
-};
-
 export enum AssetTypes {
   Stock = 1,
   ETF = 2,
@@ -94,6 +51,69 @@ export const fetchHoldingsByPortfolioIdApi = async (
 ): Promise<IHoldingAggregateModel[]> => {
   const response = await api.get<IHoldingAggregateModel[]>(
     `holding/listbyportfolio/${portfolioId}`
+  );
+
+  return response.data;
+};
+
+export interface IAddHoldingCommand {
+  portfolioId: string;
+  assetId: string;
+  quantity: number;
+  price: number;
+  expenses: number;
+  executeDate: string;
+  executeDateTime: Date;
+}
+
+export const addHoldingApi = async (
+  command: IAddHoldingCommand
+): Promise<boolean> => {
+  const response = await api.post<boolean>("holding", command);
+
+  return response.data;
+};
+
+export interface IHoldingDetailModel {
+  id: string;
+  quantity: number;
+  price: number;
+  total: number;
+  currencyCode: string;
+  currencySymbol: string;
+  executeDate: Date;
+}
+
+export const fetchHoldingDetailApi = async (
+  portfolioId: string,
+  assetId: string
+): Promise<IHoldingDetailModel[]> => {
+  const response = await api.get(
+    `holding/listbyportfolio/${portfolioId}/asset/${assetId}`
+  );
+
+  return response.data;
+};
+
+export interface IHoldingAssetTransactionModel {
+  id: string;
+  executeDate: Date;
+  description: string;
+  quantity: number;
+  price: number;
+  total: number;
+  expenses: number;
+  taxes: number;
+  currencyCode: string;
+  currencySymbol: string;
+}
+
+export const fetchHoldingAssetTransactionsApi = async (
+  portfolioId: string,
+  assetId: string
+): Promise<IHoldingAssetTransactionModel[]> => {
+  const response = await api.get(
+    `holding/transactions/portfolio/${portfolioId}/asset/${assetId}`
   );
 
   return response.data;

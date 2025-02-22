@@ -1,52 +1,47 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "primereact/button";
-import { PlusIcon } from "@heroicons/react/24/outline";
-import { useParams } from "react-router";
-import {
-  fetchHoldingsByPortfolioIdApi,
-  IHoldingAggregateModel,
-} from "../../Api/HoldingsApi";
+import { PlusIcon, PencilIcon } from "@heroicons/react/24/outline";
+import { useNavigate, useParams } from "react-router";
+import { IHoldingAggregateModel } from "../../Api/HoldingsApi";
 import { Card } from "primereact/card";
 import { DataView } from "primereact/dataview";
-import { IPortfolioModel } from "../../Store";
-import { getPortfolioApi } from "../../Api/PortfolioV2Api";
-import { getRandomColor } from "../../Tools/getRandomColor";
 import { HoldingListItem } from "./HoldingListItem";
+import { useMenuItem } from "../../Hooks/useMenuItem";
+import {
+  useHoldings,
+  usePortfolio,
+  usePortfolioTotalPosition,
+} from "../../Hooks";
 
 export const PortfolioItem: React.FC = () => {
   const { portfolioId } = useParams();
-  const [portfolio, setPortfolio] = useState<IPortfolioModel | null>(null);
+  const navigate = useNavigate();
 
-  const [newInvestmentForm, setNewInvestmentForm] = useState<boolean>(false);
-  const [holdings, setHoldings] = useState<IHoldingAggregateModel[]>([]);
+  const [iteration, setIteration] = useState<number>(0);
+  const portfolio = usePortfolio(portfolioId);
+  const portfolioTotal = usePortfolioTotalPosition(portfolioId, [iteration]);
+  const holdings = useHoldings(portfolioId, [iteration]);
 
-  useEffect(() => {
-    const fetch = async () => {
-      if (portfolioId) {
-        const result = await getPortfolioApi(portfolioId);
-        setPortfolio(result);
-
-        const resultHoldings = await fetchHoldingsByPortfolioIdApi(portfolioId);
-        const resultHoldingWithColor = [
-          ...resultHoldings.map((x) => {
-            return {
-              ...x,
-              color: getRandomColor(),
-            };
-          }),
-        ];
-        setHoldings(resultHoldingWithColor);
-      }
-    };
-    fetch();
-  }, [portfolioId]);
+  useMenuItem(
+    {
+      id: `portfolios/${portfolioId}`,
+      link: `/portfolios/${portfolioId}`,
+      text: portfolio?.name ?? "",
+      visible: false,
+    },
+    [portfolio]
+  );
 
   if (!portfolio) {
     return null;
   }
 
   const itemTemplate = (item: IHoldingAggregateModel) => {
-    return <HoldingListItem item={item} />;
+    return <HoldingListItem key={item.assetId} item={item} />;
+  };
+
+  const addNewHoldingHandler = () => {
+    navigate(`/portfolios/${portfolioId}/addholding`);
   };
 
   const { name } = portfolio;
@@ -68,63 +63,53 @@ export const PortfolioItem: React.FC = () => {
           <span className="text-green text-4xl py-2">{name}</span>
           <span className="pl-2 text-xl">Portfolio</span>
         </div>
-        <div className="grow-0">
-          <Button
-            className="flex flex-row dark:bg-green p-1 items-center"
-            onClick={() => setNewInvestmentForm(true)}
+        <div className="grow-0 flex flex-row">
+          <button
+            className="flex flex-row  m-1 items-center"
+            title="Edit Portfolio"
+            onClick={() => {
+              navigate(`/portfolios/${portfolioId}/edit`);
+            }}
           >
-            <PlusIcon className="size-6 text-black" />
-            <span className=" text-black">New Holding</span>
-          </Button>
+            <PencilIcon className="size-8 text-green/70 hover:text-green" />
+          </button>
+          <button
+            className="flex flex-row m-1 items-center  align-middle "
+            title="Add Holding"
+            onClick={addNewHoldingHandler}
+          >
+            <PlusIcon className="size-8 text-green/70 hover:text-green" />
+          </button>
         </div>
       </div>
+      <div className="grid grid-cols-3 gap-1 mb-5">
+        <Card title="Total Positions">
+          <div className="text-2xl text-green">
+            {portfolioTotal?.currencySymbol}
+            {portfolioTotal?.totalPosition}
+          </div>
+        </Card>
+        <Card title="Total Cost">
+          <div className="text-2xl text-green">
+            {portfolioTotal?.currencySymbol}
+            {portfolioTotal?.totalCost}
+          </div>
+        </Card>
+        <Card title="Total Expenses">
+          <div className="text-2xl text-green">
+            {portfolioTotal?.currencySymbol}
+            {portfolioTotal?.totalExpenses}
+          </div>
+        </Card>
+      </div>
 
-      <Card>
-        <DataView value={holdings} listTemplate={listTemplate} />
-      </Card>
-      {/* <div className="flex bg-highlight rounded-t-md mt-2 w-full">
-        <div className="grow p-4">Stock ({currencyCode})</div>
-        <div className="w-[100px] p-4">Quantity</div>
-        <div className="w-[110px] p-4">Price {currencySymbol}</div>
-        <div className="w-[130px] p-4">Total {currencySymbol}</div>
-        <div className="w-[40px] p-4">&nbsp;</div>
-      </div> */}
-      {/* {newInvestmentForm && (
-        <div className="flex flex-row w-full">
-          <AutoComplete
-            field="name"
-            className="w-full p-4 grow"
-            inputClassName="w-full "
-            value={selectedStock}
-            suggestions={filteredStocks}
-            completeMethod={search}
-            onChange={(e: AutoCompleteChangeEvent) => setSelectedStock(e.value)}
-            itemTemplate={itemTemplate}
-            selectedItemTemplate={itemTemplate}
-          />
-          <div className="grow-0 py-4 pr-4">
-            <Button className="dark:bg-green" onClick={onNewHoldingHandler}>
-              Save
-            </Button>
-          </div>
-          <div className="grow-0 py-4 ">
-            <Button
-              severity="warning"
-              onClick={(_) => setNewInvestmentForm(false)}
-            >
-              Hide
-            </Button>
-          </div>
-        </div>
-      )} */}
-      {/* {holdings.map((holding) => (
-        <Holding
-          portfolioId={id}
-          currencySymbol={currencySymbol}
-          currencyCode={currencyCode}
-          holding={holding}
+      <Card title="Holdings">
+        <DataView
+          value={holdings}
+          listTemplate={listTemplate}
+          emptyMessage="There is no holding."
         />
-      ))} */}
+      </Card>
     </div>
   );
 };

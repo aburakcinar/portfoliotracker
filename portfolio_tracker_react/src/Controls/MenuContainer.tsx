@@ -24,13 +24,15 @@ const MenuItem: React.FC<IMenuItemProps> = (props) => {
   const { item } = props;
 
   const renderSubMenu = () => {
-    if (item.children) {
+    const children = item.children?.filter((x) => x.visible);
+
+    if (children && children.length > 0) {
       return (
         <div className="flex">
           <div className="grow-0 w-8">&nbsp;</div>
           <div className="grow">
             <ul className="text-white">
-              {item.children.map((item) => (
+              {children.map((item) => (
                 <MenuItem key={item.id} item={item} />
               ))}
             </ul>
@@ -42,13 +44,16 @@ const MenuItem: React.FC<IMenuItemProps> = (props) => {
     return null;
   };
 
+  if (item.visible === false) {
+    return null;
+  }
+
   return (
     <>
       <Link to={item.link}>
         <li className="p-2 hover:bg-highlight">
           <div className="flex text-green">
-            <HomeModernIcon className="size-5" />
-            <span className="grow py-1">{item.text}</span>
+            <span className="grow py-1 text-xl">{item.text}</span>
           </div>
         </li>
       </Link>

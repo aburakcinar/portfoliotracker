@@ -151,6 +151,11 @@ namespace PortfolioTracker.WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ActionTypeCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<Guid>("BankAccountTransactionGroupId")
                         .HasColumnType("uuid");
 
@@ -171,10 +176,12 @@ namespace PortfolioTracker.WebApp.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActionTypeCode");
 
                     b.HasIndex("BankAccountTransactionGroupId");
 
@@ -189,6 +196,20 @@ namespace PortfolioTracker.WebApp.Migrations
 
                     b.Property<Guid>("BankAccountId")
                         .HasColumnType("uuid");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.Property<DateOnly>("ExecuteDate")
+                        .HasColumnType("date");
+
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
@@ -229,6 +250,42 @@ namespace PortfolioTracker.WebApp.Migrations
                     b.HasKey("Code");
 
                     b.ToTable("Currencies");
+                });
+
+            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.CurrencyExchangeRates", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("FromCurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.Property<decimal>("High")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Low")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Open")
+                        .HasColumnType("numeric");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("ToCurrencyCode")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("character varying(10)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("CurrencyExchangeRates");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Exchange", b =>
@@ -320,53 +377,33 @@ namespace PortfolioTracker.WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("PortfolioId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("StockId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("TransactionGroupId")
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PortfolioId");
-
-                    b.HasIndex("StockId");
-
-                    b.HasIndex("TransactionGroupId");
-
-                    b.ToTable("Holdings");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.HoldingV2", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
                     b.Property<Guid>("AssetId")
+                        .HasColumnType("uuid");
+
+                    b.Property<Guid>("BankAccountTransactionGroupId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
+                    b.Property<DateOnly>("ExecuteDate")
+                        .HasColumnType("date");
+
                     b.Property<Guid>("PortfolioId")
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("TransactionGroupId")
-                        .HasColumnType("uuid");
+                    b.Property<DateTime?>("Updated")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AssetId");
 
+                    b.HasIndex("BankAccountTransactionGroupId");
+
                     b.HasIndex("PortfolioId");
 
-                    b.HasIndex("TransactionGroupId");
-
-                    b.ToTable("HoldingV2s");
+                    b.ToTable("Holdings");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Locale", b =>
@@ -439,32 +476,7 @@ namespace PortfolioTracker.WebApp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("CurrencyCode")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CurrencyCode");
-
-                    b.ToTable("Portfolios");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.PortfolioV2", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<Guid>("BankAccountId")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("Created")
@@ -485,235 +497,9 @@ namespace PortfolioTracker.WebApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("PortfolioV2s");
+                    b.HasIndex("BankAccountId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("25d4cfe9-076d-48e1-a04b-a0b139bb8864"),
-                            Created = new DateTime(2025, 1, 19, 0, 29, 51, 481, DateTimeKind.Utc).AddTicks(2456),
-                            Description = "Default Portfolio",
-                            IsDefault = true,
-                            Name = "Default"
-                        });
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Stock", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("StockExchange")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasMaxLength(15)
-                        .HasColumnType("character varying(15)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Stocks");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f99512b6-324d-4e13-b75a-19e9301f1565"),
-                            Description = "",
-                            Name = "TÜPRAŞ-Türkiye Petrol Rafinerileri",
-                            StockExchange = "XIST",
-                            Symbol = "TUPRS"
-                        },
-                        new
-                        {
-                            Id = new Guid("1cc7e8b4-f4f0-4cf5-bdb7-a9947f98c55a"),
-                            Description = "",
-                            Name = "Doğuş Otomotiv",
-                            StockExchange = "XIST",
-                            Symbol = "DOAS"
-                        },
-                        new
-                        {
-                            Id = new Guid("a242dc19-adc4-4c8f-a827-416fd8a391b4"),
-                            Description = "",
-                            Name = "Enerjisa",
-                            StockExchange = "XIST",
-                            Symbol = "ENJSA"
-                        },
-                        new
-                        {
-                            Id = new Guid("44829b63-9b2c-4153-ad4d-b194aa5625b6"),
-                            Description = "",
-                            Name = "Ereğli Demir ve Çelik Fabrikaları",
-                            StockExchange = "XIST",
-                            Symbol = "EREGL"
-                        },
-                        new
-                        {
-                            Id = new Guid("5163feb7-5ceb-4d65-8bfb-64bcad4f370e"),
-                            Description = "",
-                            Name = "Ford Otosan",
-                            StockExchange = "XIST",
-                            Symbol = "FROTO"
-                        },
-                        new
-                        {
-                            Id = new Guid("b37a0f69-d398-4cec-a460-2835a06ba6bc"),
-                            Description = "",
-                            Name = "Türkiye Garanti Bankası",
-                            StockExchange = "XIST",
-                            Symbol = "GARAN"
-                        },
-                        new
-                        {
-                            Id = new Guid("64eaa2bd-80ab-46a8-9eb3-3112ac1e73b1"),
-                            Description = "",
-                            Name = "İş Yatırım Menkul Değerler",
-                            StockExchange = "XIST",
-                            Symbol = "ISMEN"
-                        },
-                        new
-                        {
-                            Id = new Guid("7f28b900-27eb-4f4a-856a-1e1618ee59ac"),
-                            Description = "",
-                            Name = "Türk Hava Yolları",
-                            StockExchange = "XIST",
-                            Symbol = "THYAO"
-                        },
-                        new
-                        {
-                            Id = new Guid("f7c5e6c8-78a5-4325-ba93-e5f451483866"),
-                            Description = "",
-                            Name = "Tekfen Holding",
-                            StockExchange = "XIST",
-                            Symbol = "TKFEN"
-                        },
-                        new
-                        {
-                            Id = new Guid("b2aa0d1f-f511-4940-a118-38dc6b93b5d1"),
-                            Description = "",
-                            Name = "Vestel Beyaz Eşya",
-                            StockExchange = "XIST",
-                            Symbol = "VESBE"
-                        },
-                        new
-                        {
-                            Id = new Guid("7a46d600-2cc6-4e45-ab74-876064839746"),
-                            Description = "",
-                            Name = "Türk Traktör ve Ziraat Makineleri",
-                            StockExchange = "XIST",
-                            Symbol = "TTRAK"
-                        },
-                        new
-                        {
-                            Id = new Guid("4a4ee229-7d3e-4490-850b-3f467862ff15"),
-                            Description = "",
-                            Name = "Baskent Dogalgaz Dagitim Gayr Yat OrtAS",
-                            StockExchange = "XIST",
-                            Symbol = "BASGZ"
-                        },
-                        new
-                        {
-                            Id = new Guid("ee0111bd-bb3e-42f8-9e31-42cf06d71efa"),
-                            Description = "",
-                            Name = "Indeks Blgsyr Sstmlr Mhndslk Sny v Tcrt",
-                            StockExchange = "XIST",
-                            Symbol = "INDES"
-                        });
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.StockItem", b =>
-                {
-                    b.Property<string>("FullCode")
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("character varying(2000)");
-
-                    b.Property<string>("LocaleCode")
-                        .IsRequired()
-                        .HasMaxLength(6)
-                        .HasColumnType("character varying(6)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<string>("StockExchangeCode")
-                        .IsRequired()
-                        .HasMaxLength(4)
-                        .HasColumnType("character varying(4)");
-
-                    b.Property<string>("Symbol")
-                        .IsRequired()
-                        .HasMaxLength(10)
-                        .HasColumnType("character varying(10)");
-
-                    b.Property<string>("WebSite")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.HasKey("FullCode");
-
-                    b.HasIndex("LocaleCode");
-
-                    b.HasIndex("StockExchangeCode");
-
-                    b.ToTable("StockItems");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Transaction", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
-
-                    b.Property<int>("InOut")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("Price")
-                        .HasColumnType("numeric");
-
-                    b.Property<decimal>("Quantity")
-                        .HasColumnType("numeric");
-
-                    b.Property<Guid>("TransactionGroupId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Type")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("TransactionGroupId");
-
-                    b.ToTable("Transactions");
+                    b.ToTable("Portfolios");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.TransactionActionType", b =>
@@ -730,118 +516,14 @@ namespace PortfolioTracker.WebApp.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.HasKey("Code");
 
                     b.ToTable("TransactionActionTypes");
-
-                    b.HasData(
-                        new
-                        {
-                            Code = "DEPOSIT",
-                            Category = 1,
-                            Description = "Deposit to target account"
-                        },
-                        new
-                        {
-                            Code = "DEPOSIT_FEE",
-                            Category = 3,
-                            Description = "Deposit fee on target account"
-                        },
-                        new
-                        {
-                            Code = "DEPOSIT_TAX",
-                            Category = 2,
-                            Description = "Tax on Deposit from target account"
-                        },
-                        new
-                        {
-                            Code = "WITHDRAW",
-                            Category = 1,
-                            Description = "Withdraw from target account"
-                        },
-                        new
-                        {
-                            Code = "WITHDRAW_FEE",
-                            Category = 3,
-                            Description = "Withdraw action fee on target account"
-                        },
-                        new
-                        {
-                            Code = "WITHDRAW_TAX",
-                            Category = 2,
-                            Description = "Tax on Withdraw action on target account"
-                        },
-                        new
-                        {
-                            Code = "PAYMENT",
-                            Category = 1,
-                            Description = "Payment from target account"
-                        },
-                        new
-                        {
-                            Code = "PAYMENT_FEE",
-                            Category = 3,
-                            Description = "Payment action fee on target account"
-                        },
-                        new
-                        {
-                            Code = "PAYMENT_TAX",
-                            Category = 2,
-                            Description = "Tax on Payment action on target account"
-                        },
-                        new
-                        {
-                            Code = "ACCOUNT_FEE",
-                            Category = 1,
-                            Description = "Account usage fee on target account"
-                        },
-                        new
-                        {
-                            Code = "DIVIDEND_DISTRIBUTION",
-                            Category = 1,
-                            Description = "Dividend payment to target account"
-                        },
-                        new
-                        {
-                            Code = "DIVIDEND_DISTRIBUTION_FEE",
-                            Category = 3,
-                            Description = "Dividend distribution fee on target account"
-                        },
-                        new
-                        {
-                            Code = "DIVIDEND_WITHHOLDING_TAX",
-                            Category = 2,
-                            Description = "Dividend Withholding tax"
-                        },
-                        new
-                        {
-                            Code = "INTEREST",
-                            Category = 1,
-                            Description = "Interest payment to target account"
-                        },
-                        new
-                        {
-                            Code = "INTEREST_FEE",
-                            Category = 3,
-                            Description = "Interest fee from target account"
-                        },
-                        new
-                        {
-                            Code = "INTEREST_TAX",
-                            Category = 2,
-                            Description = "Tax on Interest from target account"
-                        });
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.TransactionGroup", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("TransactionGroups");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Asset", b =>
@@ -884,11 +566,19 @@ namespace PortfolioTracker.WebApp.Migrations
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.BankAccountTransaction", b =>
                 {
+                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionActionType", "ActionType")
+                        .WithMany()
+                        .HasForeignKey("ActionTypeCode")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("PortfolioTracker.WebApp.DataStore.BankAccountTransactionGroup", null)
                         .WithMany("Transactions")
                         .HasForeignKey("BankAccountTransactionGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ActionType");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.BankAccountTransactionGroup", b =>
@@ -902,97 +592,40 @@ namespace PortfolioTracker.WebApp.Migrations
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Holding", b =>
                 {
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.Portfolio", "Portfolio")
-                        .WithMany("Holdings")
-                        .HasForeignKey("PortfolioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.Stock", "Stock")
-                        .WithMany()
-                        .HasForeignKey("StockId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionGroup", "TransactionGroup")
-                        .WithMany()
-                        .HasForeignKey("TransactionGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Portfolio");
-
-                    b.Navigation("Stock");
-
-                    b.Navigation("TransactionGroup");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.HoldingV2", b =>
-                {
                     b.HasOne("PortfolioTracker.WebApp.DataStore.Asset", "Asset")
                         .WithMany()
                         .HasForeignKey("AssetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.PortfolioV2", "Portfolio")
+                    b.HasOne("PortfolioTracker.WebApp.DataStore.BankAccountTransactionGroup", "BankAccountTransactionGroup")
+                        .WithMany()
+                        .HasForeignKey("BankAccountTransactionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("PortfolioTracker.WebApp.DataStore.Portfolio", "Portfolio")
                         .WithMany("Holdings")
                         .HasForeignKey("PortfolioId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionGroup", "TransactionGroup")
-                        .WithMany()
-                        .HasForeignKey("TransactionGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Asset");
 
-                    b.Navigation("Portfolio");
+                    b.Navigation("BankAccountTransactionGroup");
 
-                    b.Navigation("TransactionGroup");
+                    b.Navigation("Portfolio");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Portfolio", b =>
                 {
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.Currency", "Currency")
+                    b.HasOne("PortfolioTracker.WebApp.DataStore.BankAccount", "BankAccount")
                         .WithMany()
-                        .HasForeignKey("CurrencyCode")
+                        .HasForeignKey("BankAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Currency");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.StockItem", b =>
-                {
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.Locale", "Locale")
-                        .WithMany()
-                        .HasForeignKey("LocaleCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.Exchange", "StockExchange")
-                        .WithMany()
-                        .HasForeignKey("StockExchangeCode")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Locale");
-
-                    b.Navigation("StockExchange");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Transaction", b =>
-                {
-                    b.HasOne("PortfolioTracker.WebApp.DataStore.TransactionGroup", "TransactionGroup")
-                        .WithMany("Transactions")
-                        .HasForeignKey("TransactionGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("TransactionGroup");
+                    b.Navigation("BankAccount");
                 });
 
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.BankAccount", b =>
@@ -1008,16 +641,6 @@ namespace PortfolioTracker.WebApp.Migrations
             modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.Portfolio", b =>
                 {
                     b.Navigation("Holdings");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.PortfolioV2", b =>
-                {
-                    b.Navigation("Holdings");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.WebApp.DataStore.TransactionGroup", b =>
-                {
-                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

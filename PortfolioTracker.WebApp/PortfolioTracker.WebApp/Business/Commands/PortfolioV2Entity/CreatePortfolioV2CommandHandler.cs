@@ -5,11 +5,11 @@ namespace PortfolioTracker.WebApp.Business.Commands.PortfolioV2Entity;
 
 public sealed class CreatePortfolioV2Command : IRequest<bool>
 {
-    public Guid Id { get; set; }
-    
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
 
-    public string Description { get; set; } = string.Empty;
+    public string Description { get; init; } = string.Empty;
+    
+    public Guid BankAccountId { get; init; }
 }
 
 public sealed class CreatePortfolioV2CommandHandler : IRequestHandler<CreatePortfolioV2Command, bool>
@@ -25,11 +25,12 @@ public sealed class CreatePortfolioV2CommandHandler : IRequestHandler<CreatePort
     {
         try
         {
-            m_context.PortfolioV2s.Add(new PortfolioV2
+            m_context.Portfolios.Add(new Portfolio
             {
-                Id = request.Id,
+                Id = Guid.NewGuid(),
                 Name = request.Name,
                 Description = request.Description,
+                BankAccountId = request.BankAccountId,
                 Created = DateTime.Now.ToUniversalTime(),
                 IsDefault = false
             });

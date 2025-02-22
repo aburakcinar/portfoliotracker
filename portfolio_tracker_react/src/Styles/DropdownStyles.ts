@@ -35,10 +35,9 @@ export const dropdownStyles: PrimeReactPTOptions = {
       className: classNames(
         "cursor-pointer inline-flex relative select-none",
         "bg-white border border-gray-400 transition-colors duration-200 ease-in-out ",
-        "dark:bg-nav dark:border-blue-900/40 dark:hover:border-blue-300",
-        "w-full md:w-56",
-        "hover:border-blue-500 focus:outline-none focus:outline-offset-0",
-        "focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
+        "dark:bg-nav border-green dark:border-green dark:hover:border-blue-300",
+        "hover:border-green/60 dark:hover:border-green/60", // Hover Border
+        "w-full ",
         {
           "opacity-60 select-none pointer-events-none cursor-default":
             props.disabled,
@@ -48,10 +47,10 @@ export const dropdownStyles: PrimeReactPTOptions = {
     input: ({ props }: DropdownPassThroughMethodOptions) => ({
       className: classNames(
         "cursor-pointer block flex flex-auto overflow-hidden overflow-ellipsis whitespace-nowrap relative",
-        "bg-transparent border-0 text-gray-800",
-        "dark:text-white/80",
-        "p-2 transition duration-200 bg-transparent rounded appearance-none font-sans text-base",
-        "focus:outline-none focus:shadow-none",
+        "bg-transparent border-0 ",
+        "font-sans text-gray-600 dark:text-white/80 ",
+        "focus:outline-none focus:shadow-none focus-visible:outline-none",
+        "p-2 transition duration-200 bg-transparent appearance-none font-sans text-base",
         { "pr-7": props.showClear }
       ),
     }),
@@ -64,15 +63,18 @@ export const dropdownStyles: PrimeReactPTOptions = {
     wrapper: {
       className: classNames(
         "max-h-[200px] overflow-auto",
-        "bg-white text-gray-700 border-0  shadow-lg",
-        "dark:bg-gray-900 dark:text-white/80"
+        "bg-white text-gray-700  ",
+        "dark:bg-gray-900 dark:text-white/80",
+        "border dark:border border-t-0 dark:border-t-0 border-green dark:border-green"
       ),
     },
+    panel: { className: "" },
     list: { className: "py-3 list-none m-0" },
     item: ({ context }: DropdownPassThroughMethodOptions) => ({
       className: classNames(
-        "cursor-pointer font-normal overflow-hidden relative whitespace-nowrap",
-        "m-0 p-3 border-0  transition-shadow duration-200 rounded-none",
+        "p-1 cursor-pointer font-normal overflow-hidden relative whitespace-nowrap",
+        "transition-shadow duration-200 ",
+        "focus:outline-none focus:shadow-none focus-visible:outline-none",
         "dark:text-white/80 dark:hover:bg-gray-800",
         "hover:text-gray-700 hover:bg-gray-200",
         {

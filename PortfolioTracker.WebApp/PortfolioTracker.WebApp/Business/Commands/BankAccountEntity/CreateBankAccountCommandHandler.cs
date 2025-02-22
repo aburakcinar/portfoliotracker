@@ -47,6 +47,7 @@ public sealed class CreateBankAccountCommandHandler : IRequestHandler<CreateBank
                 CurrencyCode = request.CurrencyCode,
                 LocaleCode = request.LocaleCode,
                 OpenDate = request.OpenDate,
+                Created = DateTime.Now.ToUniversalTime()
             };
             
             m_context.BankAccounts.Add(item);

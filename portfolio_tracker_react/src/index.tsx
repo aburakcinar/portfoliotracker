@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import Home from "./Home";
 import { BrowserRouter, Route, Routes } from "react-router";
@@ -7,24 +6,10 @@ import { PrimeReactProvider } from "primereact/api";
 
 import "./tailwind.css";
 import { Layout } from "./Layout";
-import Transactions from "./Pages/Transactions";
 import { appDesignSystem } from "./Styles/AppDesignSystem";
-import { ExampleControls } from "./Pages/ExampleControls";
 import { Provider } from "react-redux";
 import { store } from "./Store/RootState";
-import Stocks from "./Pages/Stocks";
-import { ExampleAddInvestmentControl } from "./Pages/ExampleControls/ExampleAddInvestmentControl";
-import { ExampleAddUpdateHoldingForm } from "./Pages/ExampleControls/ExampleAddUpdateHoldingForm";
-import { ExampleDarkModeToggle } from "./Pages/ExampleControls/ExampleDarkModeToggle";
-import { ExampleComboboxes } from "./Pages/ExampleControls/ExampleComboboxes";
-import { ExampleInputText } from "./Pages/ExampleControls/ExampleInputText";
-import { Buttons } from "./Pages/ExampleControls/Buttons";
-import AssetsStocks from "./Pages/Assets/AssetsStocks";
-import { AssetsLayout } from "./Pages/Assets/AssetsLayout";
-import AssetsSummary from "./Pages/Assets/AssetsSummary";
-import { AssetViewForm } from "./Pages/Assets/AssetViewForm";
-import AssetsEtfs from "./Pages/Assets/AssetsEtfs";
-import AssetsCommodities from "./Pages/Assets/AssetsCommodities";
+import { AssetViewForm } from "./Pages/Assets/AssetViewForm/AssetViewForm";
 import {
   PortfolioList,
   PortfolioLayout,
@@ -33,6 +18,16 @@ import {
 import { BankAccountList } from "./Pages/BankAccounts/BankAccountList";
 import { BankAccountLayout } from "./Pages/BankAccounts/BankAccountLayout";
 import { BankAccountCreateForm } from "./Pages/BankAccounts/BankAccountCreateForm";
+import { BankAccountDetail } from "./Pages/BankAccounts/BankAccountDetail";
+import { EditPortfolio } from "./Pages/Portfolio/EditPortfolio";
+import { AddHoldingPage } from "./Pages/Holding/AddHoldingForm";
+import {
+  AssetsLayout,
+  NewAssetPage,
+  AssetListPage,
+  AssetsSummary,
+} from "./Pages/Assets/";
+import { HoldingDetailPage } from "./Pages/Holding/HoldingDetailForm";
 
 const rootElem = document.getElementById("root");
 const root = createRoot(rootElem!);
@@ -47,19 +42,33 @@ root.render(
             <Route path="portfolios" element={<PortfolioLayout />}>
               <Route index element={<PortfolioList />} />
               <Route path=":portfolioId" element={<PortfolioItem />} />
+              <Route
+                path=":portfolioId/addholding"
+                element={<AddHoldingPage />}
+              />
+              <Route path=":portfolioId/edit" element={<EditPortfolio />} />
+              <Route
+                path=":portfolioId/holding/:assetId"
+                element={<HoldingDetailPage />}
+              />
             </Route>
 
             <Route path="assets" element={<AssetsLayout />}>
               <Route index element={<AssetsSummary />} />
-              <Route path="stocks" element={<AssetsStocks />} />
+              <Route path=":assetTypeName" element={<AssetListPage />} />
+              <Route path=":assetTypeName/new" element={<NewAssetPage />} />
+              <Route path=":assetTypeName/:id" element={<AssetViewForm />} />
+              {/* <Route path="stocks" element={<AssetsStocks />} />
+              <Route path="stocks/newstock" element={<NewStock />} />
               <Route path="stocks/:id" element={<AssetViewForm />} />
               <Route path="etfs" element={<AssetsEtfs />} />
-              <Route path="commodities" element={<AssetsCommodities />} />
+              <Route path="commodities" element={<AssetsCommodities />} /> */}
             </Route>
 
             <Route path="bankaccounts" element={<BankAccountLayout />}>
               <Route index element={<BankAccountList />} />
               <Route path="new" element={<BankAccountCreateForm />} />
+              <Route path="detail/:id" element={<BankAccountDetail />} />
             </Route>
           </Route>
         </Routes>

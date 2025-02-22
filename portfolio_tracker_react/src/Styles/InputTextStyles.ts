@@ -8,7 +8,7 @@ export const inputTextStyles: PrimeReactPTOptions = {
       className: classNames(
         "m-0",
         "font-sans text-gray-600 dark:text-white/80 bg-white",
-        "border border-gray-900 dark:border-green dark:bg-nav",
+        "border border-green dark:border-green dark:bg-nav",
         "hover:border-green/60 dark:hover:border-green/60", // Hover Border
         "focus:outline-none focus-visible:outline-none",
         "transition-colors duration-200 appearance-none ",

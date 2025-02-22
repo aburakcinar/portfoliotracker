@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using PortfolioTracker.WebApp.Business.Requests;
+using PortfolioTracker.WebApp.Business.Commands.BankTransactionEntity;
+using PortfolioTracker.WebApp.Business.Requests.BankTransactionEntity;
+using PortfolioTracker.WebApp.Business.Requests.TransactionActionTypeEntity;
 using PortfolioTracker.WebApp.DataStore;
 using PortfolioTracker.WebApp.Tools;
 
@@ -17,15 +19,27 @@ public class TransactionController : Controller
         m_mediator = mediator;
     }
 
-    [HttpGet(@"list")]
-    public async Task<IEnumerable<TransactionViewModel>> List()
+    [HttpPost]
+    public async Task<bool> Add([FromBody] AddTransactionCommand command)
     {
-        return await m_mediator.Send(new ListTransactionsRequest());
+        return await m_mediator.Send(command);
+    }
+
+    [HttpGet(@"listbybankaccount/{bankAccountId}")]
+    public async Task<IEnumerable<BankTransactionGroupModel>> ListTransactions([FromRoute]Guid bankAccountId)
+    {
+        return await m_mediator.Send(new ListBankAccountTransactionsRequest {BankAccountId = bankAccountId});
     }
 
     [HttpGet(@"scanactiontypes")]
     public IEnumerable<TransactionActionType> ScanTransactionActionTypes()
     {
         return TransactionActionTypeTool.ScanFromConstants();
+    }
+
+    [HttpGet(@"actiontypes")]
+    public async Task<IEnumerable<TransactionActionType>> ListActionTypesAsync()
+    {
+        return await m_mediator.Send(new ListTransactionActionTypesRequest());
     }
 }

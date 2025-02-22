@@ -39,7 +39,7 @@ public class AssetController
     }
 
     [HttpPost(@"stocks")]
-    public async Task<bool> CreateStock([FromBody] CreateAssetStockCommand command)
+    public async Task<bool> CreateAsset([FromBody] CreateAssetCommand command)
     {
         return await m_mediator.Send(command);
     }
@@ -54,5 +54,11 @@ public class AssetController
     public async Task<AssetModel?> GetAssetById([FromRoute] Guid id)
     {
         return await m_mediator.Send(new GetAssetRequest { Id = id });
+    }
+
+    [HttpPut(@"updatefield")]
+    public async Task<bool> UpdateField([FromBody] UpdateAssetFieldCommand command)
+    {
+        return await m_mediator.Send(command);
     }
 }

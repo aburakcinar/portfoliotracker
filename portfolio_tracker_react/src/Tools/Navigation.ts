@@ -9,7 +9,9 @@ export const generateBreadcrumbItems = (
   const pathSegments = pathname.split("/").filter((segment) => segment);
 
   const findLabel = (url: string): string | undefined => {
-    return menuItemList.find((x) => x.link === url)?.text;
+    const result = menuItemList.find((x) => x.link === url)?.text;
+
+    return result;
   };
 
   return pathSegments.map((segment, index) => {

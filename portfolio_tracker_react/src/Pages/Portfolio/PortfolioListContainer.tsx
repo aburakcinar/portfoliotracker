@@ -24,6 +24,7 @@ export const PortfolioListContainer: React.FC<IPortfolioListContainerProps> = (
       {portfolios.map((item) => {
         return (
           <div
+            key={item.id}
             onClick={(_) => onClickHandler(item)}
             className="w-full flex dark:bg-nav dark:hover:bg-highlight first:rounded-t-md  last:rounded-b-md border-b-2 border-b-black p-4 text-lg"
           >

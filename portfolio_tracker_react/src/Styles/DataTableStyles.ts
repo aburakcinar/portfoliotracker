@@ -113,9 +113,15 @@ export const dataTableStyles: PrimeReactPTOptions = {
         ),
       }),
       headerContent: { className: "flex items-center" },
-      bodyCell: ({ props, context }: ColumnPassThroughMethodOptions) => ({
+      bodyCell: ({
+        props,
+        context,
+        state,
+        parent,
+      }: ColumnPassThroughMethodOptions) => ({
         className: classNames(
-          "text-left border-0 border-b border-solid border-gray-300",
+          "text-left",
+          // "border-0 border-b border-solid border-gray-300",
           context?.size === "small"
             ? "p-2"
             : context?.size === "large"

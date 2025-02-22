@@ -10,21 +10,13 @@ namespace PortfolioTracker.WebApp.Controllers;
 [ApiController]
 public class LocaleController : ControllerBase
 {
-    private readonly ILocaleImporter m_localeImporter;
+    private readonly ILocaleService m_localeService;
     private readonly IMediator m_mediator;
     
-    public LocaleController(ILocaleImporter localeImporter, IMediator mediator)
+    public LocaleController(ILocaleService localeService, IMediator mediator)
     {
-        m_localeImporter = localeImporter;
+        m_localeService = localeService;
         m_mediator = mediator;
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Scan()
-    {
-        await m_localeImporter.ScanAsync();
-
-        return Ok();
     }
 
     [HttpGet("bycountrycode/{countryCode}")]

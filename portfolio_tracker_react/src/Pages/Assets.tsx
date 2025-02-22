@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../Store/RootState";
-import { fetchSummaryAssets } from "../Store/AssetsSlice";
-import { IAssetSummaryModel } from "../Api/AssetApi";
+import { fetchSummaryAssets } from "../Store/Assets.slice";
+import { IAssetSummaryModel } from "../Api/Asset.api";
 
 export default function Assets() {
   const dispatch = useAppDispatch();

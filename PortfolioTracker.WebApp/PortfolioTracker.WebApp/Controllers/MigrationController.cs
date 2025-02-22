@@ -26,4 +26,10 @@ public class MigrationController : ControllerBase
     {
         return await m_mediator.Send(new MigrateCurrenciesFromLocalesCommand());
     }
+    
+    [HttpPost("transactionactiontypes")]
+    public async Task<bool> MigrateTransactionActionTypesAsync()
+    {
+        return await m_mediator.Send(new MigrateTransactionActionTypesCommand());
+    }
 }

@@ -4,9 +4,11 @@ const api = axios.create({
   baseURL: "/api",
 });
 
-function toQueryString(params: Record<string, any>): string {
+export function toQueryString(params: Record<string, any>): string {
   const query = Object.entries(params)
-    .filter(([_, value]) => value !== undefined && value !== null) // Remove undefined or null values
+    .filter(
+      ([_, value]) => value !== undefined && value !== null && value !== ""
+    ) // Remove undefined or null values
     .map(([key, value]) =>
       Array.isArray(value)
         ? value
@@ -21,4 +23,3 @@ function toQueryString(params: Record<string, any>): string {
 }
 
 export default api;
-export { toQueryString };

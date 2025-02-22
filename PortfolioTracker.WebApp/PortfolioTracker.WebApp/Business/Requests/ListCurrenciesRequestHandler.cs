@@ -6,11 +6,17 @@ namespace PortfolioTracker.WebApp.Business.Requests;
 
 public sealed class CurrencyInfoModel
 {
-    public string Code { get; set; } = string.Empty;
+    public required string Code { get; set; } 
     
-    public string Name { get; set; } = string.Empty;
+    public required string Name { get; set; } 
     
-    public string Symbol { get; set; } = string.Empty;
+    public required string NameLocal { get; set; }
+
+    public required string Symbol { get; set; }
+
+    public int SubunitValue { get; set; }
+
+    public required string SubunitName { get; set; }
 }
 
 public sealed class ListCurrenciesRequest : IRequest<IEnumerable<CurrencyInfoModel>>
@@ -32,7 +38,10 @@ public class ListCurrenciesRequestHandler : IRequestHandler<ListCurrenciesReques
         {
             Code = x.Code,
             Name = x.Name,
-            Symbol = x.Symbol
+            NameLocal = x.NameLocal,
+            Symbol = x.Symbol,
+            SubunitValue = x.SubunitValue,
+            SubunitName = x.SubunitName
         }).ToListAsync(cancellationToken: cancellationToken);
     }
 }

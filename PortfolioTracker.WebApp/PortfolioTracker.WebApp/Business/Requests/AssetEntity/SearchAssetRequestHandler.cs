@@ -2,6 +2,7 @@ using System.Security;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.WebApp.Extensions;
 
 namespace PortfolioTracker.WebApp.Business.Requests.AssetEntity;
 
@@ -30,6 +31,8 @@ public sealed class AssetModel
     public string Isin { get; init; } = string.Empty;
 
     public string Wkn { get; init; } = string.Empty;
+    
+    public string WebSite { get; init; } = string.Empty;
 
     public DateTime Created { get; init; }
 
@@ -40,9 +43,9 @@ public sealed class AssetModel
 
 public sealed class SearchAssetRequest : IRequest<IEnumerable<AssetModel>>
 {
-    public AssetTypes AssetType { get; init; } = AssetTypes.Stock;
+    public AssetTypes? AssetType { get; init; } = null;
     
-    public required string SeachText { get; init; } = string.Empty;
+    public string? SearchText { get; init; } = string.Empty;
 
     public int PageIndex { get; init; } = 0;
 
@@ -62,13 +65,13 @@ public sealed class
     public async Task<IEnumerable<AssetModel>> Handle(SearchAssetRequest request,
         CancellationToken cancellationToken)
     {
-        var searchString = request.SeachText.ToLower();
+        var searchString = string.IsNullOrEmpty(request.SearchText) ? string.Empty : request.SearchText.ToLower();
 
         var result = await m_context
             .Assets
             .Include(x => x.Exchange)
             .Include(x => x.Currency)
-            .Where(x => x.AssetType == request.AssetType)
+            .Where(x => !request.AssetType.HasValue || x.AssetType == request.AssetType)
             .Where(x =>
                 string.IsNullOrEmpty(searchString) ||
                 (x.Name.ToLower().Contains(searchString) ||
@@ -84,8 +87,8 @@ public sealed class
         {
             Id = x.Id,
             TickerSymbol = x.TickerSymbol,
-            ExchangeCode = x.ExchangeCode,
-            ExchangeName = x.Exchange.MarketNameInstitutionDescription,
+            ExchangeCode = x.Exchange.GetCode(),
+            ExchangeName = x.Exchange.GetName(),
             ExchangeCountryCode = x.Exchange.CountryCode,
             CurrencyCode = x.CurrencyCode,
             CurrencyName = x.Currency.Name,

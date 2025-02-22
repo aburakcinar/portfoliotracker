@@ -3,6 +3,11 @@ export interface IPortfolioModel {
   name: string;
   description: string;
   isDefault: boolean;
+  bankAccountId: string;
+  bankAccountName: string;
+  currencyCode: string;
+  currencyName: string;
+  currencySymbol: string;
 }
 
 export interface IPortfolioHoldingModel {

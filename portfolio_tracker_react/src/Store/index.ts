@@ -1,2 +1,2 @@
 export * from "./Models";
-export * from "./MenuSlice";
+export * from "./Menu.slice";

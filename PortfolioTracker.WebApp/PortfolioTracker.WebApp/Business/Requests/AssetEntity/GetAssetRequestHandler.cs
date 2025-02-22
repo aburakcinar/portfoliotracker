@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
 using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.WebApp.Extensions;
 
 namespace PortfolioTracker.WebApp.Business.Requests.AssetEntity;
 
@@ -36,16 +37,17 @@ public sealed class GetAssetRequestHandler : IRequestHandler<GetAssetRequest, As
         {
             Id = assetItem.Id,
             TickerSymbol = assetItem.TickerSymbol,
-            ExchangeCode = assetItem.ExchangeCode,
-            ExchangeName = assetItem.Exchange?.MarketNameInstitutionDescription ?? string.Empty, 
-            ExchangeCountryCode = assetItem.Exchange?.CountryCode ?? string.Empty,
+            ExchangeCode = assetItem.Exchange.GetCode(),
+            ExchangeName = assetItem.Exchange.GetName(), 
+            ExchangeCountryCode = assetItem.Exchange.CountryCode,
             CurrencyCode = assetItem.CurrencyCode,
-            CurrencyName = assetItem.Currency?.Name ?? string.Empty,
-            CurrencySymbol = assetItem.Currency?.Symbol ?? string.Empty,
+            CurrencyName = assetItem.Currency.Name,
+            CurrencySymbol = assetItem.Currency.Symbol,
             Name = assetItem.Name,
             Description = assetItem.Description,
             Isin = assetItem.Isin,
             Wkn = assetItem.Wkn,
+            WebSite = assetItem.WebSite,
             Created = assetItem.Created,
             Updated = assetItem.Updated,
             Price = assetItem.Price

@@ -1,15 +1,15 @@
 import React, { useEffect } from "react";
-import {
-  useAppSelector,
-  useAppDispatch,
-  setShowNewPortfolioForm,
-} from "../../Store/RootState";
-import { fetchPortfolios } from "../../Store/Thunks";
+import { useAppSelector, useAppDispatch } from "../../Store/RootState";
 import { PlusIcon } from "@heroicons/react/24/outline";
 import { NewPortfolio } from "./NewPortfolio";
 import { useNavigate } from "react-router";
 import { PortfolioListContainer } from "./PortfolioListContainer";
 import { IPortfolioModel } from "../../Store";
+import {
+  fetchPortfolios,
+  setShowNewPortfolioForm,
+} from "../../Store/Portfolio.slice";
+import { PageHeader } from "../../Controls/PageHeader";
 
 export const PortfolioList: React.FC = () => {
   const navigate = useNavigate();
@@ -32,18 +32,15 @@ export const PortfolioList: React.FC = () => {
   };
 
   return (
-    <div className="pt-16 h-auto flex  w-full justify-center">
-      <div className="flex flex-col min-w-[500px] w-1/2  mt-5  rounded-md  ">
+    <div className="pt-10 h-auto flex  w-full justify-center">
+      <div className="flex flex-col min-w-[500px] w-1/2 mt-5 rounded-md">
+        <PageHeader title="Portfolios" />
         <div className="flex mb-2">
-          <h2 className="grow text-green text-3xl">Portfolios </h2>
-
+          <div className="grow"></div>
           {!showNewPortfolioForm && (
-            <button
-              className="grow-0 bg-highlight  rounded-md  p-1"
-              onClick={showCreatePortfolioForm}
-            >
+            <button className="grow-0  p-1" onClick={showCreatePortfolioForm}>
               <PlusIcon
-                className="size-8  text-green"
+                className="size-8 text-green/80 hover:text-green"
                 title="Create New Portfolio"
               />
             </button>

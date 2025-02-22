@@ -1,0 +1,14 @@
+[
+  {
+    "id": "e9f17b9b-b489-484b-aa83-eb6d049feca3",
+    "tickerSymbol": "PYPL",
+    "exchangeCode": "XNAS",
+    "currencyCode": "USD",
+    "assetType": 1,
+    "name": "PayPal Holdings",
+    "description": "PayPal Holdings, Inc. operates a technology platform that enables digital payments on behalf of merchants and consumers worldwide. It operates a two-sided network at scale that connects merchants and consumers that enables its customers to connect, transact, and send and receive payments through online and in person, as well as transfer and withdraw funds using various funding sources, such as bank accounts, PayPal or Venmo account balance, PayPal and Venmo branded credit products comprising its installment products, credit and debit cards, and cryptocurrencies, as well as other stored value products, including gift cards and eligible rewards. The company provides payment solutions under the PayPal, PayPal Credit, Braintree, Venmo, Xoom, Zettle, Hyperwallet, Honey, and Paidy names.\n\nThe company was founded in 1998 and is headquartered in San Jose, California.",
+    "isin": "US70450Y1038",
+    "wkn": "A14R7U",
+    "webSite": "https://www.paypal.com"
+  }
+]

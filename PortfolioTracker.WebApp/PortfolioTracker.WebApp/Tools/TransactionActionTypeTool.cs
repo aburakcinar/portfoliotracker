@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using PortfolioTracker.WebApp.DataStore;
 
@@ -12,7 +13,7 @@ public static class TransactionActionTypeTool
 
         var fields = type
             .GetFields(BindingFlags.Public | BindingFlags.Static)
-            .Where(x => x is { IsLiteral: true, IsInitOnly: false })
+            .Where(x => x is {  IsInitOnly: true })
             .ToList();
         
         var result = new List<TransactionActionType>();
@@ -22,6 +23,7 @@ public static class TransactionActionTypeTool
             var item = new TransactionActionType
             {
                 Code = field.Name,
+                Name = string.Empty,
                 Description = string.Empty,
                 Category = TransactionActionTypeCategory.Unknown
             };
@@ -30,13 +32,11 @@ public static class TransactionActionTypeTool
 
             foreach (var attribute in attributes)
             {
-                if (attribute is DescriptionAttribute descriptionAttribute)
+                if (attribute is DisplayAttribute displayAttribute)
                 {
-                    item.Description = descriptionAttribute.Description;
-                }
-                else if (attribute is CategoryAttribute categoryAttribute)
-                {
-                    item.Category = Enum.Parse<TransactionActionTypeCategory>(categoryAttribute.Category);
+                    item.Name = displayAttribute.Name ?? field.Name;
+                    item.Description = displayAttribute.Description ?? string.Empty;
+                    item.Category = Enum.Parse<TransactionActionTypeCategory>(displayAttribute.GroupName ?? TransactionActionTypeCategory.Unknown.ToString(), ignoreCase: true);
                 }
             }
             

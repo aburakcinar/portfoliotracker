@@ -11,10 +11,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connStr = builder.Configuration.GetConnectionString("Postgres");
+var connStr = builder.Configuration.GetConnectionString("Postgres_V2");
+
+builder.Services.AddSingleton<IStockRepository, StockRepository>();
+builder.Services.AddTransient<ILocaleService, LocaleService>();
+builder.Services.AddTransient<IExchangeService, ExchangeService>();
+builder.Services.AddTransient<IAssetService, AssetService>();
+builder.Services.AddTransient<IPortfolioImportService, PortfolioImportService>();
+builder.Services.AddTransient<IDbSeedService, DbSeedService>();
 
 builder.Services
-    .AddDbContext<PortfolioContext>(options => options.UseNpgsql(connStr));
+    .AddDbContext<PortfolioContext>(options => options
+        .UseNpgsql(connStr)
+    );
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
 
@@ -26,9 +35,6 @@ builder.Services.AddCors(options =>
             .AllowAnyMethod());
 });
 
-builder.Services.AddSingleton<IStockRepository, StockRepository>();
-builder.Services.AddTransient<ILocaleImporter, LocaleImporter>();
-builder.Services.AddTransient<IExchangeImporter, ExchangeImporter>();
 
 var app = builder.Build();
 
@@ -41,8 +47,16 @@ if (app.Environment.IsDevelopment())
 
 app.UseStockRepository();
 
-//app.UseAuthorization();
-
 app.MapControllers();
+
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<PortfolioContext>();
+    context.Database.EnsureCreated();
+    
+    var seeder = scope.ServiceProvider.GetRequiredService<IDbSeedService>();
+    
+    await seeder.SeedAsync();
+}
 
 app.Run();

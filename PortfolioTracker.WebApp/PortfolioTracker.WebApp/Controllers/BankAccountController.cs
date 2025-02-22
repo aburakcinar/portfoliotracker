@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioTracker.WebApp.Business.Commands.BankAccountEntity;
+using PortfolioTracker.WebApp.Business.Requests.BankAccountEntity;
 
 namespace PortfolioTracker.WebApp.Controllers;
 
@@ -21,9 +22,23 @@ public class BankAccountController : ControllerBase
         return Ok(this.GetType().Name);
     }
 
+    [HttpGet(@"list")]
+    public async Task<IEnumerable<BankAccountModel>> ListAsync()
+    {
+        return await m_mediator.Send(new ListBankAccountsRequest());
+    }
+    
+    [HttpGet(@"get/{id}")]
+    public async Task<BankAccountModel?> GetAsync([FromRoute] Guid id)
+    {
+        return await m_mediator.Send(new GetBankAccountRequest{ Id = id});
+    }
+    
     [HttpPost]
-    public async Task<bool> Create(CreateBankAccountCommand command)
+    public async Task<bool> CreateAsync(CreateBankAccountCommand command)
     {
         return await m_mediator.Send(command);
     }
+    
+    
 }

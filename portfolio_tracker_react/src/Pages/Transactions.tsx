@@ -7,7 +7,7 @@ import {
   fetchTransactions,
   ITransactionItem,
   setPageIndex,
-} from "../Store/TransactionSlice";
+} from "../Store/Transaction.slice";
 import { Paginator, PaginatorPageChangeEvent } from "primereact/paginator";
 
 export default function Transactions() {

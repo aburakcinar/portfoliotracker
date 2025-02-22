@@ -15,6 +15,8 @@ import { paginatorStyles } from "./PaginatorStyles";
 import { inputTextareaStyles } from "./InputTextareaStyles";
 import { breadCrumbStyles } from "./BreadCrumb.Styles";
 import { dataViewStyles } from "./DataView.styles";
+import { overlayPanelStyles } from "./OverlayPanel.styles";
+import { sideBarStyles } from "./SideBar.styles";
 
 export const appDesignSystem: PrimeReactPTOptions = {
   ...dropdownStyles,
@@ -33,4 +35,6 @@ export const appDesignSystem: PrimeReactPTOptions = {
   ...inputTextareaStyles,
   ...breadCrumbStyles,
   ...dataViewStyles,
+  ...overlayPanelStyles,
+  ...sideBarStyles,
 };

@@ -10,26 +10,24 @@ namespace PortfolioTracker.WebApp.Controllers;
 [ApiController]
 public class ExchangeController : ControllerBase
 {
-    private readonly IExchangeImporter m_importer;
+    private readonly IExchangeService m_service;
     private readonly IMediator m_mediator;
 
-    public ExchangeController(IExchangeImporter importer, IMediator mediator)
+    public ExchangeController(IExchangeService service, IMediator mediator)
     {
-        m_importer = importer;
+        m_service = service;
         m_mediator = mediator;
-    }
-
-    [HttpPost]
-    public IActionResult Scan()
-    {
-        var result = m_importer.Scan();
-
-        return Ok(result);
     }
 
     [HttpGet(@"query")]
     public async Task<IEnumerable<ExchangeQueryModel>> Query([FromQuery] string searchText,[FromQuery] int limit = 50)
     {
         return await m_mediator.Send(new SearchExhangeRequest { SearchText = searchText, Limit = limit });
+    }
+
+    [HttpGet(@"get/{mic}")]
+    public async Task<ExchangeQueryModel?> Get([FromRoute]string mic)
+    {
+        return await m_mediator.Send(new GetExchangeRequest { Mic = mic });
     }
 }
