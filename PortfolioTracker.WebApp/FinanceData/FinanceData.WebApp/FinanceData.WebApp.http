@@ -1,0 +1,12 @@
+#@FinanceData.WebApp_HostAddress = http://localhost:5226
+#
+#GET {{FinanceData.WebApp_HostAddress}}/weatherforecast/
+#Accept: application/json
+###
+
+@FinanceData.WebApp_HostAddress = http://localhost:5226
+
+GET http://localhost:5226/api/currency/rate/EUR/to/USD
+Accept: application/json
+
+###

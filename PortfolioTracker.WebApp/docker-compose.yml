@@ -1,0 +1,6 @@
+﻿services:
+  financedata.webapp:
+    image: financedata.webapp
+    build:
+      context: .
+      dockerfile: FinanceData/FinanceData.WebApp/Dockerfile
