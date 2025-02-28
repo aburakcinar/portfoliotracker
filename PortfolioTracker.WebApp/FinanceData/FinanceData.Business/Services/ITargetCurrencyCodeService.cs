@@ -14,6 +14,7 @@ public sealed class TargetCurrencies
     public const string USD = "USD";
     public const string EUR = "EUR";
     public const string TRY = "TRY";
+    public const string GBP = "GBP";
 }
 
 internal sealed class TargetCurrencyCodeService : ITargetCurrencyCodeService
@@ -36,6 +37,11 @@ internal sealed class TargetCurrencyCodeService : ITargetCurrencyCodeService
 
     public bool IsValid(string targetCurrencyCode)
     {
+        if (string.IsNullOrWhiteSpace(targetCurrencyCode))
+        {
+            return false;
+        }
+        
         return m_currencyCodes.Value.Contains(targetCurrencyCode);
     }
 }

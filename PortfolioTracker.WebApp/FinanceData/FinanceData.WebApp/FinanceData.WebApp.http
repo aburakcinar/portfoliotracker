@@ -1,12 +1,32 @@
-#@FinanceData.WebApp_HostAddress = http://localhost:5226
-#
-#GET {{FinanceData.WebApp_HostAddress}}/weatherforecast/
-#Accept: application/json
-###
 
-@FinanceData.WebApp_HostAddress = http://localhost:5226
+@baseUrl = http://localhost:5226
 
-GET http://localhost:5226/api/currency/rate/EUR/to/USD
+### Get Today rate EUR to USD
+GET {{baseUrl}}/api/currency/rate/EUR/to/USD
 Accept: application/json
 
-###
+### Get Today rate USD to EUR 
+GET {{baseUrl}}/api/currency/rate/USD/to/EUR
+Accept: application/json
+
+### Get Today rate EUR to TRY
+GET {{baseUrl}}/api/currency/rate/EUR/to/TRY
+Accept: application/json
+
+### Get Today rate TRY to USD
+GET {{baseUrl}}/api/currency/rate/TRY/to/EUR
+Accept: application/json
+
+### Get Today rate EUR to GBP
+GET {{baseUrl}}/api/currency/rate/EUR/to/GBP
+Accept: application/json
+
+### Get Today rate GBP to EUR
+GET {{baseUrl}}/api/currency/rate/GBP/to/EUR
+Accept: application/json
+
+
+### Import large EUR data
+POST http://localhost:5226/api/currency/import/ecb
+Accept: application/json
+

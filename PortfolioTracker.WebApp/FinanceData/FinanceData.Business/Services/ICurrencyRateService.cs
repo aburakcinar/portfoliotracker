@@ -1,4 +1,5 @@
 using FinanceData.Business.Api;
+using FinanceData.Business.DataStore;
 
 namespace FinanceData.Business.Services;
 
@@ -12,16 +13,36 @@ public static class Undefined
     {
         return decimal.Equals(value, Undefined.Decimal);
     }
-} 
+}
 
-internal abstract class BaseRateProvider
+public interface IRateProvider
+{
+    int Order { get; }
+    
+    Task<decimal> GetRateAsync(CurrencyRateQueryModel query);
+}
+
+internal abstract class BaseRateProvider : IRateProvider
 {
     private BaseRateProvider? m_parent;
+    
+    public abstract int Order { get; }
+    
     public abstract Task<decimal> GetRateAsync(CurrencyRateQueryModel query);
 
     internal void SetParent(BaseRateProvider parent)
     {
         m_parent = parent;
+    }
+
+    protected async Task<decimal> ExecuteParentAsync(CurrencyRateQueryModel query)
+    {
+        if (m_parent == null)
+        {
+            return Undefined.Decimal;
+        }
+
+        return await m_parent.GetRateAsync(query);
     }
 } 
 
@@ -29,15 +50,30 @@ internal sealed class CurrencyRateService : ICurrencyRateService
 {
     private readonly ITargetCurrencyCodeService m_targetCurrencyCodeService;
     
-    private readonly BaseRateProvider m_ecbRateProvider ;
+    //private readonly BaseRateProvider m_ecbRateProvider ;
+    private readonly BaseRateProvider? m_rateProvider;
 
     public CurrencyRateService(
         ITargetCurrencyCodeService targetCurrencyCodeService,
-        IHttpClientFactory httpClientFactory
+        IEnumerable<IRateProvider> rateProviders
         )
     {
         m_targetCurrencyCodeService = targetCurrencyCodeService;
-        m_ecbRateProvider = new EcbExchangeRateProvider(httpClientFactory);
+        //m_ecbRateProvider = new EcbExchangeRateProvider(httpClientFactory, context);
+
+        var lst = rateProviders
+            .OfType<BaseRateProvider>()
+            .OrderByDescending(x => x.Order);
+
+        foreach (var provider in lst)
+        {
+            if (m_rateProvider is not null)
+            {
+                provider.SetParent(m_rateProvider);
+            }
+            
+            m_rateProvider = provider;
+        }
     }
     
     public async Task<decimal> GetRateAsync(CurrencyRateQueryModel query)
@@ -52,7 +88,7 @@ internal sealed class CurrencyRateService : ICurrencyRateService
             return Undefined.Decimal;
         }
 
-        return await m_ecbRateProvider.GetRateAsync(query);
+        return await m_rateProvider!.GetRateAsync(query);
     }
 
     public async Task<decimal> ConvertAsync(decimal amount, CurrencyRateQueryModel query)

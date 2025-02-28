@@ -1,23 +1,30 @@
 using System.Globalization;
 using System.Xml;
 using FinanceData.Business.Api;
+using FinanceData.Business.DataStore;
 
-namespace FinanceData.Business.Services;
+namespace FinanceData.Business.Services.ExchangeRateProviders;
 
 internal sealed class EcbExchangeRateProvider : BaseRateProvider
 {
     private readonly IHttpClientFactory m_httpClientFactory;
+    private readonly ICurrencyExchangeRateIngressService m_currencyExchangeRateIngressService;
 
-    public EcbExchangeRateProvider(IHttpClientFactory httpClientFactory)
+    public EcbExchangeRateProvider(
+        IHttpClientFactory httpClientFactory, 
+        ICurrencyExchangeRateIngressService currencyExchangeRateIngressService)
     {
         m_httpClientFactory = httpClientFactory;
+        m_currencyExchangeRateIngressService = currencyExchangeRateIngressService;
     }
+
+    public override int Order => 100;
 
     public override async Task<decimal> GetRateAsync(CurrencyRateQueryModel query)
     {
         using var httpClient = m_httpClientFactory.CreateClient();
 
-        var ratesToEuro = new List<CurrencyRateResult>();
+        var ratesToEuro = new List<CurrencyExchangeRatio>();
 
         try
         {
@@ -45,14 +52,16 @@ internal sealed class EcbExchangeRateProvider : BaseRateProvider
                         CultureInfo.InvariantCulture, out var currencyRate))
                     continue;
 
-                ratesToEuro.Add(new CurrencyRateResult()
+                ratesToEuro.Add(new CurrencyExchangeRatio()
                 {
                     BaseCurrency = @TargetCurrencies.EUR,
-                    TargetCurrency = currency.Attributes["currency"].Value.ToUpper(),
+                    TargetCurrency = currency.Attributes["currency"]!.Value.ToUpper(),
                     Rate = currencyRate,
-                    Date = DateOnly.FromDateTime(updateDate)
+                    Date = updateDate.Date.ToUniversalTime()
                 });
             }
+            
+            await m_currencyExchangeRateIngressService.IngressAsync(ratesToEuro);
 
             return ratesToEuro.FirstOrDefault(x => x.TargetCurrency == query.Target)?.Rate ?? Undefined.Decimal;
         }
