@@ -40,8 +40,6 @@ internal sealed class EcbImportBulkService : IImportBulkService
         var groupCurrencies = new List<string>();
         var seriesCurrencies = new List<string>();
 
-        int i = 0;
-
         var lst = new List<CurrencyExchangeRatio>();
 
         Stopwatch sw = new Stopwatch();
@@ -71,7 +69,7 @@ internal sealed class EcbImportBulkService : IImportBulkService
                 groupCurrency = string.Empty;
             }
 
-            if (isDataset && reader is { NodeType: XmlNodeType.Element, Name: @"Series" })
+            if (isDataset && isGroup && reader is { NodeType: XmlNodeType.Element, Name: @"Series" })
             {
                 seriesCurrency = reader.GetAttribute(@"CURRENCY")?.ToString() ?? string.Empty;
 
@@ -91,12 +89,12 @@ internal sealed class EcbImportBulkService : IImportBulkService
             if (isDataset && isSeries && reader is { NodeType: XmlNodeType.Element, Name: @"Obs" })
             {
                 if (DateTime.TryParseExact(
-                        reader.GetAttribute(@"TIME_PERIOD").ToString(),
+                        reader.GetAttribute(@"TIME_PERIOD")?.ToString(),
                         @"yyyy-MM-dd",
                         null,
                         DateTimeStyles.None, out var date)
                     && decimal.TryParse(
-                        reader.GetAttribute(@"OBS_VALUE").ToString(),
+                        reader.GetAttribute(@"OBS_VALUE")?.ToString(),
                         out var rate))
                 {
                     lst.Add(new CurrencyExchangeRatio

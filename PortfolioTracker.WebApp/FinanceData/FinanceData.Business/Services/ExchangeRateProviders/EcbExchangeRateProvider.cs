@@ -11,7 +11,7 @@ internal sealed class EcbExchangeRateProvider : BaseRateProvider
     private readonly ICurrencyExchangeRateIngressService m_currencyExchangeRateIngressService;
 
     public EcbExchangeRateProvider(
-        IHttpClientFactory httpClientFactory, 
+        IHttpClientFactory httpClientFactory,
         ICurrencyExchangeRateIngressService currencyExchangeRateIngressService)
     {
         m_httpClientFactory = httpClientFactory;
@@ -41,27 +41,36 @@ internal sealed class EcbExchangeRateProvider : BaseRateProvider
 
             //get daily rates
             var dailyRates = document.SelectSingleNode("gesmes:Envelope/ns:Cube/ns:Cube", namespaces);
-            if (!DateTime.TryParseExact(dailyRates.Attributes["time"].Value, "yyyy-MM-dd", null, DateTimeStyles.None,
-                    out var updateDate))
-                updateDate = DateTime.UtcNow;
 
-            foreach (XmlNode currency in dailyRates.ChildNodes)
+            if (dailyRates is { Attributes: { } })
             {
-                //get rate
-                if (!decimal.TryParse(currency.Attributes["rate"].Value, NumberStyles.Currency,
-                        CultureInfo.InvariantCulture, out var currencyRate))
-                    continue;
+                if (!DateTime.TryParseExact(dailyRates.Attributes["time"]?.Value, "yyyy-MM-dd", null, DateTimeStyles.None,
+                        out var updateDate))
+                    updateDate = DateTime.UtcNow;
 
-                ratesToEuro.Add(new CurrencyExchangeRatio()
+                foreach (XmlNode currency in dailyRates.ChildNodes)
                 {
-                    BaseCurrency = @TargetCurrencies.EUR,
-                    TargetCurrency = currency.Attributes["currency"]!.Value.ToUpper(),
-                    Rate = currencyRate,
-                    Date = updateDate.Date.ToUniversalTime()
-                });
+                    if (currency.Attributes is null)
+                    {
+                        continue;
+                    }
+
+                    //get rate
+                    if (decimal.TryParse(currency.Attributes["rate"]?.Value, NumberStyles.Currency,
+                            CultureInfo.InvariantCulture, out var currencyRate))
+                        continue;
+
+                    ratesToEuro.Add(new CurrencyExchangeRatio()
+                    {
+                        BaseCurrency = @TargetCurrencies.EUR,
+                        TargetCurrency = currency.Attributes["currency"]!.Value.ToUpper(),
+                        Rate = currencyRate,
+                        Date = updateDate.Date.ToUniversalTime()
+                    });
+                }
+
+                await m_currencyExchangeRateIngressService.IngressAsync(ratesToEuro);
             }
-            
-            await m_currencyExchangeRateIngressService.IngressAsync(ratesToEuro);
 
             return ratesToEuro.FirstOrDefault(x => x.TargetCurrency == query.Target)?.Rate ?? Undefined.Decimal;
         }

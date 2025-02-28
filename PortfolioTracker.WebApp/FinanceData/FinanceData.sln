@@ -1,0 +1,30 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceData.Business", "FinanceData.Business\FinanceData.Business.csproj", "{9DBA54DF-EB54-F4D6-E87C-EC15CEAEB98D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceData.WebApp", "FinanceData.WebApp\FinanceData.WebApp.csproj", "{99488564-6657-F205-1DBC-1C4DA528C47A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{9DBA54DF-EB54-F4D6-E87C-EC15CEAEB98D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DBA54DF-EB54-F4D6-E87C-EC15CEAEB98D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DBA54DF-EB54-F4D6-E87C-EC15CEAEB98D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DBA54DF-EB54-F4D6-E87C-EC15CEAEB98D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99488564-6657-F205-1DBC-1C4DA528C47A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99488564-6657-F205-1DBC-1C4DA528C47A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99488564-6657-F205-1DBC-1C4DA528C47A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99488564-6657-F205-1DBC-1C4DA528C47A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {94E63FDF-0213-423D-ACC1-51284DEE200F}
+	EndGlobalSection
+EndGlobal
