@@ -8,9 +8,9 @@ const TRANSITIONS = {
     classNames: {
       enter: "opacity-0 scale-75",
       enterActive:
-        "opacity-100 !scale-100 transition-transform transition-opacity duration-150 ease-in",
+        "opacity-100 scale-100! transition-transform transition-opacity duration-150 ease-in",
       exit: "opacity-100",
-      exitActive: "!opacity-0 transition-opacity duration-150 ease-linear",
+      exitActive: "opacity-0! transition-opacity duration-150 ease-linear",
     },
   },
 };
@@ -93,7 +93,7 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-10 h-10 rounded-full transition-shadow duration-200 border-transparent border",
         "flex items-center justify-center mx-auto overflow-hidden relative",
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
         "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
         {
           "opacity-60 cursor-default": context.disabled,
@@ -112,7 +112,7 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-1/3 inline-flex items-center justify-center cursor-pointer overflow-hidden relative",
         "p-2 transition-shadow duration-200 rounded-lg",
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
         "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
         {
           "text-gray-600 dark:text-white/70 bg-transprent hover:bg-gray-200 dark:hover:bg-gray-800/80":
@@ -129,7 +129,7 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-1/2 inline-flex items-center justify-center cursor-pointer overflow-hidden relative",
         "p-2 transition-shadow duration-200 rounded-lg",
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
         "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
         {
           "text-gray-600 dark:text-white/70 bg-transprent hover:bg-gray-200 dark:hover:bg-gray-800/80":

@@ -1,5 +1,5 @@
 
-@baseUrl = http://localhost:5226
+@baseUrl = http://localhost:5255
 
 ### Get Today rate EUR to USD
 GET {{baseUrl}}/api/timeseries?startDate=08-01-2024&endDate=11-30-2024&baseCurrency=EUR&targetCurrency=TRY

@@ -20,7 +20,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         "dark:text-white", //Dark Mode
         {
           "cursor-default pointer-events-none opacity-60": context.disabled,
-          "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
+          "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
             !context.disabled, // Focus
         }
       ),
@@ -33,7 +33,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         "dark:text-white", //Dark Mode
         {
           "cursor-default pointer-events-none opacity-60": context.disabled,
-          "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
+          "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
             !context.disabled, // Focus
         }
       ),
@@ -46,7 +46,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         "dark:text-white", //Dark Mode
         {
           "cursor-default pointer-events-none opacity-60": context.disabled,
-          "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
+          "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
             !context.disabled, // Focus
         }
       ),
@@ -59,7 +59,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         "dark:text-white", //Dark Mode
         {
           "cursor-default pointer-events-none opacity-60": context.disabled,
-          "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
+          "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]":
             !context.disabled, // Focus
         }
       ),
@@ -70,7 +70,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         "border-0 text-gray-500 min-w-[3rem] h-12 m-[0.143rem] rounded-md",
         "transition duration-200",
         "dark:border-blue-300 dark:text-white", // Dark Mode
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]", // Focus
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]", // Focus
         {
           "bg-blue-50 border-blue-50 text-blue-700 dark:bg-blue-300":
             context.active,
@@ -86,7 +86,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
           "w-12 h-12 mx-2",
           "dark:bg-gray-950 dark:border-blue-900/40", //DarkMode
           {
-            "outline-none outline-offset-0 shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] border-blue-500":
+            "outline-hidden outline-offset-0 shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] border-blue-500":
               state.focused && !props.disabled, //Focus
             "border-gray-300": !state.focused,
             "hover:border-blue-500": !props.disabled, //Hover
@@ -97,7 +97,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
         className: classNames(
           "font-sans text-base text-gray-600 p-3 m-0 rounded-md apperance-none",
           "block whitespace-nowrap overflow-hidden flex-auto w-[1%] cursor-pointer text-ellipsis border-0 pr-0",
-          "focus:outline-none focus:outline-offset-0",
+          "focus:outline-hidden focus:outline-offset-0",
           "dark:text-white" //Dark Mode
         ),
       },
@@ -137,7 +137,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
     //     className: classNames(
     //       "font-sans text-base text-gray-600 p-3 m-0 rounded-md apperance-none",
     //       "block whitespace-nowrap overflow-hidden flex-auto w-[1%] cursor-pointer text-ellipsis border border-gray-300 pr-0",
-    //       "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] focus:border-blue-300",
+    //       "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] focus:border-blue-300",
     //       "dark:text-white dark:bg-gray-950 dark:border-blue-900/40", //Dark Mode
     //       "m-0 flex-auto max-w-[3rem]"
     //     ),
@@ -152,7 +152,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
     //       "h-12 mx-2",
     //       "dark:bg-gray-950 dark:border-blue-900/40", //DarkMode
     //       {
-    //         "outline-none outline-offset-0 shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] border-blue-500":
+    //         "outline-hidden outline-offset-0 shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] border-blue-500":
     //           state.focused && !props.disabled, //Focus
     //         "border-gray-300": !state.focused,
     //         "hover:border-blue-500": !props.disabled, //Hover
@@ -163,7 +163,7 @@ export const paginatorStyles: PrimeReactPTOptions = {
     //     className: classNames(
     //       "font-sans text-base text-gray-600 p-3 m-0 rounded-md apperance-none",
     //       "block whitespace-nowrap overflow-hidden flex-auto w-[1%] cursor-pointer text-ellipsis border-0 pr-0",
-    //       "focus:outline-none focus:outline-offset-0",
+    //       "focus:outline-hidden focus:outline-offset-0",
     //       "dark:text-white" //Dark Mode
     //     ),
     //   },

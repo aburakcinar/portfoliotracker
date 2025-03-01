@@ -46,7 +46,7 @@ const Dropdown: React.FC<DropdownProps> = ({
     <div className={mainClassName} ref={dropdownRef}>
       <button
         onClick={handleToggle}
-        className="inline-flex w-full justify-center  border border-gray-300 bg-white p-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 focus:outline-none "
+        className="inline-flex w-full justify-center  border border-gray-300 bg-white p-2 text-sm font-medium text-gray-700 shadow-xs hover:bg-gray-50 focus:outline-hidden "
       >
         {label}
         <svg

@@ -11,7 +11,7 @@ export const dialogStyles: PrimeReactPTOptions = {
         "m-0 ",
         "dark:border dark:border-blue-900/40",
         {
-          "transition-none transform-none !w-screen !h-screen !max-h-full !top-0 !left-0":
+          "transition-none transform-none w-screen! h-screen! max-h-full! top-0! left-0!":
             state.maximized,
         }
       ),
@@ -30,7 +30,7 @@ export const dialogStyles: PrimeReactPTOptions = {
         "flex items-center justify-center overflow-hidden relative",
         "size-8 text-gray-500 border-0 bg-transparent rounded-full transition duration-200 ease-in-out mr-2 last:mr-0",
         "hover:text-gray-700 hover:border-transparent hover:bg-gray-200",
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]", // focus
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]", // focus
         "dark:hover:text-white/80 dark:hover:border-transparent dark:hover:bg-gray-800/80 dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]"
       ),
     },

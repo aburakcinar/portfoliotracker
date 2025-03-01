@@ -1,3 +1,4 @@
+using FinanceData.Business;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.DataStore;
 using PortfolioTracker.WebApp.Services;
@@ -32,6 +33,8 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
+
+builder.AddFinanceDataBusiness();
 
 var app = builder.Build();
 

@@ -7,7 +7,7 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var connectionString = builder.Configuration.GetConnectionString(@"TimescaleDb-FinanceData");
+//var connectionString = builder.Configuration.GetConnectionString(@"TimescaleDb-FinanceData");
 
 // Add Logging
 builder.Services.AddLogging(logging =>
@@ -18,12 +18,22 @@ builder.Services.AddLogging(logging =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddDbContext<FinansDataContext>(options => options.UseNpgsql(connectionString));
-builder.Services.AddTransient<IFinansDataContext>(x => x.GetRequiredService<FinansDataContext>());
+//builder.Services.AddDbContext<FinansDataContext>(options => options.UseNpgsql(connectionString));
+//builder.Services.AddTransient<IFinansDataContext>(x => x.GetRequiredService<FinansDataContext>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddBusiness();
+builder.AddFinanceDataBusiness();
+
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowRemixApp",
+        policy => policy
+            .AllowAnyOrigin() 
+            .AllowAnyHeader()
+            .AllowAnyMethod());
+});
 
 var app = builder.Build();
 

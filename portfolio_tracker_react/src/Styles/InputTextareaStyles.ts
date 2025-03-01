@@ -11,7 +11,7 @@ export const inputTextareaStyles: PrimeReactPTOptions = {
         "bg-white dark:bg-nav", // BackGround
         "p-3 border border-green dark:border-green transition-colors duration-200 appearance-none",
         "hover:border-green/60 dark:hover:border-green/60", // Hover Border
-        "focus:outline-none focus:outline-offset-0",
+        "focus:outline-hidden focus:outline-offset-0",
         {
           "opacity-60 select-none pointer-events-none cursor-default":
             context.disabled,

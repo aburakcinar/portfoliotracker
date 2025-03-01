@@ -55,4 +55,8 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\FinanceData\FinanceData.Business\FinanceData.Business.csproj" />
+    </ItemGroup>
+
 </Project>

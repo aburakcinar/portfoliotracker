@@ -10,7 +10,7 @@ export const inputTextStyles: PrimeReactPTOptions = {
         "font-sans text-gray-600 dark:text-white/80 bg-white",
         "border border-green dark:border-green dark:bg-nav",
         "hover:border-green/60 dark:hover:border-green/60", // Hover Border
-        "focus:outline-none focus-visible:outline-none",
+        "focus:outline-hidden focus-visible:outline-hidden",
         "transition-colors duration-200 appearance-none ",
         {
           "focus:border-gray-500": !context.disabled,

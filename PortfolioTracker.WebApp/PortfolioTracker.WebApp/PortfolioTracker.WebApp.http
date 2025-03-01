@@ -1,6 +1,4 @@
 @PortfolioTracker.WebApp_HostAddress = http://localhost:5255
 
-GET {{PortfolioTracker.WebApp_HostAddress}}/weatherforecast/
-Accept: application/json
 
 ###

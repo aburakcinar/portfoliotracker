@@ -13,9 +13,9 @@ const TRANSITIONS = {
     classNames: {
       enter: "opacity-0 scale-75",
       enterActive:
-        "opacity-100 !scale-100 transition-transform transition-opacity duration-150 ease-in",
+        "opacity-100 scale-100! transition-transform transition-opacity duration-150 ease-in",
       exit: "opacity-100",
-      exitActive: "!opacity-0 transition-opacity duration-150 ease-linear",
+      exitActive: "opacity-0! transition-opacity duration-150 ease-linear",
     },
   },
 };
@@ -64,7 +64,7 @@ export const dataTableStyles: PrimeReactPTOptions = {
       context,
     }: DataTablePassThroughMethodOptions<DataTableValueArray>) => ({
       className: classNames({
-        "bg-slate-50 top-0 z-[1]": context.scrollable,
+        "bg-slate-50 top-0 z-1": context.scrollable,
       }),
     }),
     tbody: ({
@@ -72,14 +72,14 @@ export const dataTableStyles: PrimeReactPTOptions = {
       context,
     }: DataTablePassThroughMethodOptions<DataTableValueArray>) => ({
       className: classNames({
-        "sticky z-[1]": props.frozenRow && context.scrollable,
+        "sticky z-1": props.frozenRow && context.scrollable,
       }),
     }),
     tfoot: ({
       context,
     }: DataTablePassThroughMethodOptions<DataTableValueArray>) => ({
       className: classNames({
-        "bg-slate-50 bottom-0 z-[1]": context.scrollable,
+        "bg-slate-50 bottom-0 z-1": context.scrollable,
       }),
     }),
     footer: {
@@ -105,7 +105,7 @@ export const dataTableStyles: PrimeReactPTOptions = {
             ? "dark:text-white/80 dark:bg-blue-300"
             : "dark:text-white/80 dark:bg-gray-900", // Dark Mode
           {
-            "sticky z-[1]": props.frozen, // Frozen Columns
+            "sticky z-1": props.frozen, // Frozen Columns
             "border-x border-y": context?.showGridlines,
             "overflow-hidden space-nowrap border-y relative bg-clip-padding":
               context.resizable, // Resizable
@@ -289,7 +289,7 @@ export const dataTableStyles: PrimeReactPTOptions = {
       //       ? "border-blue-500 bg-blue-500 dark:border-blue-400 dark:bg-blue-400"
       //       : "border-gray-300 bg-white dark:border-blue-900/40 dark:bg-gray-900",
       //     {
-      //       "hover:border-blue-500 dark:hover:border-blue-400 focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]":
+      //       "hover:border-blue-500 dark:hover:border-blue-400 focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]":
       //         !context.disabled,
       //       "cursor-default opacity-60": context.disabled,
       //     }
@@ -313,7 +313,7 @@ export const dataTableStyles: PrimeReactPTOptions = {
       //       ? "border-blue-500 bg-blue-500 dark:border-blue-400 dark:bg-blue-400"
       //       : "border-gray-300 bg-white dark:border-blue-900/40 dark:bg-gray-900",
       //     {
-      //       "hover:border-blue-500 dark:hover:border-blue-400 focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]":
+      //       "hover:border-blue-500 dark:hover:border-blue-400 focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[inset_0_0_0_0.2rem_rgba(147,197,253,0.5)]":
       //         !context.disabled,
       //       "cursor-default opacity-60": context.disabled,
       //     }
@@ -350,14 +350,14 @@ export const dataTableStyles: PrimeReactPTOptions = {
     },
     rowGroupHeader: {
       className: classNames(
-        "sticky z-[1]",
+        "sticky z-1",
         "bg-white text-gray-600",
         "transition duration-200"
       ),
     },
     rowGroupFooter: {
       className: classNames(
-        "sticky z-[1]",
+        "sticky z-1",
         "bg-white text-gray-600",
         "transition duration-200"
       ),

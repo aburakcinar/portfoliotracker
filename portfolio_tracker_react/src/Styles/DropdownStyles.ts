@@ -46,10 +46,10 @@ export const dropdownStyles: PrimeReactPTOptions = {
     }),
     input: ({ props }: DropdownPassThroughMethodOptions) => ({
       className: classNames(
-        "cursor-pointer block flex flex-auto overflow-hidden overflow-ellipsis whitespace-nowrap relative",
+        "cursor-pointer block flex flex-auto overflow-hidden text-ellipsis whitespace-nowrap relative",
         "bg-transparent border-0 ",
         "font-sans text-gray-600 dark:text-white/80 ",
-        "focus:outline-none focus:shadow-none focus-visible:outline-none",
+        "focus:outline-hidden focus:shadow-none focus-visible:outline-hidden",
         "p-2 transition duration-200 bg-transparent appearance-none font-sans text-base",
         { "pr-7": props.showClear }
       ),
@@ -74,7 +74,7 @@ export const dropdownStyles: PrimeReactPTOptions = {
       className: classNames(
         "p-1 cursor-pointer font-normal overflow-hidden relative whitespace-nowrap",
         "transition-shadow duration-200 ",
-        "focus:outline-none focus:shadow-none focus-visible:outline-none",
+        "focus:outline-hidden focus:shadow-none focus-visible:outline-hidden",
         "dark:text-white/80 dark:hover:bg-gray-800",
         "hover:text-gray-700 hover:bg-gray-200",
         {
@@ -110,7 +110,7 @@ export const dropdownStyles: PrimeReactPTOptions = {
         "w-full",
         "font-sans text-base text-gray-700 bg-white py-3 px-3 border border-gray-300 transition duration-200 rounded-lg appearance-none",
         "dark:bg-gray-900 dark:border-blue-900/40 dark:hover:border-blue-300 dark:text-white/80",
-        "hover:border-blue-500 focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+        "hover:border-blue-500 focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
       ),
     },
     filterIcon: { className: "-mt-2 absolute top-1/2" },

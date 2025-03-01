@@ -15,7 +15,7 @@ export const selectButtonStyles: PrimeReactPTOptions = {
         "inline-flex cursor-pointer select-none items-center align-bottom text-center overflow-hidden relative",
         "px-2 py-2",
         "transition duration-200 border border-r-0",
-        "focus:outline-none focus:outline-offset-0 ",
+        "focus:outline-hidden focus:outline-offset-0 ",
         {
           "bg-white dark:bg-gray-900 text-gray-700 dark:text-white/80 border-gray-300 dark:border-blue-900/40 hover:bg-gray-50 dark:hover:bg-gray-800/80 ":
             !context.selected,

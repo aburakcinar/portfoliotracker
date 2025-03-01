@@ -11,7 +11,7 @@ export const breadCrumbStyles: PrimeReactPTOptions = {
       className: classNames(
         "text-decoration-none flex items-center",
         "transition-shadow duration-200 rounded-md text-gray-600 dark:text-white/70",
-        "focus:outline-none focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)] dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]"
       ),
     },
     icon: { className: "text-green dark:text-white/70" },

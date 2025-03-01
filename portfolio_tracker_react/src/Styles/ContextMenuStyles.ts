@@ -8,7 +8,7 @@ export const contextMenuStyles: PrimeReactPTOptions = {
         "py-1 bg-white dark:bg-gray-900 text-gray-700 dark:text-white/80 border-none shadow-md rounded-lg w-52",
     },
     menu: {
-      className: classNames("m-0 p-0 list-none", "outline-none"),
+      className: classNames("m-0 p-0 list-none", "outline-hidden"),
     },
     menuitem: { className: "relative" },
     // content: ({ context }: ContextMenuPassThroughMethodOptions) => ({
@@ -38,7 +38,7 @@ export const contextMenuStyles: PrimeReactPTOptions = {
       timeout: { enter: 250 },
       classNames: {
         enter: "opacity-0",
-        enterActive: "!opacity-100 transition-opacity duration-250",
+        enterActive: "opacity-100! transition-opacity duration-250",
       },
     },
   },

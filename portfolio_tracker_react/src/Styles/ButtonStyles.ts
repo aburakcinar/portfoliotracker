@@ -8,8 +8,8 @@ export const buttonStyles: PrimeReactPTOptions = {
       className: classNames(
         "items-center cursor-pointer inline-flex overflow-hidden relative select-none text-center align-bottom",
         "transition duration-200 ease-in-out",
-        "focus:outline-none focus:outline-offset-0",
-        "focus-visible:outline-none focus-visible:outline-offset-0",
+        "focus:outline-hidden focus:outline-offset-0",
+        "focus-visible:outline-hidden focus-visible:outline-offset-0",
         {
           "text-white dark:text-gray-200 bg-blue-500 hover:bg-blue-600 dark:hover:bg-blue-500 dark:bg-blue-400 border-0":
             !props.link &&

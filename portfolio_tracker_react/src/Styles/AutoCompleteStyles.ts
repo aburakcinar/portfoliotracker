@@ -8,9 +8,9 @@ const TRANSITIONS = {
     classNames: {
       enter: "opacity-0 scale-75",
       enterActive:
-        "opacity-100 !scale-100 transition-transform transition-opacity duration-150 ease-in",
+        "opacity-100 scale-100! transition-transform transition-opacity duration-150 ease-in",
       exit: "opacity-100",
-      exitActive: "!opacity-0 transition-opacity duration-150 ease-linear",
+      exitActive: "opacity-0! transition-opacity duration-150 ease-linear",
     },
   },
 };
@@ -36,7 +36,7 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
         "px-3 py-2 gap-2",
         "font-sans text-base text-gray-700 dark:text-white/80 bg-white dark:bg-nav",
         "border-1 border-green dark:border-green  ",
-        "hover:border-blue-700 focus:outline-none "
+        "hover:border-blue-700 focus:outline-hidden "
       ),
     },
     inputToken: {
@@ -50,7 +50,7 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
       root: {
         className: classNames(
           "grow m-0 border-0",
-          "focus-visible:outline-none focus-visible:outline-offset-0 ",
+          "focus-visible:outline-hidden focus-visible:outline-offset-0 ",
           "transition-colors duration-200 appearance-none ",
           { "border-r-0 dark:border-r-0": true }
         ),
@@ -58,7 +58,7 @@ export const autoCompleteStyle: PrimeReactPTOptions = {
     },
     token: {
       className: classNames(
-        "py-1 px-2 mr-2 bg-gray-300 dark:bg-highlight text-gray-700 dark:text-green rounded-sm",
+        "py-1 px-2 mr-2 bg-gray-300 dark:bg-highlight text-gray-700 dark:text-green rounded-xs",
         "cursor-default inline-flex items-center"
       ),
     },
