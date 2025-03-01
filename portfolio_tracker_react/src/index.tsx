@@ -28,6 +28,7 @@ import {
   AssetsSummary,
 } from "./Pages/Assets/";
 import { HoldingDetailPage } from "./Pages/Holding/HoldingDetailForm";
+import { ExchangeRatesPage } from "./Pages/Currencies/ExchangeRatesPage";
 
 const rootElem = document.getElementById("root");
 const root = createRoot(rootElem!);
@@ -70,6 +71,8 @@ root.render(
               <Route path="new" element={<BankAccountCreateForm />} />
               <Route path="detail/:id" element={<BankAccountDetail />} />
             </Route>
+
+            <Route path="exchangerates" element={<ExchangeRatesPage/>} />
           </Route>
         </Routes>
       </BrowserRouter>

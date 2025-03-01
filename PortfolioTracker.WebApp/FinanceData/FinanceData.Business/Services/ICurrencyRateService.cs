@@ -1,33 +1,23 @@
 using FinanceData.Business.Api;
 using FinanceData.Business.DataStore;
+using FinanceData.Business.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace FinanceData.Business.Services;
-
-public static class Undefined
-{
-    public static decimal Decimal => -999.25M;
-
-    public static double Double => -999.25D;
-
-    public static bool IsUndefined(decimal value)
-    {
-        return decimal.Equals(value, Undefined.Decimal);
-    }
-}
 
 public interface IRateProvider
 {
     int Order { get; }
-    
+
     Task<decimal> GetRateAsync(CurrencyRateQueryModel query);
 }
 
 internal abstract class BaseRateProvider : IRateProvider
 {
     private BaseRateProvider? m_parent;
-    
+
     public abstract int Order { get; }
-    
+
     public abstract Task<decimal> GetRateAsync(CurrencyRateQueryModel query);
 
     internal void SetParent(BaseRateProvider parent)
@@ -44,21 +34,24 @@ internal abstract class BaseRateProvider : IRateProvider
 
         return await m_parent.GetRateAsync(query);
     }
-} 
+}
 
 internal sealed class CurrencyRateService : ICurrencyRateService
 {
     private readonly ITargetCurrencyCodeService m_targetCurrencyCodeService;
-    
+    private readonly IFinansDataContext m_context;
+
     //private readonly BaseRateProvider m_ecbRateProvider ;
     private readonly BaseRateProvider? m_rateProvider;
 
     public CurrencyRateService(
         ITargetCurrencyCodeService targetCurrencyCodeService,
-        IEnumerable<IRateProvider> rateProviders
-        )
+        IEnumerable<IRateProvider> rateProviders,
+        IFinansDataContext context
+    )
     {
         m_targetCurrencyCodeService = targetCurrencyCodeService;
+        m_context = context;
         //m_ecbRateProvider = new EcbExchangeRateProvider(httpClientFactory, context);
 
         var lst = rateProviders
@@ -71,18 +64,18 @@ internal sealed class CurrencyRateService : ICurrencyRateService
             {
                 provider.SetParent(m_rateProvider);
             }
-            
+
             m_rateProvider = provider;
         }
     }
-    
+
     public async Task<decimal> GetRateAsync(CurrencyRateQueryModel query)
     {
         if (query.Base.Equals(query.Target))
         {
             return 1M;
         }
-        
+
         if (!m_targetCurrencyCodeService.IsValid(query.Base) || !m_targetCurrencyCodeService.IsValid(query.Target))
         {
             return Undefined.Decimal;
@@ -99,7 +92,74 @@ internal sealed class CurrencyRateService : ICurrencyRateService
         {
             return Undefined.Decimal;
         }
-        
-        return  rate * amount;
+
+        return rate * amount;
     }
-} 
+
+    public async Task<GetCurrencyRatesTimeseriesResult> GetTimeSeriesAsync(GetCurrencyRatesTimeseriesQuery query)
+    {
+        if (query.EndDate.Subtract(query.StartDate).Days > 365)
+        {
+            return new GetCurrencyRatesTimeseriesResult
+            {
+                Success = false,
+            };
+        }
+
+        var startDate = query.StartDate.ToUniversalTime();
+        var endDate = query.EndDate.ToUniversalTime();
+
+        var items = await m_context
+            .CurrencyExchangeRatios
+            .Where(x =>
+                x.Date >= startDate &&
+                x.Date <= endDate &&
+                x.BaseCurrency == query.BaseCurrency &&
+                x.TargetCurrency == query.TargetCurrency
+            ).ToListAsync();
+
+        if (items.Count > 0)
+        {
+            var rates = items
+                .Select(x => new CurrencyExchangeRateItem(x.Date.Date, x.Rate))
+                .ToList();
+
+            return new GetCurrencyRatesTimeseriesResult
+            {
+                Success = true,
+                BaseCurrency = query.BaseCurrency,
+                TargetCurrency = query.TargetCurrency,
+                Rates = rates
+            };
+        }
+
+        items = await m_context
+            .CurrencyExchangeRatios
+            .Where(x =>
+                x.Date >= startDate &&
+                x.Date <= endDate &&
+                x.BaseCurrency == query.TargetCurrency &&
+                x.TargetCurrency == query.BaseCurrency
+            ).ToListAsync();
+
+        if (items.Count > 0)
+        {
+            var rates = items
+                .Select(x => new CurrencyExchangeRateItem(x.Date.Date, 1 / x.Rate))
+                .ToList();
+
+            return new GetCurrencyRatesTimeseriesResult
+            {
+                Success = true,
+                BaseCurrency = query.BaseCurrency,
+                TargetCurrency = query.TargetCurrency,
+                Rates = rates
+            };
+        }
+        
+        return new GetCurrencyRatesTimeseriesResult
+        {
+            Success = false,
+        };
+    }
+}

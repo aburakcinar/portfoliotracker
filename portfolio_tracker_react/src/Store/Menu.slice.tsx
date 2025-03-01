@@ -96,6 +96,12 @@ const initialState: IMenuState = {
         },
       ],
     },
+    {
+      id: "exchangerates",
+      text: "Exchange Rates",
+      link: "/exchangerates",
+      isDefault: true,
+    },
   ],
   flattenList: [],
 };

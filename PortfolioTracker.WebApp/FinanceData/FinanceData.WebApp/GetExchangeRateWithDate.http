@@ -1,0 +1,10 @@
+
+@baseUrl = http://localhost:5226
+
+### Get rate EUR to USD for date 10th Feb 2025
+GET {{baseUrl}}/api/currency/date/02-10-2025/rate/EUR/to/USD
+Accept: application/json
+
+### Get rate USD to EUR for date 10th Feb 2025
+GET {{baseUrl}}/api/currency/date/02-10-2025/rate/USD/to/EUR
+Accept: application/json

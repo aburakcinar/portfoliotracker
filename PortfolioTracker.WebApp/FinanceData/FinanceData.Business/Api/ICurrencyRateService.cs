@@ -1,3 +1,5 @@
+using FinanceData.Business.Services;
+
 namespace FinanceData.Business.Api;
 
 public sealed class CurrencyRateQueryModel
@@ -25,4 +27,6 @@ public interface ICurrencyRateService
     Task<decimal> GetRateAsync(CurrencyRateQueryModel query);
     
     Task<decimal> ConvertAsync(decimal amount, CurrencyRateQueryModel query);
+
+    Task<GetCurrencyRatesTimeseriesResult> GetTimeSeriesAsync(GetCurrencyRatesTimeseriesQuery query);
 }

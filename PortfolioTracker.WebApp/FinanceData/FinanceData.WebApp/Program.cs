@@ -9,11 +9,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString(@"TimescaleDb-FinanceData");
 
+// Add Logging
+builder.Services.AddLogging(logging =>
+{
+    logging.AddConsole();
+    logging.AddDebug();
+});
+
+builder.Services.AddControllers();
+
 builder.Services.AddDbContext<FinansDataContext>(options => options.UseNpgsql(connectionString));
 builder.Services.AddTransient<IFinansDataContext>(x => x.GetRequiredService<FinansDataContext>());
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -28,11 +34,25 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapControllers();
+
 app.MapGet(@"api/currency/rate/{from}/to/{to}",
     async (ICurrencyRateService service, string from, string to) =>
     {
-        return await service.GetRateAsync(new CurrencyRateQueryModel
+        try
+        {
+            if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to))
+                return Results.BadRequest("Currency codes cannot be empty");
+
+            var result = await service.GetRateAsync(new CurrencyRateQueryModel
             { Base = from, Target = to, Date = DateOnly.FromDateTime(DateTime.Now) });
+
+            return Results.Ok(result);
+        }
+        catch (Exception ex)
+        {
+            return Results.Problem(ex.Message);
+        }
     }
 )
     .WithName(@"Get Today Currency Rate")
@@ -45,8 +65,20 @@ app.MapGet(@"api/currency/rate/{from}/to/{to}",
 app.MapGet(@"api/currency/date/{date}/rate/{from}/to/{to}",
         async (ICurrencyRateService service, string from, string to, DateTime date) =>
         {
-            return await service.GetRateAsync(new CurrencyRateQueryModel
-                { Base = from, Target = to, Date = DateOnly.FromDateTime(DateTime.Now) });
+            try
+            {
+                if (string.IsNullOrEmpty(from) || string.IsNullOrEmpty(to))
+                    return Results.BadRequest("Currency codes cannot be empty");
+
+                var result = await service.GetRateAsync(new CurrencyRateQueryModel
+                { Base = from, Target = to, Date = DateOnly.FromDateTime(date) });
+
+                return Results.Ok(result);
+            }
+            catch (Exception ex)
+            {
+                return Results.Problem(ex.Message);
+            }
         }
     )
     .WithName(@"Get Currency Rate by Date")
@@ -58,4 +90,12 @@ app.MapGet(@"api/currency/date/{date}/rate/{from}/to/{to}",
 
 app.MapPost(@"api/currency/import/ecb", async (IImportBulkService service) => await service.ExecuteAsync());
 
+
 app.Run();
+
+public class CurrencyConversionRequest
+{
+    public required string FromCurrency { get; set; }
+    public required string ToCurrency { get; set; }
+    public decimal Amount { get; set; }
+}
