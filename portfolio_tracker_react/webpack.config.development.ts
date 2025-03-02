@@ -26,6 +26,7 @@ const config: Configuration | DevConfiguration = {
     ],
   },
   devServer: {
+    port: 8080,
     historyApiFallback: {
       rewrites: [
         { from: /./, to: "/index.html" }, // Redirect all requests to index.html

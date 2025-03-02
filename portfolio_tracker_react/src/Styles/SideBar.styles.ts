@@ -38,7 +38,7 @@ export const sideBarStyles: PrimeReactPTOptions = {
     mask: {
       className: classNames(
         "flex pointer-events-auto",
-        "bg-black bg-opacity-40 transition duration-200 z-20 transition-colors"
+        "bg-black/50  transition duration-200 z-20 transition-colors"
       ),
     },
   },

@@ -181,18 +181,18 @@ export const ExchangeRatesPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div className="flex flex-col">
               <label className="mb-2 text-sm font-medium">Base Currency</label>
-              <InputText
+              <CurrencyPicker
                 value={baseCurrency}
-                onChange={(e) => setBaseCurrency(e.target.value)}
+                onChange={(e) => setBaseCurrency(e ?? "")}
               />
             </div>
             <div className="flex flex-col">
               <label className="mb-2 text-sm font-medium">
                 Target Currency
               </label>
-              <InputText
+              <CurrencyPicker
                 value={targetCurrency}
-                onChange={(e) => setTargetCurrency(e.target.value)}
+                onChange={(e) => setTargetCurrency(e ?? "")}
               />
             </div>
             <div className="flex flex-col">

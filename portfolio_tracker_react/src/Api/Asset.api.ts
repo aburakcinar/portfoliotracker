@@ -138,3 +138,29 @@ export const updateAssetFieldApi = async (
 
   return response.data;
 };
+
+export interface IHoldingAssetSummaryModel {
+  id: string;
+  symbol: string;
+  name: string;
+  price: number;
+  assetCurrency: string;
+  priceInPortfolioCurrency: number;
+  portfolioCurrency: string;
+  quantity: number;
+  totalProfitLoss: number;
+  realizedProfitLoss: number;
+  unrealizedProfitLoss: number;
+  totalFees: number;
+  totalTaxes: number;
+}
+
+export const getHoldingAssetSummaryApi = async (
+  portfolioId: string,
+  assetId: string
+): Promise<IHoldingAssetSummaryModel | null> => {
+  const response = await api.get<IHoldingAssetSummaryModel | null>(
+    `holding/asset/summary/portfolio/${portfolioId}/asset/${assetId}`
+  );
+  return response.data;
+};

@@ -56,24 +56,6 @@ export const fetchHoldingsByPortfolioIdApi = async (
   return response.data;
 };
 
-export interface IAddHoldingCommand {
-  portfolioId: string;
-  assetId: string;
-  quantity: number;
-  price: number;
-  expenses: number;
-  executeDate: string;
-  executeDateTime: Date;
-}
-
-export const addHoldingApi = async (
-  command: IAddHoldingCommand
-): Promise<boolean> => {
-  const response = await api.post<boolean>("holding", command);
-
-  return response.data;
-};
-
 export interface IHoldingDetailModel {
   id: string;
   quantity: number;
@@ -116,5 +98,41 @@ export const fetchHoldingAssetTransactionsApi = async (
     `holding/transactions/portfolio/${portfolioId}/asset/${assetId}`
   );
 
+  return response.data;
+};
+
+export interface IAddHoldingCommand {
+  portfolioId: string;
+  assetId: string;
+  quantity: number;
+  price: number;
+  expenses: number;
+  executeDate: string;
+  executeDateTime: Date;
+}
+
+export const addHoldingApi = async (
+  command: IAddHoldingCommand
+): Promise<boolean> => {
+  const response = await api.post<boolean>("holding/reportbuy", command);
+
+  return response.data;
+};
+
+export interface ISellHoldingCommand {
+  portfolioId: string;
+  assetId: string;
+  quantity: number;
+  price: number;
+  expenses: number;
+  taxes: number;
+  executeDate: string;
+  executeDateTime: Date;
+}
+
+export const sellHoldingApi = async (
+  command: ISellHoldingCommand
+): Promise<boolean> => {
+  const response = await api.post<boolean>("holding/reportsell", command);
   return response.data;
 };

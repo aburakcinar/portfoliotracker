@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import { useAsset, usePortfolio } from "../../Hooks";
 import { Card } from "primereact/card";
 import {
+  useHoldingAssetSummary,
   useHoldingDetail,
   useHoldingTransactions,
 } from "../../Hooks/useHoldingDetail";
@@ -15,6 +16,8 @@ import { Button } from "primereact/button";
 import { Sidebar } from "primereact/sidebar";
 import { IHoldingAssetTransactionModel } from "../../Api/HoldingsApi";
 import { classNames } from "primereact/utils";
+import { ReportSellHoldingForm } from "./ReportSellHoldingForm";
+import { HoldingPositionDetailControl } from "./HoldingPositionDetailControl";
 
 export interface IHoldingDetailFormProps {
   portfolioId: string;
@@ -26,10 +29,18 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
 
   const [isVisibleAddHoldingForm, setIsVisibleAddHoldingForm] =
     useState<boolean>(false);
+  const [isVisibleSellHoldingForm, setIsVisibleSellHoldingForm] =
+    useState<boolean>(false);
+
+  const [iteration, setIteration] = useState<number>(0);
 
   const asset = useAsset(assetId, [assetId]);
   const portfolio = usePortfolio(portfolioId);
-  const [iteration, setIteration] = useState<number>(0);
+  const holdingAssetSummary = useHoldingAssetSummary(portfolio?.id, asset?.id, [
+    portfolioId,
+    assetId,
+    iteration,
+  ]);
 
   const holdingDetails = useHoldingDetail(portfolio?.id, asset?.id, [
     iteration,
@@ -43,6 +54,11 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
     setIsVisibleAddHoldingForm(false);
   };
 
+  const onHoldingSoldHandler = () => {
+    setIteration((prev) => prev + 1);
+    setIsVisibleSellHoldingForm(false);
+  };
+
   return (
     <div className="flex flex-col w-1/2 mt-5 ">
       <div className="flex flex-row w-full px-2 gap-1">
@@ -53,7 +69,10 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
         >
           Report Buy
         </Button>
-        <Button className="grow-0 dark:bg-green  dark:hover:bg-green/70  dark:text-black h-12">
+        <Button
+          className="grow-0 dark:bg-green  dark:hover:bg-green/70  dark:text-black h-12"
+          onClick={(_) => setIsVisibleSellHoldingForm(true)}
+        >
           Report Sell
         </Button>
       </div>
@@ -78,7 +97,13 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
 
       <PortfolioInfoForm portfolioId={portfolioId} className="mt-5" />
 
-      <Card title="Position" className="mt-5"></Card>
+      {portfolio?.id && asset?.id && (
+        <HoldingPositionDetailControl
+          portfolioId={portfolio.id}
+          assetId={asset.id}
+          iteration={iteration}
+        />
+      )}
 
       {/* <Card title="Holdings">
             <DataTable value={holdingDetails}>
@@ -131,8 +156,8 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
         /> */}
       <Sidebar
         visible={isVisibleAddHoldingForm}
-        onHide={() => setIsVisibleAddHoldingForm(false)}
         position="right"
+        onHide={() => setIsVisibleAddHoldingForm(false)}
         className="w-[500px]"
       >
         <AddHoldingForm
@@ -140,6 +165,21 @@ export const HoldingDetailForm: React.FC<IHoldingDetailFormProps> = (props) => {
           portfolioId={portfolioId}
           assetId={asset?.id}
           onChange={onHoldingAddedHandler}
+          className="col-span-2"
+        />
+      </Sidebar>
+
+      <Sidebar
+        visible={isVisibleSellHoldingForm}
+        position="right"
+        onHide={() => setIsVisibleSellHoldingForm(false)}
+        className="w-[500px]"
+      >
+        <ReportSellHoldingForm
+          title="Sell Holding"
+          portfolioId={portfolioId}
+          assetId={asset?.id}
+          onChange={onHoldingSoldHandler}
           className="col-span-2"
         />
       </Sidebar>

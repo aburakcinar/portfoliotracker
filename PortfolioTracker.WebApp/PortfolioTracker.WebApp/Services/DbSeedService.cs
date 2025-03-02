@@ -36,18 +36,12 @@ public sealed class DbSeedService : IDbSeedService
     public async Task SeedAsync()
     {
         // await SeedExchangesAsync();
-        //
         // await SeedLocalesAsync();
-        //
         // await m_mediator.Send(new MigrateCurrenciesFromLocalesCommand());
-
-        //await SeedAssetsAsync();
-
-        //await m_mediator.Send(new MigrateTransactionActionTypesCommand());
-
-        //await m_mediator.Send(new ImportBankAccountCommand());
-
-        //await m_mediator.Send(new ImportTransactionsCommand());
+        // await SeedAssetsAsync();
+        // await m_mediator.Send(new MigrateTransactionActionTypesCommand());
+        // await m_mediator.Send(new ImportBankAccountCommand());
+        // await m_mediator.Send(new ImportTransactionsCommand());
 
         await Task.CompletedTask;
     }

@@ -27,8 +27,8 @@ export const calendarStyles: PrimeReactPTOptions = {
       root: {
         className: classNames(
           "grow font-sans text-base text-gray-600 dark:text-white/80 bg-white dark:bg-gray-900 p-2 border",
-          "border-gray-300 dark:border-blue-900/40 transition-colors duration-200 appearance-none",
-          "hover:border-blue-500",
+          "border-gray-300 dark:border-gray-900/40 transition-colors duration-200 appearance-none",
+          "hover:border-[#28ebcf]",
           {
             "border-r-0 ": props.showIcon,
           }
@@ -37,13 +37,15 @@ export const calendarStyles: PrimeReactPTOptions = {
     }),
     dropdownButton: {
       root: ({ props }: CalendarPassThroughMethodOptions) => ({
-        className: classNames("grow-0"),
+        className: classNames(
+          "grow-0 bg-green dark:bg-green hover:bg-green/80 dark:hover:bg-green/80 text-nav"
+        ),
       }),
     },
     panel: ({ props }: CalendarPassThroughMethodOptions) => ({
       className: classNames("bg-white dark:bg-gray-900", {
         "shadow-md border-0 absolute": !props.inline,
-        "inline-block overflow-x-auto border border-gray-300 dark:border-blue-900/40 p-2 ":
+        "inline-block overflow-x-auto border border-gray-300 dark:border-gray-900/40 p-2 ":
           props.inline,
       }),
     }),
@@ -51,7 +53,7 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "flex items-center justify-between",
         "p-2 text-gray-700 dark:text-white/80 bg-white dark:bg-gray-900 font-semibold m-0 border-b border-gray-300",
-        "dark:border-blue-900/40 rounded-t-lg"
+        "dark:border-gray-900/40 rounded-t-lg"
       ),
     },
     previousButton: {
@@ -67,13 +69,13 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "text-gray-700 dark:text-white/80 transition duration-200 font-semibold p-2",
         "mr-2",
-        "hover:text-blue-500"
+        "hover:text-[#28ebcf]"
       ),
     },
     yearTitle: {
       className: classNames(
         "text-gray-700 dark:text-white/80 transition duration-200 font-semibold p-2",
-        "hover:text-blue-500"
+        "hover:text-[#28ebcf]"
       ),
     },
     nextButton: {
@@ -93,8 +95,8 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-10 h-10 rounded-full transition-shadow duration-200 border-transparent border",
         "flex items-center justify-center mx-auto overflow-hidden relative",
-        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
-        "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
+        "dark:focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
         {
           "opacity-60 cursor-default": context.disabled,
           "cursor-pointer": !context.disabled,
@@ -102,7 +104,7 @@ export const calendarStyles: PrimeReactPTOptions = {
         {
           "text-gray-600 dark:text-white/70 bg-transprent hover:bg-gray-200 dark:hover:bg-gray-800/80":
             !context.selected && !context.disabled,
-          "text-blue-700 bg-blue-100 hover:bg-blue-200":
+          "text-[#28ebcf] bg-[#28ebcf]/10 hover:bg-[#28ebcf]/20":
             context.selected && !context.disabled,
         }
       ),
@@ -112,12 +114,12 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-1/3 inline-flex items-center justify-center cursor-pointer overflow-hidden relative",
         "p-2 transition-shadow duration-200 rounded-lg",
-        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
-        "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
+        "dark:focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
         {
           "text-gray-600 dark:text-white/70 bg-transprent hover:bg-gray-200 dark:hover:bg-gray-800/80":
             !context.selected && !context.disabled,
-          "text-blue-700 bg-blue-100 hover:bg-blue-200":
+          "text-[#28ebcf] bg-[#28ebcf]/10 hover:bg-[#28ebcf]/20":
             context.selected && !context.disabled,
         }
       ),
@@ -129,12 +131,12 @@ export const calendarStyles: PrimeReactPTOptions = {
       className: classNames(
         "w-1/2 inline-flex items-center justify-center cursor-pointer overflow-hidden relative",
         "p-2 transition-shadow duration-200 rounded-lg",
-        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(191,219,254,1)]",
-        "dark:focus:shadow-[0_0_0_0.2rem_rgba(147,197,253,0.5)]",
+        "focus:outline-hidden focus:outline-offset-0 focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
+        "dark:focus:shadow-[0_0_0_0.2rem_rgba(40,235,207,0.4)]",
         {
           "text-gray-600 dark:text-white/70 bg-transprent hover:bg-gray-200 dark:hover:bg-gray-800/80":
             !context.selected && !context.disabled,
-          "text-blue-700 bg-blue-100 hover:bg-blue-200":
+          "text-[#28ebcf] bg-[#28ebcf]/10 hover:bg-[#28ebcf]/20":
             context.selected && !context.disabled,
         }
       ),

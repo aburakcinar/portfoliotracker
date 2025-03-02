@@ -1,0 +1,8 @@
+
+@baseUrl = http://localhost:5255
+@portfolioId = 10d1a412-0a08-41b8-95c7-a78cb9b4e709
+@assetId = 302c8af6-75e7-42f7-96ac-0d384ed50c4d
+
+### Get Today rate EUR to USD
+GET {{baseUrl}}/api/holding/asset/summary/portfolio/{{portfolioId}}/asset/{{assetId}}
+#Accept: application/json

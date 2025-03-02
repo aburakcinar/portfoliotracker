@@ -9,6 +9,7 @@ import { Calendar } from "primereact/calendar";
 import { usePortfolio } from "../../Hooks/usePortfolio";
 import { addHoldingApi, IAddHoldingCommand } from "../../Api/HoldingsApi";
 import { PortfolioInfoForm } from "../Portfolio/PortfolioInfoForm";
+import { Button } from "primereact/button";
 
 export interface IAddHoldingFormProps {
   portfolioId: string;
@@ -165,12 +166,12 @@ export const AddHoldingForm: React.FC<IAddHoldingFormProps> = (props) => {
         <div className="flex my-2">
           <div className="grow"></div>
 
-          <button
-            className="grow-0 bg-green hover:bg-green/60 text-white px-5 py-2 "
+          <Button
+            className="grow-0 bg-green hover:bg-green/60  px-5 py-2 "
             type="submit"
           >
             Save
-          </button>
+          </Button>
         </div>
       </form>
     </Card>
