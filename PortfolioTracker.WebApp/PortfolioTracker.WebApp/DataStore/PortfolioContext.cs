@@ -5,7 +5,28 @@ using Microsoft.EntityFrameworkCore;
 
 namespace PortfolioTracker.WebApp.DataStore;
 
-public class PortfolioContext : DbContext
+public interface IPortfolioContext
+{
+    // Definitions
+    DbSet<Currency> Currencies { get; }
+    DbSet<Locale> Locales { get; }
+    DbSet<Exchange> Exchanges { get; }
+    DbSet<Asset> Assets { get; }
+    DbSet<TransactionActionType> TransactionActionTypes { get; }
+    DbSet<CurrencyExchangeRates> CurrencyExchangeRates { get; }
+
+    // UserData
+    DbSet<BankAccount> BankAccounts { get; }
+    DbSet<BankAccountTransactionGroup> BankAccountTransactionGroups { get; }
+    DbSet<BankAccountTransaction> BankAccountTransactions { get; }
+    DbSet<Portfolio> Portfolios { get; }
+    DbSet<Holding> Holdings { get; }
+    
+    int SaveChanges();
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
+}
+
+public class PortfolioContext : DbContext, IPortfolioContext
 {
     // Definitions
     public DbSet<Currency> Currencies { get; set; }
@@ -26,7 +47,7 @@ public class PortfolioContext : DbContext
     public DbSet<Portfolio> Portfolios { get; set; }
 
     public DbSet<Holding> Holdings { get; set; }
-    
+
 
     public PortfolioContext(DbContextOptions<PortfolioContext> options) : base(options)
     {
@@ -177,27 +198,23 @@ public class Holding
 
     public Guid BankAccountTransactionGroupId { get; set; }
 
-    [ForeignKey(@"BankAccountTransactionGroupId")] public required BankAccountTransactionGroup BankAccountTransactionGroup { get; set; }
+    [ForeignKey(@"BankAccountTransactionGroupId")]
+    public required BankAccountTransactionGroup BankAccountTransactionGroup { get; set; }
 
     public DateOnly ExecuteDate { get; set; }
-    
+
     public DateTime Created { get; set; }
-    
+
     public DateTime? Updated { get; set; }
 }
 
 public enum AssetTypes
 {
-    [Display(Name = "Stocks")]
-    Stock = 1,
-    [Display(Name = "ETFs")]
-    ETF = 2,
-    [Display(Name = "Commodities")]
-    Commodity = 3,
-    [Display(Name = "Bonds")]
-    Bond = 4,
-    [Display(Name = "Cryptos")]
-    Crypto = 5,
+    [Display(Name = "Stocks")] Stock = 1,
+    [Display(Name = "ETFs")] ETF = 2,
+    [Display(Name = "Commodities")] Commodity = 3,
+    [Display(Name = "Bonds")] Bond = 4,
+    [Display(Name = "Cryptos")] Crypto = 5,
 }
 
 public class Asset
@@ -262,20 +279,30 @@ public class BankAccount
     public List<BankAccountTransactionGroup> TransactionGroups { get; set; } = new();
 }
 
+public enum TransactionGroupState
+{
+    Pending = 1,
+    Executed = 2,
+}
+
 public class BankAccountTransactionGroup
 {
     [Key] public Guid Id { get; set; }
 
     public Guid BankAccountId { get; set; }
 
+    [MaxLength(100)] public string ReferenceNo { get; set; } = string.Empty;
+
     public List<BankAccountTransaction> Transactions { get; set; } = new();
-    
+
     [MaxLength(255)] public string Description { get; set; } = string.Empty;
-    
+
     public DateOnly ExecuteDate { get; set; }
-    
+
+    public TransactionGroupState State { get; set; } = TransactionGroupState.Pending;
+
     public DateTime Created { get; set; }
-    
+
     public DateTime? Updated { get; set; }
 }
 
@@ -290,7 +317,7 @@ public class BankAccountTransaction
     public decimal Quantity { get; set; }
 
     public DateTime Created { get; set; }
-    
+
     public DateTime? Updated { get; set; }
 
     public InOut InOut { get; set; }
@@ -316,100 +343,121 @@ public static class TransactionActionTypes
 {
     #region Deposit
 
-    [Display(Name = "Deposit", Description = "Deposit to target account", GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Deposit", Description = "Deposit to target account",
+        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
     public static readonly string DEPOSIT = "DEPOSIT";
 
-    [Display(Name = "Deposit Fee", Description = "Deposit fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Deposit Fee", Description = "Deposit fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string DEPOSIT_FEE = "DEPOSIT_FEE";
 
-    [Display(Name = "Deposit Tax", Description = "Tax on Deposit from target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Deposit Tax", Description = "Tax on Deposit from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string DEPOSIT_TAX = "DEPOSIT_TAX";
 
     #endregion
 
     #region Withdraw
 
-    [Display(Name = "Withdraw", Description = "Withdraw from target account", GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Withdraw", Description = "Withdraw from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
     public static readonly string WITHDRAW = "WITHDRAW";
 
-    [Display(Name = "Withdraw Fee", Description = "Withdraw action fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Withdraw Fee", Description = "Withdraw action fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string WITHDRAW_FEE = "WITHDRAW_FEE";
 
-    [Display(Name = "Withdraw Tax", Description = "Tax on Withdraw action on target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Withdraw Tax", Description = "Tax on Withdraw action on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string WITHDRAW_TAX = "WITHDRAW_TAX";
 
     #endregion
 
     #region Payment
 
-    [Display(Name = "Payment", Description = "Payment from target account", GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Payment", Description = "Payment from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
     public static readonly string PAYMENT = "PAYMENT";
 
-    [Display(Name = "Payment Fee", Description = "Payment action fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Payment Fee", Description = "Payment action fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string PAYMENT_FEE = "PAYMENT_FEE";
 
-    [Display(Name = "Payment Tax", Description = "Tax on Payment action on target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Payment Tax", Description = "Tax on Payment action on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string PAYMENT_TAX = "PAYMENT_TAX";
 
     #endregion
-    
+
     #region Buy Asset
 
-    [Display(Name = "Buy Asset", Description = "Buy Asset from target account", GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Buy Asset", Description = "Buy Asset from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
     public static readonly string BUY_ASSET = "BUY_ASSET";
 
-    [Display(Name = "Buy Asset Fee", Description = "Buy Asset action fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Buy Asset Fee", Description = "Buy Asset action fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string BUY_ASSET_FEE = "BUY_ASSET_FEE";
 
-    [Display(Name = "Buy Asset Tax", Description = "Tax on Buy Asset action on target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Buy Asset Tax", Description = "Tax on Buy Asset action on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string BUY_ASSET_TAX = "BUY_ASSET_TAX";
 
     #endregion
-    
-    
+
+
     #region Sell Asset
 
     [Display(Name = "Sell Asset", Description = "Sell Asset from target account",
         GroupName = nameof(TransactionActionTypeCategory.Incoming))]
     public static readonly string SELL_ASSET = "SELL_ASSET";
 
-    [Display(Name = "Sell Asset Fee", Description = "Sell Asset action fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Sell Asset Fee", Description = "Sell Asset action fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string SELL_ASSET_FEE = "SELL_ASSET_FEE";
 
-    [Display(Name = "Sell Asset Tax", Description = "Sell on Buy Asset action on target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Sell Asset Tax", Description = "Sell on Buy Asset action on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string SELL_ASSET_TAX = "SELL_ASSET_TAX";
 
     #endregion
 
     #region Account Fee
 
-    [Display(Name = "Account Fee", Description = "Account usage fee on target account", GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Account Fee", Description = "Account usage fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
     public static readonly string ACCOUNT_FEE = "ACCOUNT_FEE";
 
     #endregion
 
     #region Dividend
 
-    [Display(Name = "Dividend Distribution", Description = "Dividend payment to target account", GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Dividend Distribution", Description = "Dividend payment to target account",
+        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
     public static readonly string DIVIDEND_DISTRIBUTION = "DIVIDEND_DISTRIBUTION";
 
-    [Display(Name = "Dividend Distribution Fee", Description = "Dividend distribution fee on target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Dividend Distribution Fee", Description = "Dividend distribution fee on target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string DIVIDEND_DISTRIBUTION_FEE = "DIVIDEND_DISTRIBUTION_FEE";
 
-    [Display(Name = "Dividend Withholding Tax", Description = "Dividend Withholding tax", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Dividend Withholding Tax", Description = "Dividend Withholding tax",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string DIVIDEND_WITHHOLDING_TAX = "DIVIDEND_WITHHOLDING_TAX";
 
     #endregion
 
     #region Interest
 
-    [Display(Name = "Interest", Description = "Interest payment to target account", GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Interest", Description = "Interest payment to target account",
+        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
     public static readonly string INTEREST = "INTEREST";
 
-    [Display(Name = "Interest Fee", Description = "Interest fee from target account", GroupName = nameof(TransactionActionTypeCategory.Fee))]
+    [Display(Name = "Interest Fee", Description = "Interest fee from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Fee))]
     public static readonly string INTEREST_FEE = "INTEREST_FEE";
 
-    [Display(Name = "Interest Tax", Description = "Tax on Interest from target account", GroupName = nameof(TransactionActionTypeCategory.Tax))]
+    [Display(Name = "Interest Tax", Description = "Tax on Interest from target account",
+        GroupName = nameof(TransactionActionTypeCategory.Tax))]
     public static readonly string INTEREST_TAX = "INTEREST_TAX";
 
     #endregion
@@ -418,7 +466,7 @@ public static class TransactionActionTypes
 public class TransactionActionType
 {
     [Key] [MaxLength(50)] public required string Code { get; set; }
-    
+
     [MaxLength(50)] public required string Name { get; set; }
 
     [MaxLength(255)] public required string Description { get; set; }
@@ -429,16 +477,15 @@ public class TransactionActionType
 public class CurrencyExchangeRates
 {
     [Key] public Guid Id { get; set; }
-    
-    [MaxLength(10)] public required string FromCurrencyCode { get; set; } 
 
-    [MaxLength(10)] public required string ToCurrencyCode { get; set; } 
+    [MaxLength(10)] public required string FromCurrencyCode { get; set; }
 
-    [Column(TypeName = "date")]
-    public DateOnly Date { get; set; }
-    
+    [MaxLength(10)] public required string ToCurrencyCode { get; set; }
+
+    [Column(TypeName = "date")] public DateOnly Date { get; set; }
+
     public decimal Price { get; set; }
-    
+
     public decimal Open { get; set; }
 
     public decimal High { get; set; }

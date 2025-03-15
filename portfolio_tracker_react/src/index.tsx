@@ -1,33 +1,33 @@
 import { createRoot } from "react-dom/client";
-import Home from "./Home";
 import { BrowserRouter, Route, Routes } from "react-router";
-
+import { Provider } from "react-redux";
 import { PrimeReactProvider } from "primereact/api";
 
 import "./tailwind.css";
+import Home from "./Home";
 import { Layout } from "./Layout";
 import { appDesignSystem } from "./Styles/AppDesignSystem";
-import { Provider } from "react-redux";
-import { store } from "./Store/RootState";
+import { store } from "./Store";
 import { AssetViewForm } from "./Pages/Assets/AssetViewForm/AssetViewForm";
 import {
   PortfolioList,
   PortfolioLayout,
   PortfolioItem,
 } from "./Pages/Portfolio";
-import { BankAccountList } from "./Pages/BankAccounts/BankAccountList";
-import { BankAccountLayout } from "./Pages/BankAccounts/BankAccountLayout";
-import { BankAccountCreateForm } from "./Pages/BankAccounts/BankAccountCreateForm";
-import { BankAccountDetail } from "./Pages/BankAccounts/BankAccountDetail";
-import { EditPortfolio } from "./Pages/Portfolio/EditPortfolio";
-import { AddHoldingPage } from "./Pages/Holding/AddHoldingForm";
+import {
+  BankAccountList,
+  BankAccountLayout,
+  BankAccountCreateForm,
+  BankAccountDetail,
+} from "./Pages/BankAccounts";
+import { EditPortfolio } from "./Pages/Portfolio";
 import {
   AssetsLayout,
   NewAssetPage,
   AssetListPage,
   AssetsSummary,
 } from "./Pages/Assets/";
-import { HoldingDetailPage } from "./Pages/Holding/HoldingDetailForm";
+import { HoldingDetailPage, AddHoldingPage } from "./Pages/Holding";
 import { ExchangeRatesPage } from "./Pages/Currencies/ExchangeRatesPage";
 
 const rootElem = document.getElementById("root");
@@ -59,11 +59,6 @@ root.render(
               <Route path=":assetTypeName" element={<AssetListPage />} />
               <Route path=":assetTypeName/new" element={<NewAssetPage />} />
               <Route path=":assetTypeName/:id" element={<AssetViewForm />} />
-              {/* <Route path="stocks" element={<AssetsStocks />} />
-              <Route path="stocks/newstock" element={<NewStock />} />
-              <Route path="stocks/:id" element={<AssetViewForm />} />
-              <Route path="etfs" element={<AssetsEtfs />} />
-              <Route path="commodities" element={<AssetsCommodities />} /> */}
             </Route>
 
             <Route path="bankaccounts" element={<BankAccountLayout />}>
@@ -72,34 +67,10 @@ root.render(
               <Route path="detail/:id" element={<BankAccountDetail />} />
             </Route>
 
-            <Route path="exchangerates" element={<ExchangeRatesPage/>} />
+            <Route path="exchangerates" element={<ExchangeRatesPage />} />
           </Route>
         </Routes>
       </BrowserRouter>
     </PrimeReactProvider>
   </Provider>
 );
-
-/*
-   <Route path="portfolio" element={<Portfolio />} /> 
-             <Route path="transactions" element={<Transactions />} /> 
-             <Route path="controls" element={<ExampleControls />}>
-              <Route
-                index
-                path="addinvestmentcontrol"
-                element={<ExampleAddInvestmentControl />}
-              />
-              <Route
-                path="addupdateholdingform"
-                element={<ExampleAddUpdateHoldingForm />}
-              />
-              <Route
-                path="darkmodetoggle"
-                element={<ExampleDarkModeToggle />}
-              />
-              <Route index path="comboboxes" element={<ExampleComboboxes />} />
-              <Route index path="inputtextes" element={<ExampleInputText />} />
-              <Route index path="buttons" element={<Buttons />} />
-            </Route>
-            <Route path="/stocks" element={<Stocks />} /> 
-*/

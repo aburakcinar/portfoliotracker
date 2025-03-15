@@ -2,6 +2,7 @@ using FinanceData.Business;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.DataStore;
 using PortfolioTracker.WebApp.Services;
+using PortfolioTracker.WebApp.Services.TransactionsImporter;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,10 +20,17 @@ builder.Services.AddTransient<IAssetService, AssetService>();
 builder.Services.AddTransient<IPortfolioImportService, PortfolioImportService>();
 builder.Services.AddTransient<IDbSeedService, DbSeedService>();
 
+// importer
+builder.Services.AddTransient<ITransactionsImporter, TransactionsImporter>();
+// importer extensions
+builder.Services.AddTransient<ITransactionImportExtension, ScalableCapitalCvsFileTransactionImportExtension>();
+
 builder.Services
     .AddDbContext<PortfolioContext>(options => options
         .UseNpgsql(connStr)
     );
+
+builder.Services.AddTransient<IPortfolioContext>(x => x.GetRequiredService<PortfolioContext>());
 
 builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
 
@@ -51,9 +59,9 @@ using (var scope = app.Services.CreateScope())
 {
     var context = scope.ServiceProvider.GetRequiredService<PortfolioContext>();
     context.Database.EnsureCreated();
-    
+
     var seeder = scope.ServiceProvider.GetRequiredService<IDbSeedService>();
-    
+
     await seeder.SeedAsync();
 }
 
