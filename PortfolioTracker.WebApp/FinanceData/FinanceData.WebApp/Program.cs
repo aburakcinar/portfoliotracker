@@ -1,8 +1,6 @@
 using FinanceData.Business;
 using FinanceData.Business.Api;
-using FinanceData.Business.DataStore;
 using FinanceData.Business.Services;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
