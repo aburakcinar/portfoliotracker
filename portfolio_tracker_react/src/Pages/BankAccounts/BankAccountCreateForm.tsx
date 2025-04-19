@@ -31,13 +31,13 @@ export const BankAccountCreateForm: React.FC = () => {
   }, []);
 
   const initialValue = {
-    name: "Scalable Capital Trading Account",
-    bankName: "Baader Bank AG",
-    accountHolder: "Avni Burak Çınar",
-    description: "Bank account for Scalable Capital Trader",
-    iban: "DE95 7003 3100 3899 4440 08",
+    name: "",
+    bankName: "",
+    accountHolder: "",
+    description: "",
+    iban: "",
     currencyCode: "EUR",
-    localeCode: "de-DE",
+    localeCode: "",
     openDate: new Date(),
   } satisfies ICreateBankAccountCommand;
 
