@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.BankAccountEntity;
 
@@ -45,9 +45,9 @@ public sealed class ListBankAccountsRequest : IRequest<IEnumerable<BankAccountMo
 
 public sealed class ListBankAccountsRequestHandler : IRequestHandler<ListBankAccountsRequest, IEnumerable<BankAccountModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListBankAccountsRequestHandler(PortfolioContext context)
+    public ListBankAccountsRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

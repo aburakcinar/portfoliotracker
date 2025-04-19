@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.Locales;
 
@@ -12,9 +12,9 @@ public sealed class GetLocalByCountryCodeRequest : IRequest<LocaleQueryModel?>
 
 public sealed class GetLocalByCountryCodeRequestHandler : IRequestHandler<GetLocalByCountryCodeRequest, LocaleQueryModel?>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public GetLocalByCountryCodeRequestHandler(PortfolioContext context)
+    public GetLocalByCountryCodeRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

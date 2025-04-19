@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using PortfolioTracker.WebApp.Business.Commands.BankTransactionEntity;
 using PortfolioTracker.WebApp.Business.Requests.BankTransactionEntity;
 using PortfolioTracker.WebApp.Business.Requests.TransactionActionTypeEntity;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Tools;
 
 namespace PortfolioTracker.WebApp.Controllers;

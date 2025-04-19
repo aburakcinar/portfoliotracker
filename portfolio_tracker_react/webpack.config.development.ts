@@ -39,6 +39,9 @@ const config: Configuration | DevConfiguration = {
       {
         context: ["/api"],
         target: "http://localhost:5255",
+        // target:
+        //   process.env.services__portfoliotrackerwebapp__https__0 ||
+        //   process.env.services__portfoliotrackerwebapp__http__0,
       },
     ],
     watchFiles: ["src/**/*"],

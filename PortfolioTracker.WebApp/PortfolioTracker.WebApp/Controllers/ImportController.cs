@@ -21,25 +21,23 @@ public class ImportController : ControllerBase
         return Ok(@"Healthy");
     }
 
-    [HttpPost(@"portfolio/{portfolioId}/sourcetype/{importSourceType}")]
-    public async Task<IActionResult> Import([FromRoute]Guid portfolioId, [FromRoute]string importSourceType, [FromForm] IFormFile file)
-    {
-        if (file.Length == 0)
-        {
-            return BadRequest(@"No file");
-        }
+    //[HttpPost(@"portfolio/{portfolioId}/sourcetype/{importSourceType}")]
+    //public async Task<IActionResult> Import([FromRoute]Guid portfolioId, [FromRoute]string importSourceType, [FromForm] IFormFile file)
+    //{
+    //    if (file.Length == 0)
+    //    {
+    //        return BadRequest(@"No file");
+    //    }
         
-        var stream = file.OpenReadStream();
+    //    var stream = file.OpenReadStream();
         
-        var result = await m_mediator.Send(new ImportTransactionsFromFileCommand
-        {
-            ImportSourceType = importSourceType,
-            PortfolioId = portfolioId,
-            DataStream = stream,
-        });
+    //    var result = await m_mediator.Send(new ImportTransactionsFromFileCommand
+    //    {
+    //        ImportSourceType = importSourceType,
+    //        PortfolioId = portfolioId,
+    //        DataStream = stream,
+    //    });
 
-        return Ok(result);
-
-        //return await Task.FromResult(false);
-    }
+    //    return Ok(result);
+    //}
 }

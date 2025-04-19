@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.HoldingV2Entity;
 
@@ -32,9 +32,9 @@ public sealed class GetHoldingTotalPositionRequest : IRequest<HoldingTotalPositi
 
 public sealed class GetHoldingTotalPositionRequestHandler : IRequestHandler<GetHoldingTotalPositionRequest, HoldingTotalPositionResultModel?>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public GetHoldingTotalPositionRequestHandler(PortfolioContext context)
+    public GetHoldingTotalPositionRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

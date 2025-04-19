@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.Locales;
 
@@ -14,9 +14,9 @@ public sealed class SearchLocaleRequest : IRequest<IEnumerable<LocaleQueryModel>
 
 public sealed class SearchLocaleRequestHandler : IRequestHandler<SearchLocaleRequest, IEnumerable<LocaleQueryModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public SearchLocaleRequestHandler(PortfolioContext context)
+    public SearchLocaleRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

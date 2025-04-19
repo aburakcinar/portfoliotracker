@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
     <PropertyGroup>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
@@ -9,10 +9,10 @@
   </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CsvHelper"  />
+        <PackageReference Include="CsvHelper" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="Microsoft.EntityFrameworkCore" />
-        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" >
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
           <PrivateAssets>all</PrivateAssets>
           <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -50,14 +50,17 @@
       <Content Include="Resources\stocks.csv">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
-      <None Remove="Resources\ISO10383_MIC.csv" />
-      <Content Include="Resources\ISO10383_MIC.csv">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </Content>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\FinanceData\FinanceData.Business\FinanceData.Business.csproj" />
+      <ProjectReference Include="..\PortfolioTracker.Data.Models\PortfolioTracker.Data.Models.csproj" />
+      <ProjectReference Include="..\PortfolioTracker.ServiceDefaults\PortfolioTracker.ServiceDefaults.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Business\Commands\Migrations\" />
+      <Folder Include="DataStore\" />
     </ItemGroup>
 
 </Project>

@@ -1,5 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35828.75
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.WebApp", "PortfolioTracker.WebApp\PortfolioTracker.WebApp.csproj", "{313E8B20-789B-4685-A603-987EA2A40007}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.WebApp.Tests", "PortfolioTracker.WebApp.Tests\PortfolioTracker.WebApp.Tests.csproj", "{2EB49F87-349B-46E2-83B3-67E8C879C185}"
@@ -8,14 +11,24 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceData.WebApp", "Finan
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{2DA83B33-B904-49F5-AA88-CD10F13E102C}"
 	ProjectSection(SolutionItems) = preProject
+		Directory.Packages.props = Directory.Packages.props
 		docker-compose.yml = docker-compose.yml
 		..\README.md = ..\README.md
-		Directory.Packages.props = Directory.Packages.props
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FinanceData", "FinanceData", "{0DCC9818-DD50-43C5-AF33-2FF395667979}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceData.Business", "FinanceData\FinanceData.Business\FinanceData.Business.csproj", "{FE75E665-7E31-4EC7-B325-1F36F89903B3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.AppHost", "PortfolioTracker.AppHost\PortfolioTracker.AppHost.csproj", "{B52C89CA-DA35-4159-B202-DA7ACED53312}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.ServiceDefaults", "PortfolioTracker.ServiceDefaults\PortfolioTracker.ServiceDefaults.csproj", "{47B35B2D-E5F6-A1E6-4996-2B5AD6F1DDF3}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Data.Models", "PortfolioTracker.Data.Models\PortfolioTracker.Data.Models.csproj", "{EF17C356-A24F-4476-91EF-A1553795812B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Data.Migrations", "PortfolioTracker.Data.Migrations\PortfolioTracker.Data.Migrations.csproj", "{BB2CE913-3C5A-4925-9E22-59F2E0C9E2B7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinanceData.SimplyWallSt.Worker", "..\PortfolioTracker\FinanceData\FinanceData.SimplyWallSt.Worker\FinanceData.SimplyWallSt.Worker.csproj", "{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,9 +52,36 @@ Global
 		{FE75E665-7E31-4EC7-B325-1F36F89903B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FE75E665-7E31-4EC7-B325-1F36F89903B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FE75E665-7E31-4EC7-B325-1F36F89903B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B52C89CA-DA35-4159-B202-DA7ACED53312}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B52C89CA-DA35-4159-B202-DA7ACED53312}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B52C89CA-DA35-4159-B202-DA7ACED53312}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B52C89CA-DA35-4159-B202-DA7ACED53312}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B35B2D-E5F6-A1E6-4996-2B5AD6F1DDF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B35B2D-E5F6-A1E6-4996-2B5AD6F1DDF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B35B2D-E5F6-A1E6-4996-2B5AD6F1DDF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B35B2D-E5F6-A1E6-4996-2B5AD6F1DDF3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF17C356-A24F-4476-91EF-A1553795812B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF17C356-A24F-4476-91EF-A1553795812B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF17C356-A24F-4476-91EF-A1553795812B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF17C356-A24F-4476-91EF-A1553795812B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BB2CE913-3C5A-4925-9E22-59F2E0C9E2B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BB2CE913-3C5A-4925-9E22-59F2E0C9E2B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BB2CE913-3C5A-4925-9E22-59F2E0C9E2B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BB2CE913-3C5A-4925-9E22-59F2E0C9E2B7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{6B8CBA39-D2B6-4D70-BC20-F511538B3469} = {0DCC9818-DD50-43C5-AF33-2FF395667979}
 		{FE75E665-7E31-4EC7-B325-1F36F89903B3} = {0DCC9818-DD50-43C5-AF33-2FF395667979}
+		{96B6C6CF-8F15-4E43-A1F1-B5EE7B505EDF} = {0DCC9818-DD50-43C5-AF33-2FF395667979}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {51F9E82C-12F7-4C9E-AD13-12FA0DFAC611}
 	EndGlobalSection
 EndGlobal

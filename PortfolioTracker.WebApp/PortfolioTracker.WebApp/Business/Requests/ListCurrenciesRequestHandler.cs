@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests;
 
@@ -25,9 +25,9 @@ public sealed class ListCurrenciesRequest : IRequest<IEnumerable<CurrencyInfoMod
 
 public class ListCurrenciesRequestHandler : IRequestHandler<ListCurrenciesRequest, IEnumerable<CurrencyInfoModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListCurrenciesRequestHandler(PortfolioContext mContext)
+    public ListCurrenciesRequestHandler(IPortfolioContext mContext)
     {
         m_context = mContext;
     }

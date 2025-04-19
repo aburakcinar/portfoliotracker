@@ -15,18 +15,14 @@ builder.Services.AddLogging(logging =>
 });
 
 builder.Services.AddControllers();
-
-//builder.Services.AddDbContext<FinansDataContext>(options => options.UseNpgsql(connectionString));
-//builder.Services.AddTransient<IFinansDataContext>(x => x.GetRequiredService<FinansDataContext>());
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.AddFinanceDataBusiness();
 
-
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowRemixApp",
+    options.AddPolicy("AllowReactApp",
         policy => policy
             .AllowAnyOrigin() 
             .AllowAnyHeader()

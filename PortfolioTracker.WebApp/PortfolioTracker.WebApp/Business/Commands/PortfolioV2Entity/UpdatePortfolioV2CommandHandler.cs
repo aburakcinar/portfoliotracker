@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.PortfolioV2Entity;
 
@@ -17,9 +17,9 @@ public sealed class UpdatePortfolioV2Command : IRequest<bool>
 
 public class UpdatePortfolioV2CommandHandler : IRequestHandler<UpdatePortfolioV2Command, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public UpdatePortfolioV2CommandHandler(PortfolioContext context)
+    public UpdatePortfolioV2CommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

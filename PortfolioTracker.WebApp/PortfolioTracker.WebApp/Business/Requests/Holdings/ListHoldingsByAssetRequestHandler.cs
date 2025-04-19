@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.HoldingV2Entity;
 
@@ -30,9 +30,9 @@ public sealed class ListHoldingsByAssetRequest : IRequest<IEnumerable<HoldingDet
 
 public sealed class ListHoldingsByAssetRequestHandler : IRequestHandler<ListHoldingsByAssetRequest, IEnumerable<HoldingDetailModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListHoldingsByAssetRequestHandler(PortfolioContext context)
+    public ListHoldingsByAssetRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

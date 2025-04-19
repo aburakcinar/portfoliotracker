@@ -1,0 +1,43 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>dotnet-PortfolioTracker.Data.Migrations-0fd21ff5-50d9-4170-a060-40b6e84a1a23</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<!-- Make build happy with generated migrations -->
+		<NoWarn>$(NoWarn);IDE0161;IDE0005</NoWarn>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <Content Remove="Resources\assets.database.json" />
+	  <Content Remove="Resources\locales.database.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <EmbeddedResource Include="Resources\assets.database.json" />
+	  <EmbeddedResource Include="Resources\ISO10383_MIC.csv">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </EmbeddedResource>
+	  <EmbeddedResource Include="Resources\locales.database.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CsvHelper" />
+		<PackageReference Include="MediatR" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+		<PackageReference Include="Microsoft.Extensions.Hosting" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+		<PackageReference Include="Newtonsoft.Json" />
+		<PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\PortfolioTracker.Data.Models\PortfolioTracker.Data.Models.csproj" />
+		<ProjectReference Include="..\PortfolioTracker.ServiceDefaults\PortfolioTracker.ServiceDefaults.csproj" />
+	</ItemGroup>
+</Project>
+ 

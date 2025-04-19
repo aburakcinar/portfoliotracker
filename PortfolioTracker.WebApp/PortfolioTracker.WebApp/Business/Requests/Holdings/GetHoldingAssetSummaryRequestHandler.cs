@@ -1,7 +1,7 @@
 using FinanceData.Business.Api;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.Holdings;
 
@@ -43,11 +43,11 @@ public class GetHoldingAssetSummaryRequest : IRequest<HoldingAssetSummaryModel>
 
 public sealed class GetHoldingAssetSummaryRequestHandler : IRequestHandler<GetHoldingAssetSummaryRequest, HoldingAssetSummaryModel>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
     private readonly ICurrencyRateService m_currencyRateService;
 
     public GetHoldingAssetSummaryRequestHandler(
-        PortfolioContext context,
+        IPortfolioContext context,
         ICurrencyRateService currencyRateService)
     {
         m_context = context;

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Services;
 
 namespace PortfolioTracker.WebApp.Business.Commands.AssetEntity;
@@ -12,9 +12,9 @@ public sealed class ImportAssetCommand : IRequest<bool>
 
 public sealed class ImportAssetCommandHandler : IRequestHandler<ImportAssetCommand, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ImportAssetCommandHandler(PortfolioContext context)
+    public ImportAssetCommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

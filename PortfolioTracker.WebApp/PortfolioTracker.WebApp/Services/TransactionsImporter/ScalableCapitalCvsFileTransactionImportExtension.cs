@@ -2,7 +2,7 @@ using System.Diagnostics;
 using System.Globalization;
 using CsvHelper;
 using CsvHelper.Configuration;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Services.TransactionsImporter;
 

@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.BankTransactionEntity;
 
@@ -26,9 +26,9 @@ public sealed class AddTransactionCommand : IRequest<bool>
 
 public sealed class AddTransactionCommandHandler : IRequestHandler<AddTransactionCommand, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public AddTransactionCommandHandler(PortfolioContext context)
+    public AddTransactionCommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

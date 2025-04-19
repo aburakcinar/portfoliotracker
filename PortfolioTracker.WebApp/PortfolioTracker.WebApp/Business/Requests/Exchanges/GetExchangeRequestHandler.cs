@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Extensions;
 
 namespace PortfolioTracker.WebApp.Business.Requests.Exchanges;
@@ -13,9 +13,9 @@ public sealed class GetExchangeRequest : IRequest<ExchangeQueryModel?>
 
 public sealed class GetExchangeRequestHandler : IRequestHandler<GetExchangeRequest, ExchangeQueryModel?>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public GetExchangeRequestHandler(PortfolioContext context)
+    public GetExchangeRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

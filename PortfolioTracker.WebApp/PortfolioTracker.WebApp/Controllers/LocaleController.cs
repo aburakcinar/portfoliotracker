@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioTracker.WebApp.Business.Models;
 using PortfolioTracker.WebApp.Business.Requests.Locales;
-using PortfolioTracker.WebApp.Services;
 
 namespace PortfolioTracker.WebApp.Controllers;
 
@@ -10,12 +9,10 @@ namespace PortfolioTracker.WebApp.Controllers;
 [ApiController]
 public class LocaleController : ControllerBase
 {
-    private readonly ILocaleService m_localeService;
     private readonly IMediator m_mediator;
     
-    public LocaleController(ILocaleService localeService, IMediator mediator)
+    public LocaleController(IMediator mediator)
     {
-        m_localeService = localeService;
         m_mediator = mediator;
     }
 

@@ -1,21 +1,20 @@
 using FinanceData.Business;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Services;
 using PortfolioTracker.WebApp.Services.TransactionsImporter;
+using PortfolioTracker.WebApp.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var connStr = builder.Configuration.GetConnectionString("Postgres_V2");
-
 builder.Services.AddSingleton<IStockRepository, StockRepository>();
-builder.Services.AddTransient<ILocaleService, LocaleService>();
-builder.Services.AddTransient<IExchangeService, ExchangeService>();
 builder.Services.AddTransient<IAssetService, AssetService>();
 builder.Services.AddTransient<IPortfolioImportService, PortfolioImportService>();
 builder.Services.AddTransient<IDbSeedService, DbSeedService>();
@@ -27,17 +26,18 @@ builder.Services.AddTransient<ITransactionImportExtension, ScalableCapitalCvsFil
 
 builder.Services
     .AddDbContext<PortfolioContext>(options => options
-        .UseNpgsql(connStr)
+        .UseNpgsql(builder.Configuration.GetConnectionString("portfoliodb"))
     );
 
 builder.Services.AddTransient<IPortfolioContext>(x => x.GetRequiredService<PortfolioContext>());
 
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<PortfolioContext>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<RegisterPlaceholder>());
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowRemixApp",
-        policy => policy.WithOrigins("http://localhost:5173") // Adjust as needed
+    options.AddPolicy("AllowReactApp",
+        policy => policy
+            .AllowAnyOrigin() // Adjust as needed
             .AllowAnyHeader()
             .AllowAnyMethod());
 });
@@ -45,6 +45,8 @@ builder.Services.AddCors(options =>
 builder.AddFinanceDataBusiness();
 
 var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -54,15 +56,5 @@ if (app.Environment.IsDevelopment())
 }
 
 app.MapControllers();
-
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<PortfolioContext>();
-    context.Database.EnsureCreated();
-
-    var seeder = scope.ServiceProvider.GetRequiredService<IDbSeedService>();
-
-    await seeder.SeedAsync();
-}
 
 app.Run();

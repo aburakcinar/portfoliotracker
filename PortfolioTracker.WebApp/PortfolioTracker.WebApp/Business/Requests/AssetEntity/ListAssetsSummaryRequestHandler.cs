@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Reflection;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.AssetEntity;
 
@@ -23,9 +23,9 @@ public sealed class ListAssetsSummaryRequest : IRequest<IEnumerable<AssetSummary
 
 public sealed class ListAssetsSummaryRequestHandler : IRequestHandler<ListAssetsSummaryRequest, IEnumerable<AssetSummaryModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListAssetsSummaryRequestHandler(PortfolioContext context)
+    public ListAssetsSummaryRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

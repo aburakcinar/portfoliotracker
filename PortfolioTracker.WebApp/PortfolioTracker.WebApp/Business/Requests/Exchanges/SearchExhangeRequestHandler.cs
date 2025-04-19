@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Extensions;
 
 namespace PortfolioTracker.WebApp.Business.Requests.Exchanges;
@@ -15,9 +15,9 @@ public sealed class SearchExhangeRequest : IRequest<IEnumerable<ExchangeQueryMod
 
 public sealed class SearchExhangeRequestHandler : IRequestHandler<SearchExhangeRequest, IEnumerable<ExchangeQueryModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public SearchExhangeRequestHandler(PortfolioContext context)
+    public SearchExhangeRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

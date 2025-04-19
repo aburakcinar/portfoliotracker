@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.TransactionActionTypeEntity;
 
@@ -11,9 +11,9 @@ public sealed class ListTransactionActionTypesRequest : IRequest<IEnumerable<Tra
 
 public sealed class ListTransactionActionTypesRequestHandler : IRequestHandler<ListTransactionActionTypesRequest, IEnumerable<TransactionActionType>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListTransactionActionTypesRequestHandler(PortfolioContext context)
+    public ListTransactionActionTypesRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

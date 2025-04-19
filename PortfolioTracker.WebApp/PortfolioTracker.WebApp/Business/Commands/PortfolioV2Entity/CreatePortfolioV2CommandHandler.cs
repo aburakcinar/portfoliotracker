@@ -1,5 +1,5 @@
 using MediatR;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.PortfolioV2Entity;
 
@@ -14,9 +14,9 @@ public sealed class CreatePortfolioV2Command : IRequest<bool>
 
 public sealed class CreatePortfolioV2CommandHandler : IRequestHandler<CreatePortfolioV2Command, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public CreatePortfolioV2CommandHandler(PortfolioContext context)
+    public CreatePortfolioV2CommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

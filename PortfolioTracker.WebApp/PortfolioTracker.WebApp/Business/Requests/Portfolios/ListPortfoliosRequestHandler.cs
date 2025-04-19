@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Requests.PortfolioV2Entity;
 
@@ -33,9 +33,9 @@ public sealed class ListPortfoliosRequest : IRequest<IEnumerable<PortfolioModel>
 
 public sealed class ListPortfoliosRequestHandler : IRequestHandler<ListPortfoliosRequest, IEnumerable<PortfolioModel>>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public ListPortfoliosRequestHandler(PortfolioContext context)
+    public ListPortfoliosRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

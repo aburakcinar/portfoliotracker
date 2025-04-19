@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.WebApp.Business.Models;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Extensions;
 
 namespace PortfolioTracker.WebApp.Business.Requests.AssetEntity;
@@ -13,9 +13,9 @@ public sealed class GetAssetRequest : IRequest<AssetModel?>
 
 public sealed class GetAssetRequestHandler : IRequestHandler<GetAssetRequest, AssetModel?>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public GetAssetRequestHandler(PortfolioContext context)
+    public GetAssetRequestHandler(IPortfolioContext context)
     {
         m_context = context;
     }

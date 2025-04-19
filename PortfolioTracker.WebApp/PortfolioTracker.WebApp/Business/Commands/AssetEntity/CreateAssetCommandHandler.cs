@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.AssetEntity;
 
@@ -19,9 +19,9 @@ public sealed class CreateAssetCommand : IRequest<bool>
 
 public sealed class CreateAssetCommandHandler : IRequestHandler<CreateAssetCommand, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public CreateAssetCommandHandler(PortfolioContext context)
+    public CreateAssetCommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

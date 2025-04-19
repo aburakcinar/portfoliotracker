@@ -1,5 +1,5 @@
 using MediatR;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.BankAccountEntity;
 
@@ -25,9 +25,9 @@ public sealed class CreateBankAccountCommand : IRequest<bool>
 
 public sealed class CreateBankAccountCommandHandler : IRequestHandler<CreateBankAccountCommand, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public CreateBankAccountCommandHandler(PortfolioContext context)
+    public CreateBankAccountCommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }

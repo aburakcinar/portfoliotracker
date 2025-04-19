@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using PortfolioTracker.WebApp.DataStore;
+using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Commands.HoldingV2Entity;
 
@@ -17,9 +17,9 @@ public sealed class SellHoldingCommand : IRequest<bool>
 
 public sealed class SellHoldingCommandHandler : IRequestHandler<SellHoldingCommand, bool>
 {
-    private readonly PortfolioContext m_context;
+    private readonly IPortfolioContext m_context;
 
-    public SellHoldingCommandHandler(PortfolioContext context)
+    public SellHoldingCommandHandler(IPortfolioContext context)
     {
         m_context = context;
     }
