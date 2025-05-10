@@ -92,7 +92,7 @@ app.MapGet(@"api/currency/date/{date}/rate/{from}/to/{to}",
         Description = @"Returns rate"
     });
 
-app.MapPost(@"api/currency/import/ecb", async (IImportBulkService service) => await service.ExecuteAsync());
+//app.MapPost(@"api/currency/import/ecb", async (IImportBulkService service) => await service.ExecuteAsync());
 
 
 app.Run();

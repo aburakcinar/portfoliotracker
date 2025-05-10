@@ -55,15 +55,15 @@ public class HoldingController : Controller
         });
     }
 
-    [HttpGet(@"asset/summary/portfolio/{portfolioId}/asset/{assetId}")]
-    public async Task<HoldingAssetSummaryModel> GetHoldingAssetSummary([FromRoute] Guid portfolioId, [FromRoute] Guid assetId)
-    {
-        return await m_mediator.Send(new GetHoldingAssetSummaryRequest
-        {
-            PortfolioId = portfolioId,
-            AssetId = assetId
-        });
-    }
+    //[HttpGet(@"asset/summary/portfolio/{portfolioId}/asset/{assetId}")]
+    //public async Task<HoldingAssetSummaryModel> GetHoldingAssetSummary([FromRoute] Guid portfolioId, [FromRoute] Guid assetId)
+    //{
+    //    return await m_mediator.Send(new GetHoldingAssetSummaryRequest
+    //    {
+    //        PortfolioId = portfolioId,
+    //        AssetId = assetId
+    //    });
+    //}
 
     [HttpPost(@"reportbuy")]
     public async Task<bool> AddHolding([FromBody] AddHoldingCommand command)

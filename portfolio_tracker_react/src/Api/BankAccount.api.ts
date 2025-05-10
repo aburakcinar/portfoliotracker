@@ -1,3 +1,4 @@
+import { ImportItem } from "../Pages/BankAccounts";
 import api from "../Tools/Api";
 
 export interface ICreateBankAccountCommand {
@@ -33,7 +34,7 @@ export interface IBankAccountModel {
 }
 
 export const fetchBankAccountsApi = async (): Promise<IBankAccountModel[]> => {
-  const response = await api.get<IBankAccountModel[]>("/bankaccount/list");
+  const response = await api.get<IBankAccountModel[]>("/bankaccount/");
 
   return response.data;
 };
@@ -43,6 +44,33 @@ export const getBankAccountApi = async (
 ): Promise<IBankAccountModel | null> => {
   const response = await api.get<IBankAccountModel | null>(
     `/bankaccount/get/${bankAccountId}`
+  );
+
+  return response.data;
+};
+
+interface IImportBankAccountsCommand {
+  items: ImportItem[];
+  override: boolean;
+}
+
+export const importBankAccountsApi = async (items: ImportItem[]): Promise<boolean> => {
+
+  const command = {
+    items,
+    override: true,
+  } satisfies IImportBankAccountsCommand;
+
+  const response = await api.post<boolean>("/bankaccount/import", command);
+
+  return response.data;
+};
+
+export const deleteBankAccountApi = async (
+  bankAccountId: string
+): Promise<boolean> => {
+  const response = await api.delete<boolean>(
+    `/bankaccount/${bankAccountId}`
   );
 
   return response.data;

@@ -19,6 +19,7 @@ import {
   BankAccountLayout,
   BankAccountCreateForm,
   BankAccountDetail,
+  ImportBankAccountsForm,
 } from "./Pages/BankAccounts";
 import { EditPortfolio } from "./Pages/Portfolio";
 import {
@@ -64,7 +65,8 @@ root.render(
             <Route path="bankaccounts" element={<BankAccountLayout />}>
               <Route index element={<BankAccountList />} />
               <Route path="new" element={<BankAccountCreateForm />} />
-              <Route path="detail/:id" element={<BankAccountDetail />} />
+              <Route path=":id" element={<BankAccountDetail />} />
+              <Route path="import" element={<ImportBankAccountsForm />} />
             </Route>
 
             <Route path="exchangerates" element={<ExchangeRatesPage />} />

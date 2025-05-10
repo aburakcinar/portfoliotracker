@@ -38,10 +38,18 @@ const config: Configuration | DevConfiguration = {
     proxy: [
       {
         context: ["/api"],
-        target: "http://localhost:5255",
+        target: "http://localhost:5080",
+        logLevel: "debug",
+        changeOrigin: true,
         // target:
         //   process.env.services__portfoliotrackerwebapp__https__0 ||
         //   process.env.services__portfoliotrackerwebapp__http__0,
+        onProxyReq: (proxyReq, req, res) => {
+          console.log(`[PROXY REQ] ${req.method} ${req.url}`);
+        },
+        onProxyRes: (proxyRes, req, res) => {
+          console.log(`[PROXY RES] ${req.method} ${req.url} - STATUS: ${proxyRes.statusCode} ${proxyRes.statusMessage}`);
+        }
       },
     ],
     watchFiles: ["src/**/*"],

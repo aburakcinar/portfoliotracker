@@ -1,19 +1,37 @@
 
+using Aspire.Hosting;
+
 var builder = DistributedApplication.CreateBuilder(args);
 
-//var configuration = builder.Configuration;
+#region <FinanceData PostgreSQL service>
 
-//var username = configuration["portfolio_tracker_db:username"];
-//var password = configuration["portfolio_tracker_db:password"];
-//var databaseName = configuration["portfolio_tracker_db:database_name"];
-//var databasePath = configuration["portfolio_tracker_db:data_path"];
+var financeUsername = builder.AddParameter(@"finance-db-username", secret: true);
+var financePassword = builder.AddParameter(@"finance-db-password", secret: true);
+var financeDatabasePath = builder.AddParameter(@"finance-db-data-path", secret: true);
+var financeDatabaseName = builder.AddParameter(@"finance-db-database-name", secret: true);
 
-var username = builder.AddParameter("portfolio-tracker-db-username", secret: true);
-var password = builder.AddParameter("portfolio-tracker-db-password", secret: true);
-var databasePath = builder.AddParameter("portfolio-tracker-db-data-path", secret: true);
-var databaseName = builder.AddParameter("portfolio-tracker-db-database-name", secret: true);
+var financePsqlService = builder
+    .AddPostgres(@"financedbserver", financeUsername, financePassword)
+    .WithImage(@"timescale/timescaledb:latest-pg14")
+    .PublishAsConnectionString()
+    .WithDataBindMount(financeDatabasePath.Resource.Value, isReadOnly: false);
 
-// PgAdmin port : 5050
+var financePsqlDatabase = financePsqlService
+    .AddDatabase(@"financedb", databaseName: financeDatabaseName.Resource.Value);
+
+var financedbmigrationService = builder
+    .AddProject<Projects.Finance_Data_Migrations>(@"financedb-migrations")
+    .WithReference(financePsqlDatabase)
+    .WaitFor(financePsqlDatabase);
+
+#endregion 
+
+#region <PostgreSQL service>
+
+var username = builder.AddParameter(@"portfolio-tracker-db-username", secret: true);
+var password = builder.AddParameter(@"portfolio-tracker-db-password", secret: true);
+var databasePath = builder.AddParameter(@"portfolio-tracker-db-data-path", secret: true);
+var databaseName = builder.AddParameter(@"portfolio-tracker-db-database-name", secret: true);
 
 var portfolioPsqlService = builder
     .AddPostgres(@"portfoliodbserver", username, password)
@@ -22,23 +40,53 @@ var portfolioPsqlService = builder
     .WithDataBindMount(databasePath.Resource.Value, isReadOnly: false);
 
 var portfolioPsqlDatabase = portfolioPsqlService
-    .AddDatabase("portfoliodb", databaseName: databaseName.Resource.Value);
+    .AddDatabase(@"portfoliodb", databaseName: databaseName.Resource.Value);
 
-var migrationService = builder
-    .AddProject<Projects.PortfolioTracker_Data_Migrations>("migrations")
+var portfoliodbmigrationService = builder
+    .AddProject<Projects.PortfolioTracker_Data_Migrations>(@"portfoliodb-migrations")
     .WithReference(portfolioPsqlDatabase)
     .WaitFor(portfolioPsqlDatabase);
 
-var webApp = builder
-    .AddProject<Projects.PortfolioTracker_WebApp>("portfoliotrackerwebapp")
+#endregion
+
+#region Services
+
+var assetService = builder
+    .AddProject<Projects.PortfolioTracker_Assets_WebApi>(@"assetservice")
     .WithReference(portfolioPsqlDatabase)
-    .WithExternalHttpEndpoints()
-    .WaitForCompletion(migrationService);
-//
-// builder.AddNpmApp("react", "../../portfolio_tracker_react")
-//     .WithReference(webApp)
-//     .WithEnvironment("BROWSER", "none")
-//     .WithHttpEndpoint(env: "PORT")
-//     .WithExternalHttpEndpoints();
+    .WaitForCompletion(portfoliodbmigrationService);
+
+var bankAccountService = builder
+    .AddProject<Projects.PortfolioTracker_BankAccount_WebApi>(@"bankaccountservice")
+    .WithReference(portfolioPsqlDatabase)
+    .WaitForCompletion(portfoliodbmigrationService);
+
+var exchangeService = builder
+    .AddProject<Projects.PortfolioTracker_Exchanges_WebApi>(@"exchangeservice")
+    .WithReference(portfolioPsqlDatabase)
+    .WaitForCompletion(portfoliodbmigrationService);
+
+#endregion
+
+#region Gateway
+
+var gateway = builder
+    .AddProject<Projects.PortfolioTracker_Gateway_Api>(@"gateway")
+    .WithReference(assetService)
+    .WithReference(bankAccountService)
+    .WithReference(exchangeService)
+    .WaitFor(assetService)
+    .WaitFor(bankAccountService)
+    .WaitFor(exchangeService)
+    .WithExternalHttpEndpoints();
+
+#endregion
+
+//var webApp = builder
+//    .AddProject<Projects.PortfolioTracker_WebApp>("portfoliotrackerwebapp")
+//    .WithReference(portfolioPsqlDatabase)
+//    .WithExternalHttpEndpoints()
+//    .WaitForCompletion(portfoliodbmigrationService)
+//    .WaitForCompletion(financedbmigrationService);
 
 builder.Build().Run();

@@ -4,3 +4,4 @@ export * from "./BankAccountDetail";
 export * from "./BankAccountLayout";
 export * from "./BankAccountList";
 export * from "./ListTransactionsForm";
+export * from "./ImportBankAccountsForm";

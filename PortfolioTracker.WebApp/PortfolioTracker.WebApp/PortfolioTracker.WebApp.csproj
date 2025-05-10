@@ -60,6 +60,8 @@
 
     <ItemGroup>
       <Folder Include="Business\Commands\Migrations\" />
+      <Folder Include="Business\Requests\AssetEntity\" />
+      <Folder Include="Business\Requests\BankAccountEntity\" />
       <Folder Include="DataStore\" />
     </ItemGroup>
 

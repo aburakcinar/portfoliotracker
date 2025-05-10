@@ -2,23 +2,6 @@ using PortfolioTracker.Data.Models;
 
 namespace PortfolioTracker.WebApp.Business.Models;
 
-public sealed class ExchangeQueryModel
-{
-    public required string Code { get; init; }
-    
-    public required string Mic { get; init; }
-
-    public required string MarketNameInstitutionDescription { get; init; }
-
-    public required string LegalEntityName { get; init; }
-
-    public required string CountryCode { get; init; }
-
-    public required string City { get; init; }
-    
-    public required string CurrencyCode { get; init; }
-}
-
 public sealed class LocaleQueryModel
 {
     public required string LocaleCode { get; init; }
