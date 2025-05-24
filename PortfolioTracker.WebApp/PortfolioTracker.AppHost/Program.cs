@@ -66,6 +66,11 @@ var exchangeService = builder
     .WithReference(portfolioPsqlDatabase)
     .WaitForCompletion(portfoliodbmigrationService);
 
+var transactionService = builder
+    .AddProject<Projects.PortfolioTracker_Transaction_WebApi>(@"transactionservice")
+    .WithReference(portfolioPsqlDatabase)
+    .WaitForCompletion(portfoliodbmigrationService);
+
 #endregion
 
 #region Gateway
@@ -75,9 +80,11 @@ var gateway = builder
     .WithReference(assetService)
     .WithReference(bankAccountService)
     .WithReference(exchangeService)
+    .WithReference(transactionService)
     .WaitFor(assetService)
     .WaitFor(bankAccountService)
     .WaitFor(exchangeService)
+    .WaitFor(transactionService)
     .WithExternalHttpEndpoints();
 
 #endregion

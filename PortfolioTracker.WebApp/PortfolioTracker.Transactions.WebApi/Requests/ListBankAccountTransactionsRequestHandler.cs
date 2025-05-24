@@ -2,12 +2,26 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.Data.Models;
 
-namespace PortfolioTracker.WebApp.Business.Requests.BankTransactionEntity;
+namespace PortfolioTracker.Transactions.WebApi.Requests;
+
+
+// Router extension
+public static class ListBankAccountTransactionsEndpoint
+{
+    public static IEndpointRouteBuilder MapListBankAccountTransactionsEndpoint(this IEndpointRouteBuilder group)
+    {
+        group.MapGet(@"/listbybankaccount/{bankAccountId}", async (Guid bankAccountId, IMediator mediator) =>
+            await mediator.Send(new ListBankAccountTransactionsRequest { BankAccountId = bankAccountId }))
+            .WithName(@"ListTransactionsByBankAccount")
+            .WithTags(@"Transactions");
+        return group;
+    }
+}
 
 public sealed class BankTransactionModel
 {
     public Guid Id { get; init; }
-    
+
     public decimal Price { get; set; }
 
     public decimal Quantity { get; set; }
@@ -20,20 +34,21 @@ public sealed class BankTransactionModel
 public sealed class BankTransactionGroupModel
 {
     public Guid Id { get; init; }
-    
+
     public Guid BankAccountId { get; init; }
-    
+
     public DateTime OperationDate { get; init; }
-    
+
     public string Description { get; init; } = string.Empty;
-    
+
     public Decimal Amount { get; set; }
-    
+
     public decimal Balance { get; set; }
 
     public List<BankTransactionModel> Transactions { get; init; } = new();
 }
 
+// Request
 public sealed class ListBankAccountTransactionsRequest : IRequest<IEnumerable<BankTransactionGroupModel>>
 {
     public Guid BankAccountId { get; init; }
@@ -63,14 +78,14 @@ public sealed class ListBankAccountTransactionsRequestHandler : IRequestHandler<
             .ToList();
 
         var balance = 0M;
-        
+
         foreach (var transaction in result)
         {
             balance += transaction.Amount;
-            
+
             transaction.Balance = balance;
         }
-        
+
         return result.OrderByDescending(x => x.OperationDate).ToList();
     }
 

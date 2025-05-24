@@ -31,3 +31,9 @@ export const fetchTransactionActionTypesApi = async (): Promise<
 
   return response.data;
 };
+
+export const listTransactionsByBankAccountIdApi = async (bankAccountId: string): Promise<ITransactionItem[]> => {
+  const response = await api.get<ITransactionItem[]>(`/transaction/listbybankaccount/${bankAccountId}`);
+
+  return response.data;
+};

@@ -42,7 +42,7 @@ export const BankAccountDeleteDialog: React.FC<IBankAccountDeleteDialogProps> = 
             reject={reject}
         />
 
-        <button onClick={onDeleteHandler}>
+        <button title="Delete" onClick={onDeleteHandler}>
             <TrashIcon className="size-5 text-red-500 hover:text-red-300" />
         </button>
     </>;

@@ -1,13 +1,13 @@
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.Data.Models;
-using PortfolioTracker.Exchanges.WebApi.Requests;
+using PortfolioTracker.Transactions.WebApi.Requests;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Placeholder>());
+builder.Services.AddMediatR(cfg => cfg.RegisterServicesFromAssemblyContaining<Program>());
 
 builder.Services
     .AddDbContext<PortfolioContext>(options => options
@@ -21,19 +21,21 @@ var app = builder.Build();
 
 app.MapDefaultEndpoints();
 
+// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
 
-var mapGroup = app.MapGroup(@"/api/exchange");
-mapGroup.MapSearchExhanges();
-mapGroup.MapGetExchange();
+app.UseHttpsRedirection();
 
-mapGroup.MapGet(@"/health", () => Results.Ok(@"Exchange WebApi"));
+// Minimal API group mapping for transactions
+var mapGroup = app.MapGroup(@"/api/transaction");
+mapGroup.MapListBankAccountTransactionsEndpoint();
+mapGroup.MapAddTransactionEndpoint();
+mapGroup.MapListTransactionActionTypesEndpoint();
 
-// Run
+mapGroup.MapGet(@"/health", () => Results.Ok(@"Transactions WebApi"));
+
 app.Run();
-
-class Placeholder { }

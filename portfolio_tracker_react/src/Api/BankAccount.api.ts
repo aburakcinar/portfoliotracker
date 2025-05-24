@@ -43,7 +43,7 @@ export const getBankAccountApi = async (
   bankAccountId: string
 ): Promise<IBankAccountModel | null> => {
   const response = await api.get<IBankAccountModel | null>(
-    `/bankaccount/get/${bankAccountId}`
+    `/bankaccount/${bankAccountId}`
   );
 
   return response.data;

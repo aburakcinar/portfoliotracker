@@ -30,6 +30,7 @@
 		<ProjectReference Include="..\PortfolioTracker.Data.Migrations\PortfolioTracker.Data.Migrations.csproj" />
 		<ProjectReference Include="..\PortfolioTracker.Exchanges.WebApi\PortfolioTracker.Exchanges.WebApi.csproj" />
 		<ProjectReference Include="..\PortfolioTracker.Gateway.Api\PortfolioTracker.Gateway.Api.csproj" />
+		<ProjectReference Include="..\PortfolioTracker.Transactions.WebApi\PortfolioTracker.Transaction.WebApi.csproj" />
 		<ProjectReference Include="..\PortfolioTracker.WebApp\PortfolioTracker.WebApp.csproj" />
 	</ItemGroup>
 

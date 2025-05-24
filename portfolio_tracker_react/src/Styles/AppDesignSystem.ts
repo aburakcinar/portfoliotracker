@@ -17,6 +17,10 @@ import { breadCrumbStyles } from "./BreadCrumb.Styles";
 import { dataViewStyles } from "./DataView.styles";
 import { overlayPanelStyles } from "./OverlayPanel.styles";
 import { sideBarStyles } from "./SideBar.styles";
+import { timelineStyle } from "./TimelineStyles";
+import { menubarStyle } from "./MenubarStyle";
+import { splitbuttonStyle } from "./Splitbutton.styles";
+import { tieredmenuStyle } from "./Tieredmenu.Styles";
 
 export const appDesignSystem: PrimeReactPTOptions = {
   ...dropdownStyles,
@@ -37,4 +41,8 @@ export const appDesignSystem: PrimeReactPTOptions = {
   ...dataViewStyles,
   ...overlayPanelStyles,
   ...sideBarStyles,
+  ...timelineStyle,
+  ...menubarStyle,
+  ...splitbuttonStyle,
+  ...tieredmenuStyle
 };

@@ -35,16 +35,18 @@ export const BankAccountList: React.FC = () => {
       navigate(`${item.id}`);
     };
 
-    const onTranscationHandler = () => { };
+    const onTranscationHandler = () => { 
+      navigate(`/bankaccounts/${item.id}/transactions`);
+    };
 
 
     return (
       <div className="flex flex-row gap-2">
 
-        <button onClick={onEditHandler}>
+        <button title="Edit" onClick={onEditHandler}>
           <PencilIcon className="size-5 text-gray-500 hover:text-gray-300" />
         </button>
-        <button onClick={onTranscationHandler}>
+        <button title="Transactions" onClick={onTranscationHandler}>
           <QueueListIcon className="size-5 text-gray-500 hover:text-gray-300" />
         </button>
         <BankAccountDeleteDialog item={item} onDelete={() => dispatch(fetchBankAccounts())} />

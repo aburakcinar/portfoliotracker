@@ -5,7 +5,6 @@ import { Card } from "primereact/card";
 import { fetchBankAccounts } from "../../Store/BankAccount.slice";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { AddTransactionForm } from "./AddTransactionForm";
 import { addMenuItem } from "../../Store";
 import { ListTransactionsForm } from "./ListTransactionsForm";
 import { classNames } from "primereact/utils";
@@ -127,12 +126,12 @@ export const BankAccountDetail: React.FC = () => {
               </div>
             }
           >
-            {showAddNewTransaction && item && (
+            {/* {showAddNewTransaction && item && (
               <AddTransactionForm
                 bankAccountId={item.id}
                 currencyCode={item.currencyCode}
               />
-            )}
+            )} */}
           </Card>
 
           <Card

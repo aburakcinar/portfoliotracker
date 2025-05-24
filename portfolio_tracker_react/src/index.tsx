@@ -30,6 +30,7 @@ import {
 } from "./Pages/Assets/";
 import { HoldingDetailPage, AddHoldingPage } from "./Pages/Holding";
 import { ExchangeRatesPage } from "./Pages/Currencies/ExchangeRatesPage";
+import { TransactionListPage } from "./Pages/BankAccounts/Transactions/TransactionListPage";
 
 const rootElem = document.getElementById("root");
 const root = createRoot(rootElem!);
@@ -66,6 +67,7 @@ root.render(
               <Route index element={<BankAccountList />} />
               <Route path="new" element={<BankAccountCreateForm />} />
               <Route path=":id" element={<BankAccountDetail />} />
+              <Route path=":id/transactions" element={<TransactionListPage />} />
               <Route path="import" element={<ImportBankAccountsForm />} />
             </Route>
 

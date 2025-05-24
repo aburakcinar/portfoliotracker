@@ -2,11 +2,24 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.Data.Models;
 
-namespace PortfolioTracker.WebApp.Business.Requests.TransactionActionTypeEntity;
+namespace PortfolioTracker.Transactions.WebApi.Requests;
+
+// Router extension
+public static class ListTransactionActionTypesEndpoint
+{
+    public static IEndpointRouteBuilder MapListTransactionActionTypesEndpoint(this IEndpointRouteBuilder group)
+    {
+        group.MapGet(@"/actiontypes", async (IMediator mediator) =>
+            await mediator.Send(new ListTransactionActionTypesRequest()))
+            .WithName(@"ListActionTypes")
+            .WithTags(@"Transactions");
+        return group;
+    }
+}
 
 public sealed class ListTransactionActionTypesRequest : IRequest<IEnumerable<TransactionActionType>>
 {
-    
+
 }
 
 public sealed class ListTransactionActionTypesRequestHandler : IRequestHandler<ListTransactionActionTypesRequest, IEnumerable<TransactionActionType>>
