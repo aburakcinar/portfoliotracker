@@ -46,6 +46,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Assets.Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Transaction.WebApi", "PortfolioTracker.Transactions.WebApi\PortfolioTracker.Transaction.WebApi.csproj", "{794DCFC7-46CE-77A7-452D-88821EB5652C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Imports.WebApi", "PortfolioTracker.Imports.WebApi\PortfolioTracker.Imports.WebApi.csproj", "{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PortfolioTracker.Portfolio.WebApi", "PortfolioTracker.Portfolio.WebApi\PortfolioTracker.Portfolio.WebApi.csproj", "{8735CA90-B1CB-4F61-875F-FFDE91B03556}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -116,6 +120,14 @@ Global
 		{794DCFC7-46CE-77A7-452D-88821EB5652C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{794DCFC7-46CE-77A7-452D-88821EB5652C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{794DCFC7-46CE-77A7-452D-88821EB5652C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8735CA90-B1CB-4F61-875F-FFDE91B03556}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8735CA90-B1CB-4F61-875F-FFDE91B03556}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8735CA90-B1CB-4F61-875F-FFDE91B03556}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8735CA90-B1CB-4F61-875F-FFDE91B03556}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -130,6 +142,8 @@ Global
 		{394535A5-3D3E-8D28-CFCE-DF22C59EBDB8} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{67FFEEB6-0DD8-4A36-990B-99F276B37304} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{794DCFC7-46CE-77A7-452D-88821EB5652C} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{0D605CCC-8381-4EDA-B053-1EFE5CA29D5E} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{8735CA90-B1CB-4F61-875F-FFDE91B03556} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {51F9E82C-12F7-4C9E-AD13-12FA0DFAC611}

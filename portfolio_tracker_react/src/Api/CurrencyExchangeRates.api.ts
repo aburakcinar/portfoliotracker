@@ -1,4 +1,4 @@
-import api, { toQueryString } from "../Tools/Api";
+import api, { toQueryString } from "./Api";
 
 export interface IGetCurrencyRatesTimeseriesQuery {
   startDate: Date;

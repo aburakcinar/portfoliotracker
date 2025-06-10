@@ -1,5 +1,5 @@
 import { ImportItem } from "../Pages/BankAccounts";
-import api from "../Tools/Api";
+import api from "./Api";
 
 export interface ICreateBankAccountCommand {
   name: string;

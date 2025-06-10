@@ -6,3 +6,4 @@ export * from "./Exchange.api";
 export * from "./Locale.api";
 export * from "./Portfolio.api";
 export * from "./Transaction.api";
+export * from "./Admin.api";

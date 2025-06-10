@@ -1,4 +1,3 @@
-export * from "./AddTransactionFormOld";
 export * from "./BankAccountCreateForm";
 export * from "./BankAccountDetail";
 export * from "./BankAccountLayout";

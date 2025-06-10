@@ -72,9 +72,7 @@ public sealed class AddTransactionCommandHandler : IRequestHandler<AddTransactio
                     Id = Guid.NewGuid(),
                     Price = item.Price,
                     Quantity = item.Quantity,
-                    Created = request.OperationDate.ToUniversalTime(),
                     InOut = item.InOut,
-                    ActionTypeCode = item.ActionTypeCode,
                     Description = string.Empty, // TODO : Fill description
                     BankAccountTransactionGroupId = transactionGroup.Id
                 });

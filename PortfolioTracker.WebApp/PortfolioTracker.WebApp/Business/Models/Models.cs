@@ -18,38 +18,3 @@ public sealed class LocaleQueryModel
 
     public required string CurrencySymbol { get; set; }
 }
-
-public sealed class HoldingAggregateModel
-{
-    public Guid PortfolioId { get; init; }
-    
-    public Guid AssetId { get; init; }
-
-    public required string AssetName { get; init; }
-
-    public required string AssetTickerSymbol { get; init; }
-
-    public decimal AssetPrice { get; init; }
-    
-    public AssetTypes AssetType { get; init; }
-    
-    public required string AssetTypeName { get; init; } 
-    
-    public required string ExchangeCode { get; init; }
-    
-    public required string CountryCode { get; init; }
-    
-    public required string CurrencyCode { get; init; }
-    
-    public required string CurrencyName { get; init; }
-
-    public required string CurrencySymbol { get; init; }
-    
-    public decimal TotalQuantity { get; init; }
-    
-    public decimal TotalCost { get; init; }
-    
-    public decimal AveragePrice { get; init; }
-    
-    public decimal TotalExpenses { get; init; }
-}

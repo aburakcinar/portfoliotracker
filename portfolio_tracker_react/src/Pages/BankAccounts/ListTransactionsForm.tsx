@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../../Store/RootState";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
-import { IBankTransactionGroupModel } from "../../Api/BankTransactions.api";
+import { IBankAccountTransactionGroupModel } from "../../Api/BankTransactions.api";
 import { classNames } from "primereact/utils";
 import { listBankAccountTransactions } from "../../Store/Transaction.slice";
 
@@ -28,7 +28,7 @@ export const ListTransactionsForm: React.FC<IListTransactionsFormProps> = (
     dispatch(listBankAccountTransactions(bankAccountId));
   }, []);
 
-  const amountItemTemplate = (item: IBankTransactionGroupModel) => {
+  const amountItemTemplate = (item: IBankAccountTransactionGroupModel) => {
     const divClassNames = classNames(
       { "text-emerald-500": item.amount >= 0 },
       { "text-red-500": item.amount < 0 }
@@ -37,7 +37,7 @@ export const ListTransactionsForm: React.FC<IListTransactionsFormProps> = (
     return <span className={divClassNames}>{item.amount.toFixed(2)}</span>;
   };
 
-  const balanceItemTemplate = (item: IBankTransactionGroupModel) => {
+  const balanceItemTemplate = (item: IBankAccountTransactionGroupModel) => {
     const divClassNames = classNames(
       { "text-emerald-500": item.balance >= 0 },
       { "text-red-500": item.balance < 0 }
@@ -51,8 +51,8 @@ export const ListTransactionsForm: React.FC<IListTransactionsFormProps> = (
       <Column
         field="operationDate"
         header="Date"
-        body={(item: IBankTransactionGroupModel) =>
-          new Date(item.operationDate).toLocaleDateString("tr-TR", {
+        body={(item: IBankAccountTransactionGroupModel) =>
+          new Date(item.executeDate).toLocaleDateString("tr-TR", {
             day: "numeric",
             month: "numeric",
             year: "numeric",

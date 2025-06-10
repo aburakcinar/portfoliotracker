@@ -1,7 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using PortfolioTracker.WebApp.Business.Commands.PortfolioV2Entity;
-using PortfolioTracker.WebApp.Business.Requests.PortfolioV2Entity;
 
 namespace PortfolioTracker.WebApp.Controllers;
 
@@ -32,23 +31,5 @@ public class PortfolioController : Controller
         var result = await m_mediator.Send(command);
         
         return Ok(result);
-    }
-
-    [HttpGet()]
-    public async Task<IEnumerable<PortfolioModel>> List()
-    {
-        return await m_mediator.Send(new ListPortfoliosRequest());
-    }
-
-    [HttpGet(@"{portfolioId}")]
-    public async Task<PortfolioModel?> GetPortfolio([FromRoute]Guid portfolioId)
-    {
-        return await m_mediator.Send(new GetPortfolioRequest { PortfolioId = portfolioId });
-    }
-
-    [HttpGet(@"total/{portfolioId}")]
-    public async Task<PortfolioTotalPositionResultModel?> GetPortfolioTotalPosition([FromRoute] Guid portfolioId)
-    {
-        return await m_mediator.Send(new GetPortfolioTotalPositionRequest { PortfolioId = portfolioId });
     }
 }

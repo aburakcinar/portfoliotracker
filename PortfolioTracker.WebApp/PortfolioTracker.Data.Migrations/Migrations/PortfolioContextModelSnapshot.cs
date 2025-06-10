@@ -17,7 +17,7 @@ namespace PortfolioTracker.Data.Migrations.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.3")
+                .HasAnnotation("ProductVersion", "9.0.5")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -151,21 +151,11 @@ namespace PortfolioTracker.Data.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("ActionTypeCode")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
                     b.Property<Guid>("BankAccountTransactionGroupId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)");
+                        .HasColumnType("text");
 
                     b.Property<int>("InOut")
                         .HasColumnType("integer");
@@ -176,12 +166,10 @@ namespace PortfolioTracker.Data.Migrations.Migrations
                     b.Property<decimal>("Quantity")
                         .HasColumnType("numeric");
 
-                    b.Property<DateTime?>("Updated")
-                        .HasColumnType("timestamp with time zone");
+                    b.Property<int>("TransactionType")
+                        .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ActionTypeCode");
 
                     b.HasIndex("BankAccountTransactionGroupId");
 
@@ -194,6 +182,11 @@ namespace PortfolioTracker.Data.Migrations.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("ActionTypeCode")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)");
+
                     b.Property<Guid>("BankAccountId")
                         .HasColumnType("uuid");
 
@@ -205,21 +198,20 @@ namespace PortfolioTracker.Data.Migrations.Migrations
                         .HasMaxLength(255)
                         .HasColumnType("character varying(255)");
 
-                    b.Property<DateOnly>("ExecuteDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("ExecuteDate")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("ReferenceNo")
                         .IsRequired()
                         .HasMaxLength(100)
                         .HasColumnType("character varying(100)");
 
-                    b.Property<int>("State")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("Updated")
                         .HasColumnType("timestamp with time zone");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ActionTypeCode");
 
                     b.HasIndex("BankAccountId");
 
@@ -516,9 +508,6 @@ namespace PortfolioTracker.Data.Migrations.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("character varying(50)");
 
-                    b.Property<int>("Category")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(255)
@@ -574,28 +563,28 @@ namespace PortfolioTracker.Data.Migrations.Migrations
 
             modelBuilder.Entity("PortfolioTracker.Data.Models.BankAccountTransaction", b =>
                 {
+                    b.HasOne("PortfolioTracker.Data.Models.BankAccountTransactionGroup", null)
+                        .WithMany("Transactions")
+                        .HasForeignKey("BankAccountTransactionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("PortfolioTracker.Data.Models.BankAccountTransactionGroup", b =>
+                {
                     b.HasOne("PortfolioTracker.Data.Models.TransactionActionType", "ActionType")
                         .WithMany()
                         .HasForeignKey("ActionTypeCode")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("PortfolioTracker.Data.Models.BankAccountTransactionGroup", null)
-                        .WithMany("Transactions")
-                        .HasForeignKey("BankAccountTransactionGroupId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ActionType");
-                });
-
-            modelBuilder.Entity("PortfolioTracker.Data.Models.BankAccountTransactionGroup", b =>
-                {
                     b.HasOne("PortfolioTracker.Data.Models.BankAccount", null)
                         .WithMany("TransactionGroups")
                         .HasForeignKey("BankAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("ActionType");
                 });
 
             modelBuilder.Entity("PortfolioTracker.Data.Models.Holding", b =>
@@ -628,7 +617,7 @@ namespace PortfolioTracker.Data.Migrations.Migrations
             modelBuilder.Entity("PortfolioTracker.Data.Models.Portfolio", b =>
                 {
                     b.HasOne("PortfolioTracker.Data.Models.BankAccount", "BankAccount")
-                        .WithMany()
+                        .WithMany("Portfolios")
                         .HasForeignKey("BankAccountId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -638,6 +627,8 @@ namespace PortfolioTracker.Data.Migrations.Migrations
 
             modelBuilder.Entity("PortfolioTracker.Data.Models.BankAccount", b =>
                 {
+                    b.Navigation("Portfolios");
+
                     b.Navigation("TransactionGroups");
                 });
 

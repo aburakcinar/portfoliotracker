@@ -2,7 +2,6 @@ using FinanceData.Business;
 using Microsoft.EntityFrameworkCore;
 using PortfolioTracker.Data.Models;
 using PortfolioTracker.WebApp.Services;
-using PortfolioTracker.WebApp.Services.TransactionsImporter;
 using PortfolioTracker.WebApp.Tools;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -18,11 +17,6 @@ builder.Services.AddSingleton<IStockRepository, StockRepository>();
 builder.Services.AddTransient<IAssetService, AssetService>();
 builder.Services.AddTransient<IPortfolioImportService, PortfolioImportService>();
 builder.Services.AddTransient<IDbSeedService, DbSeedService>();
-
-// importer
-builder.Services.AddTransient<ITransactionsImporter, TransactionsImporter>();
-// importer extensions
-builder.Services.AddTransient<ITransactionImportExtension, ScalableCapitalCvsFileTransactionImportExtension>();
 
 builder.Services
     .AddDbContext<PortfolioContext>(options => options

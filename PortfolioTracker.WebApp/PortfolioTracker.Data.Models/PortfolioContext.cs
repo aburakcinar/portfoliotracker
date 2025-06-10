@@ -277,6 +277,8 @@ public class BankAccount
     public DateTime Created { get; set; }
 
     public List<BankAccountTransactionGroup> TransactionGroups { get; set; } = new();
+
+    public List<Portfolio> Portfolios { get; set; } = new();
 }
 
 public enum TransactionGroupState
@@ -297,9 +299,12 @@ public class BankAccountTransactionGroup
 
     [MaxLength(255)] public string Description { get; set; } = string.Empty;
 
-    public DateOnly ExecuteDate { get; set; }
 
-    public TransactionGroupState State { get; set; } = TransactionGroupState.Pending;
+    [MaxLength(50)] public string ActionTypeCode { get; set; } = string.Empty;
+
+    [ForeignKey(@"ActionTypeCode")] public TransactionActionType ActionType { get; set; } = null!;
+
+    public DateTime ExecuteDate { get; set; }
 
     public DateTime Created { get; set; }
 
@@ -316,151 +321,46 @@ public class BankAccountTransaction
 
     public decimal Quantity { get; set; }
 
-    public DateTime Created { get; set; }
-
-    public DateTime? Updated { get; set; }
-
     public InOut InOut { get; set; }
 
-    [MaxLength(50)] public string ActionTypeCode { get; set; } = string.Empty;
+    public TransactionType TransactionType { get; set; }
 
-    [ForeignKey(@"ActionTypeCode")] public TransactionActionType ActionType { get; set; } = null!;
-
-    [MaxLength(255)] public string Description { get; set; } = string.Empty;
+    public string? Description { get; set; } = null;
 }
 
-public enum TransactionActionTypeCategory
+public enum TransactionType
 {
-    Unknown = 0,
-    Outgoing = 1,
+    Main = 1,
     Tax = 2,
     Fee = 3,
-    Incoming = 4
 }
 
 [SuppressMessage("ReSharper", "InconsistentNaming")]
 public static class TransactionActionTypes
 {
-    #region Deposit
-
-    [Display(Name = "Deposit", Description = "Deposit to target account",
-        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Deposit", Description = "Deposit to target account")]
     public static readonly string DEPOSIT = "DEPOSIT";
 
-    [Display(Name = "Deposit Fee", Description = "Deposit fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string DEPOSIT_FEE = "DEPOSIT_FEE";
-
-    [Display(Name = "Deposit Tax", Description = "Tax on Deposit from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string DEPOSIT_TAX = "DEPOSIT_TAX";
-
-    #endregion
-
-    #region Withdraw
-
-    [Display(Name = "Withdraw", Description = "Withdraw from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Withdraw", Description = "Withdraw from target account")]
     public static readonly string WITHDRAW = "WITHDRAW";
 
-    [Display(Name = "Withdraw Fee", Description = "Withdraw action fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string WITHDRAW_FEE = "WITHDRAW_FEE";
-
-    [Display(Name = "Withdraw Tax", Description = "Tax on Withdraw action on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string WITHDRAW_TAX = "WITHDRAW_TAX";
-
-    #endregion
-
-    #region Payment
-
-    [Display(Name = "Payment", Description = "Payment from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Payment", Description = "Payment from target account")]
     public static readonly string PAYMENT = "PAYMENT";
 
-    [Display(Name = "Payment Fee", Description = "Payment action fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string PAYMENT_FEE = "PAYMENT_FEE";
-
-    [Display(Name = "Payment Tax", Description = "Tax on Payment action on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string PAYMENT_TAX = "PAYMENT_TAX";
-
-    #endregion
-
-    #region Buy Asset
-
-    [Display(Name = "Buy Asset", Description = "Buy Asset from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Buy Asset", Description = "Buy Asset from target account")]
     public static readonly string BUY_ASSET = "BUY_ASSET";
 
-    [Display(Name = "Buy Asset Fee", Description = "Buy Asset action fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string BUY_ASSET_FEE = "BUY_ASSET_FEE";
-
-    [Display(Name = "Buy Asset Tax", Description = "Tax on Buy Asset action on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string BUY_ASSET_TAX = "BUY_ASSET_TAX";
-
-    #endregion
-
-
-    #region Sell Asset
-
-    [Display(Name = "Sell Asset", Description = "Sell Asset from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Sell Asset", Description = "Sell Asset from target account")]
     public static readonly string SELL_ASSET = "SELL_ASSET";
 
-    [Display(Name = "Sell Asset Fee", Description = "Sell Asset action fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string SELL_ASSET_FEE = "SELL_ASSET_FEE";
-
-    [Display(Name = "Sell Asset Tax", Description = "Sell on Buy Asset action on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string SELL_ASSET_TAX = "SELL_ASSET_TAX";
-
-    #endregion
-
-    #region Account Fee
-
-    [Display(Name = "Account Fee", Description = "Account usage fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Outgoing))]
+    [Display(Name = "Account Fee", Description = "Account usage fee on target account")]
     public static readonly string ACCOUNT_FEE = "ACCOUNT_FEE";
 
-    #endregion
-
-    #region Dividend
-
-    [Display(Name = "Dividend Distribution", Description = "Dividend payment to target account",
-        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Dividend Distribution", Description = "Dividend payment to target account")]
     public static readonly string DIVIDEND_DISTRIBUTION = "DIVIDEND_DISTRIBUTION";
 
-    [Display(Name = "Dividend Distribution Fee", Description = "Dividend distribution fee on target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string DIVIDEND_DISTRIBUTION_FEE = "DIVIDEND_DISTRIBUTION_FEE";
-
-    [Display(Name = "Dividend Withholding Tax", Description = "Dividend Withholding tax",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string DIVIDEND_WITHHOLDING_TAX = "DIVIDEND_WITHHOLDING_TAX";
-
-    #endregion
-
-    #region Interest
-
-    [Display(Name = "Interest", Description = "Interest payment to target account",
-        GroupName = nameof(TransactionActionTypeCategory.Incoming))]
+    [Display(Name = "Interest", Description = "Interest payment to target account")]
     public static readonly string INTEREST = "INTEREST";
-
-    [Display(Name = "Interest Fee", Description = "Interest fee from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Fee))]
-    public static readonly string INTEREST_FEE = "INTEREST_FEE";
-
-    [Display(Name = "Interest Tax", Description = "Tax on Interest from target account",
-        GroupName = nameof(TransactionActionTypeCategory.Tax))]
-    public static readonly string INTEREST_TAX = "INTEREST_TAX";
-
-    #endregion
 }
 
 public class TransactionActionType
@@ -470,8 +370,6 @@ public class TransactionActionType
     [MaxLength(50)] public required string Name { get; set; }
 
     [MaxLength(255)] public required string Description { get; set; }
-
-    public TransactionActionTypeCategory Category { get; set; }
 }
 
 public class CurrencyExchangeRates

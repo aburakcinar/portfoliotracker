@@ -1,6 +1,4 @@
 
-using Aspire.Hosting;
-
 var builder = DistributedApplication.CreateBuilder(args);
 
 #region <FinanceData PostgreSQL service>
@@ -71,6 +69,16 @@ var transactionService = builder
     .WithReference(portfolioPsqlDatabase)
     .WaitForCompletion(portfoliodbmigrationService);
 
+var importService = builder
+    .AddProject<Projects.PortfolioTracker_Imports_WebApi>(@"importservice")
+    .WithReference(portfolioPsqlDatabase)
+    .WaitForCompletion(portfoliodbmigrationService);
+
+var portfolioService = builder
+    .AddProject<Projects.PortfolioTracker_Portfolio_WebApi>(@"portfolioservice")
+    .WithReference(portfolioPsqlDatabase)
+    .WaitForCompletion(portfoliodbmigrationService);
+
 #endregion
 
 #region Gateway
@@ -81,19 +89,18 @@ var gateway = builder
     .WithReference(bankAccountService)
     .WithReference(exchangeService)
     .WithReference(transactionService)
+    .WithReference(importService)
+    .WithReference(portfolioService)
     .WaitFor(assetService)
     .WaitFor(bankAccountService)
     .WaitFor(exchangeService)
     .WaitFor(transactionService)
+    .WaitFor(importService)
+    .WaitFor(portfolioService)
     .WithExternalHttpEndpoints();
 
 #endregion
 
-//var webApp = builder
-//    .AddProject<Projects.PortfolioTracker_WebApp>("portfoliotrackerwebapp")
-//    .WithReference(portfolioPsqlDatabase)
-//    .WithExternalHttpEndpoints()
-//    .WaitForCompletion(portfoliodbmigrationService)
-//    .WaitForCompletion(financedbmigrationService);
+builder.AddProject<Projects.PortfolioTracker_Portfolio_WebApi>("portfoliotracker-portfolio-webapi");
 
 builder.Build().Run();

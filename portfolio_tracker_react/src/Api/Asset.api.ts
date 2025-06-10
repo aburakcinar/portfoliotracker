@@ -1,4 +1,4 @@
-import api, { toQueryString } from "../Tools/Api";
+import api, { toQueryString } from "./Api";
 
 export const listCountries = async (): Promise<string[]> => {
   const response = await api.get<string[]>("/asset/countries");

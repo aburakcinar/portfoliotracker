@@ -46,7 +46,6 @@ public sealed class ImportTransactionActionTypesCommandHandler : IRequestHandler
                 {
                     found.Name = item.Name;
                     found.Description = item.Description;
-                    found.Category = item.Category;
                 }
             }
 
@@ -81,7 +80,6 @@ public sealed class ImportTransactionActionTypesCommandHandler : IRequestHandler
                 Code = field.Name,
                 Name = string.Empty,
                 Description = string.Empty,
-                Category = TransactionActionTypeCategory.Unknown
             };
 
             var attributes = field.GetCustomAttributes(false);
@@ -92,7 +90,6 @@ public sealed class ImportTransactionActionTypesCommandHandler : IRequestHandler
                 {
                     item.Name = displayAttribute.Name ?? field.Name;
                     item.Description = displayAttribute.Description ?? string.Empty;
-                    item.Category = Enum.Parse<TransactionActionTypeCategory>(displayAttribute.GroupName ?? TransactionActionTypeCategory.Unknown.ToString(), ignoreCase: true);
                 }
             }
 

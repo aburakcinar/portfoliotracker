@@ -1,4 +1,4 @@
-import api from "../Tools/Api";
+import api from "./Api";
 
 interface ICurrencyItem {
   code: string;

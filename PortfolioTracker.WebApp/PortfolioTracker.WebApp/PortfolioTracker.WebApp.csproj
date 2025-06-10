@@ -59,7 +59,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Business\Commands\Migrations\" />
       <Folder Include="DataStore\" />
     </ItemGroup>
 

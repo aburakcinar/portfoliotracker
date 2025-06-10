@@ -6,9 +6,9 @@ import {
   TransactionActionTypeCategory,
 } from "../Api/Transaction.api";
 import {
-  addTransactionApi,
-  IAddTransactionCommand,
-  IBankTransactionGroupModel,
+  //addTransactionApi,
+  //IAddTransactionCommand,
+  IBankAccountTransactionGroupModel,
   InOut,
   listBankAccountTransactionsApi,
 } from "../Api/BankTransactions.api";
@@ -55,7 +55,7 @@ interface ITransactionsState {
     category: TransactionActionTypeCategory;
   }[];
   actionTypes: ITransactionActionType[];
-  bankTransactions: IBankTransactionGroupModel[];
+  bankTransactions: IBankAccountTransactionGroupModel[];
 }
 
 const initialState: ITransactionsState = {
@@ -99,22 +99,22 @@ export const fetchTransactionActionTypes = createAsyncThunk(
   }
 );
 
-export const addTransaction = createAsyncThunk(
-  "transactions/addTransaction",
-  async (command: IAddTransactionCommand, { rejectWithValue, dispatch }) => {
-    try {
-      const response = await addTransactionApi(command);
+// export const addTransaction = createAsyncThunk(
+//   "transactions/addTransaction",
+//   async (command: IAddTransactionCommand, { rejectWithValue, dispatch }) => {
+//     try {
+//       const response = await addTransactionApi(command);
 
-      if (response) {
-        dispatch(listBankAccountTransactions(command.bankAccountId));
+//       if (response) {
+//         dispatch(listBankAccountTransactions(command.bankAccountId));
 
-        return true;
-      }
-    } catch (err) {
-      rejectWithValue(err);
-    }
-  }
-);
+//         return true;
+//       }
+//     } catch (err) {
+//       rejectWithValue(err);
+//     }
+//   }
+// );
 
 export const listBankAccountTransactions = createAsyncThunk(
   "transactions/listBankAccountTransactions",
@@ -177,7 +177,7 @@ export const transactionsSlice = createSlice({
           state.actionTypes = payload;
         }
       })
-      .addCase(addTransaction.fulfilled, (state, action) => {})
+      //.addCase(addTransaction.fulfilled, (state, action) => {})
       .addCase(listBankAccountTransactions.fulfilled, (state, action) => {
         const { payload } = action;
 
