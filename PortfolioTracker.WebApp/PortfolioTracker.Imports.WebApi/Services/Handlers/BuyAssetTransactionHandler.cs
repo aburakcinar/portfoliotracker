@@ -28,6 +28,7 @@ public class BuyAssetTransactionHandler : BaseTransactionTypeHandler
             Quantity = Math.Abs(item.Quantity),
             Price = Math.Abs(item.Price),
             InOut = InOut.Outgoing,
+            TransactionType = Data.Models.TransactionType.Main
         });
     }
 

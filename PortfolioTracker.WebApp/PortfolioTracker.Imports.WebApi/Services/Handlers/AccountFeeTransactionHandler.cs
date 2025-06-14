@@ -28,6 +28,7 @@ public class AccountFeeTransactionHandler : BaseTransactionTypeHandler
             Quantity = 1m,
             Price = Math.Abs(item.Amount),
             InOut = InOut.Outgoing,
+            TransactionType = Data.Models.TransactionType.Main
         });
     }
 

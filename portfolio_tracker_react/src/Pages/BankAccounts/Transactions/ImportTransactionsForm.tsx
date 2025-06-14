@@ -1,16 +1,16 @@
 import React, { useState, useRef } from "react";
 import { useParams } from "react-router";
 import { useBankAccount } from "../../../Hooks";
-import { draftImportTransactionsFromFileApi, ImportTransactionsFromFileCommand } from "../../../Api/Transaction.api";
-//import { DataTable } from "primereact/datatable";
-//import { Column } from "primereact/column";
+import {
+    draftImportTransactionsFromFileApi,
+    ImportTransactionsFromFileCommand
+} from "../../../Api/Transaction.api";
 import { Button } from "primereact/button";
 import { Toast } from "primereact/toast";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Timeline } from "primereact/timeline";
-import { Card } from "primereact/card";
-import { Tag } from "primereact/tag";
-import { IBankAccountTransactionGroupModel, IBankAccountTransactionModel, InOut, TransactionType } from "../../../Api";
+import { IBankAccountTransactionGroupModel } from "../../../Api";
+import { TransactionGroupCard } from "./TransactionGroupCard";
 
 export const ImportTransactionsForm: React.FC = () => {
     const { id } = useParams<{ id: string }>();
@@ -21,7 +21,7 @@ export const ImportTransactionsForm: React.FC = () => {
     const [isLoaded, setIsLoaded] = useState<boolean>(true);
     interface GroupedTransactions {
         date: string;
-        transactions: IBankAccountTransactionGroupModel[];
+        items: IBankAccountTransactionGroupModel[];
     }
 
     const groupByExecuteDate = (transactions: IBankAccountTransactionGroupModel[]): GroupedTransactions[] => {
@@ -33,13 +33,15 @@ export const ImportTransactionsForm: React.FC = () => {
         });
         return Object.entries(groups)
             .sort(([a], [b]) => new Date(b).getTime() - new Date(a).getTime()) // latest date first
-            .map(([date, transactions]) => ({ date, transactions }));
+            .map(([date, items]) => ({ date, items }));
     };
 
     const [groupedDraftTransactions, setGroupedDraftTransactions] = useState<GroupedTransactions[]>(() => {
         const fakeData = require('./FakeData.json') as IBankAccountTransactionGroupModel[];
         return groupByExecuteDate(fakeData);
     });
+
+    console.log(groupedDraftTransactions);
 
     // Keep for compatibility, but unused after refactor
     const [draftTransactions, setDraftTransactions] = useState<IBankAccountTransactionGroupModel[]>([]);
@@ -108,72 +110,21 @@ export const ImportTransactionsForm: React.FC = () => {
         }
     };
 
-    const formatCurrency = (value: number) => {
-        return new Intl.NumberFormat(bankAccount?.localeCode || "en-US", {
-            style: "currency",
-            currency: bankAccount?.currencyCode || "USD"
-        }).format(value);
-    };
-
     const formatDate = (value: Date) => {
         return new Date(value).toLocaleDateString("en-GB");
     };
-
-
-    // Get transaction type label and severity
-    const getTransactionTypeInfo = (transactionType: TransactionType) => {
-        const types: Record<number, { label: string, severity: 'success' | 'info' | 'warning' | 'danger' }> = {
-            [TransactionType.Main]: { label: 'Main', severity: 'info' },
-            [TransactionType.Tax]: { label: 'Tax', severity: 'warning' },
-            [TransactionType.Fee]: { label: 'Fee', severity: 'danger' }
-        };
-
-        return types[transactionType] || { label: 'Unknown', severity: 'info' };
-    };
-
-    // const priceBodyTemplate = (rowData: IDraftTransactionItem) => {
-    //     return formatCurrency(rowData.price);
-    // };
-
-    // const totalBodyTemplate = (rowData: IDraftTransactionItem) => {
-    //     return formatCurrency(rowData.total);
-    // };
-
-    // const dateBodyTemplate = (rowData: IDraftTransactionItem) => {
-    //     return formatDate(rowData.executeDate);
-    // };
 
     const renderItems = (items: IBankAccountTransactionGroupModel[]) => {
 
         return items.map((item: IBankAccountTransactionGroupModel) => renderItem(item));
     };
 
-    const getTransactionType = (item: IBankAccountTransactionModel) => {
-        switch (item.transactionType) {
-
-            case TransactionType.Tax:
-                return "Tax :";
-            case TransactionType.Fee:
-                return "Fee :";
-            default:
-                return "";
-        }
-    }
-
     const renderItem = (item: IBankAccountTransactionGroupModel) => {
-
-        return <Card
-            title={item.actionTypeName}
-            className="mb-3"
-        >
-            <div className="p-2">
-                {item.transactions.map((transaction: IBankAccountTransactionModel) => (
-                    <div key={transaction.id} className="flex justify-content-between">
-                        <span>{getTransactionType(transaction)} {formatCurrency(transaction.quantity * transaction.price)}</span>
-                    </div>
-                ))}
-            </div>
-        </Card>
+        return <TransactionGroupCard
+            item={item}
+            currencyCode={bankAccount?.currencyCode || "USD"}
+            localeCode={bankAccount?.localeCode || "en-US"}
+        />;
     };
 
     return (
@@ -243,7 +194,7 @@ export const ImportTransactionsForm: React.FC = () => {
                         {formatDate(item.date)}
                     </div>
                 )}
-                content={(item: GroupedTransactions) => renderItems(item.transactions)}
+                content={(item: GroupedTransactions) => renderItems(item.items)}
             />
         </div>
     );

@@ -396,3 +396,5 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+/portfolio_tracker_react/src/Pages/BankAccounts/Transactions/FakeData.json
